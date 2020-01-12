@@ -1,16 +1,15 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
+
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.Constants.Joysticks;
+import frc.robot.Constants.Motors;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -21,12 +20,17 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-
-
+  public final XboxController xbox = new XboxController(Joysticks.XBOX);
+  public final Joystick leftJoystick = new Joystick(Joysticks.LEFT_JOYSTICK);
+  public final Joystick rightJoystick = new Joystick(Joysticks.RIGHT_JOYSTICK);
+  
+  private final Autonomous autonCommands = new Autonomous();
+  private final Drivetrain driveTrain = new Drivetrain(leftJoystick, rightJoystick,
+                                        new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
+                                        new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
+                                        new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
+                                        new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -52,6 +56,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return autonCommands;
   }
 }
