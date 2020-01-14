@@ -1,13 +1,8 @@
 package frc.robot;
 
-import com.revrobotics.CANSparkMax;
-import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
-
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.Joysticks;
-import frc.robot.Constants.Motors;
+import frc.robot.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,17 +15,15 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-
-  public final XboxController xbox = new XboxController(Joysticks.XBOX);
-  public final Joystick leftJoystick = new Joystick(Joysticks.LEFT_JOYSTICK);
-  public final Joystick rightJoystick = new Joystick(Joysticks.RIGHT_JOYSTICK);
   
   private final Autonomous autonCommands = new Autonomous();
-  private final Drivetrain driveTrain = new Drivetrain(leftJoystick, rightJoystick,
+  /** private final Drivetrain driveTrain = new Drivetrain(leftJoystick, rightJoystick,
                                         new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
                                         new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
                                         new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
                                         new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
+  */
+  private final Random motorGo = new Random(Motors.RANDOM_MOTOR);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -46,6 +39,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    Buttons.back.whenPressed(new RandomCommand(motorGo));
   }
 
 
