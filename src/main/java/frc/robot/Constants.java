@@ -27,6 +27,13 @@ public final class Constants {
         public static final Button dpLeft = new DPadButton(Joysticks.XBOX, Direction.Left);
         public static final Button dpDown = new DPadButton(Joysticks.XBOX, Direction.Down);
         public static final Button dpRight = new DPadButton(Joysticks.XBOX, Direction.Right);
-        public static final Button back = new JoystickButton(Joysticks.XBOX, 7);
+        public static final Button A = new JoystickButton(Joysticks.XBOX, 0);
+        public static final Button B = new JoystickButton(Joysticks.XBOX, 1);
+        public static final Button X = new JoystickButton(Joysticks.XBOX, 2);
+        public static final Button Y = new JoystickButton(Joysticks.XBOX, 3);
+        public static final Button LB = new JoystickButton(Joysticks.XBOX, 4);
+        public static final Button RB = new JoystickButton(Joysticks.XBOX, 5);
+        public static final Button START = new JoystickButton(Joysticks.XBOX, 6);
+        public static final Button BACK = new JoystickButton(Joysticks.XBOX, 7);
     }
 }
