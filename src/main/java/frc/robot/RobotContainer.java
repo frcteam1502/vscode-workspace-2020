@@ -40,7 +40,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Buttons.back.whenPressed(new RandomCommand(motorGo));
+    Buttons.BACK.whenPressed(new RandomCommand(motorGo));
   }
 
 
