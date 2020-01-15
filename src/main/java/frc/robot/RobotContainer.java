@@ -23,7 +23,8 @@ public class RobotContainer {
                                         new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
                                         new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
   */
-  private final Random motorGo = new Random(Motors.RANDOM_MOTOR);
+  public final Random motorGo = new Random(Motors.RANDOM_MOTOR);
+  public final RandomCommand randomCommand = new RandomCommand(motorGo);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */

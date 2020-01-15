@@ -7,12 +7,14 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Random;
 
 public class RandomCommand extends CommandBase {
   
-  Random subsystem;
+  private Random subsystem;
 
   public RandomCommand(Random subsystem) {
     addRequirements(subsystem);
@@ -28,7 +30,8 @@ public class RandomCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subsystem.setSpeed(1);
+    subsystem.setSpeed(Constants.Joysticks.LEFT_JOYSTICK.getY());
+    SmartDashboard.putString("Old way", " Is the way to go");
   }
 
   // Called once the command ends or is interrupted.

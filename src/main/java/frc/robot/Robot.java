@@ -26,6 +26,16 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    // I HAVE ABSOLUTELY NO IDEA IF EITHER OF THESE WILL WORK.
+    // I WANTED TO GO FOR THE BUTTON PRESS, BUT NO! WE NEED IT AUTOMATIC.
+    // DISREGARDING THE FACT THAT NO ONE ON THE PLANET SEEMS TO KNOW WHAT
+    // THE ACTUALLY HELL IS UP WITH THIS PERIODIC STUFF.
+    
+    // in all seriousness, while im not confident in either of these, i could be
+    // if i knew which one of these was wrong ( or both )
+    m_robotContainer.motorGo.setDefaultCommand(m_robotContainer.randomCommand);
+    CommandScheduler.getInstance().registerSubsystem(m_robotContainer.motorGo);
   }
 
   /**

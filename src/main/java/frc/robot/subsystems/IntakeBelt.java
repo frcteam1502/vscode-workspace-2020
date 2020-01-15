@@ -7,39 +7,26 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
-public class Random extends SubsystemBase {
+public class IntakeBelt extends SubsystemBase {
   
-  private CANSparkMax motor;
-  private CANEncoder enc;
-
-  public Random(CANSparkMax motor) {
-    this.motor = motor;
+  private CANSparkMax top, bottom;
+  
+  public IntakeBelt(CANSparkMax top, CANSparkMax bottom) {
+    this.top = top;
+    this.bottom = bottom;
   }
 
-  public void setEncByGet() {
-    enc = motor.getEncoder();
-  }
-
-  public void setEncByObj() {
-    enc = new CANEncoder(motor);
-  }
-
-  public void setSpeed(double speed) {
-    motor.set(speed);
-    SmartDashboard.putNumber("encoder value: ", enc.getPosition());
+  public void run() {
+    top.set(1);
+    bottom.set(-1);
   }
 
   @Override
   public void periodic() {
-    setSpeed(Constants.Joysticks.LEFT_JOYSTICK.getY());
-    SmartDashboard.putString("Hail marry", " worked");
     // This method will be called once per scheduler run
   }
 }
