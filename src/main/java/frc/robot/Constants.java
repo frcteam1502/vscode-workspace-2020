@@ -38,6 +38,7 @@ public final class Constants {
         public static final Button RB = new JoystickButton(Joysticks.XBOX, 5);
         public static final Button START = new JoystickButton(Joysticks.XBOX, 6);
         public static final Button BACK = new JoystickButton(Joysticks.XBOX, 7);
+
         public static final Button LEFT_TRIGGER = new JoystickButton(Joysticks.LEFT_JOYSTICK, 1);
         public static final Button LEFT_THUMB = new JoystickButton(Joysticks.LEFT_JOYSTICK, 2);
         public static final Button LEFT_UPPER_THREE = new JoystickButton(Joysticks.LEFT_JOYSTICK, 3);
@@ -50,6 +51,7 @@ public final class Constants {
         public static final Button LEFT_LOWER_TEN = new JoystickButton(Joysticks.LEFT_JOYSTICK, 10);
         public static final Button LEFT_LOWER_ELEVEN = new JoystickButton(Joysticks.LEFT_JOYSTICK, 11);
         public static final Button LEFT_LOWER_TWELVE = new JoystickButton(Joysticks.LEFT_JOYSTICK, 12);
+
         public static final Button RIGHT_TRIGGER = new JoystickButton(Joysticks.LEFT_JOYSTICK, 1);
         public static final Button RIGHT_THUMB = new JoystickButton(Joysticks.LEFT_JOYSTICK, 2);
         public static final Button RIGHT_UPPER_THREE = new JoystickButton(Joysticks.LEFT_JOYSTICK, 3);
