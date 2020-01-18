@@ -14,6 +14,10 @@ public final class Constants {
 
     public static final class Motors {
         public static final CANSparkMax RANDOM_MOTOR = new CANSparkMax(1, kBrushless);
+        public static final CANSparkMax DRIVE_FRONT_LEFT = new CANSparkMax(2, kBrushed);
+        public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(4, kBrushed);
+        public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3, kBrushed);
+        public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(5, kBrushed);
     }
 
     public static final class Joysticks {

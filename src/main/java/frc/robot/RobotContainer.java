@@ -17,12 +17,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   private final Autonomous autonCommands = new Autonomous();
-  /** private final Drivetrain driveTrain = new Drivetrain(leftJoystick, rightJoystick,
-                                        new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
-                                        new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
-                                        new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
-                                        new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
-  */
+  // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick, Joysticks.rightJoystick,
+  //                                       new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
+  //                                       new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
+  //                                       new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
+  //                                       new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
+  
   public final Random motorGo = new Random(Motors.RANDOM_MOTOR);
   public final RandomCommand randomCommand = new RandomCommand(motorGo);
   /**
