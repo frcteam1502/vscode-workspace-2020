@@ -1,7 +1,10 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import static edu.wpi.first.wpilibj.I2C.Port.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -18,6 +21,12 @@ public final class Constants {
         public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(4, kBrushed);
         public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3, kBrushed);
         public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(5, kBrushed);
+    }
+
+    public static class Sensors {
+        public static final DigitalInput SPINNER_LIFT_LIMIT = new DigitalInput(0);
+        public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
+        // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c address
     }
 
     public static final class Joysticks {
