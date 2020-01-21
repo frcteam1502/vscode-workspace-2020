@@ -21,7 +21,6 @@ public class Spinner extends SubsystemBase {
   CANSparkMax lift, spinner;
   DigitalInput liftLimit;
   ColorSensorV3 colorSensor;
-  double[] lastColor = new double[3];
   int counter = 0;
 
   public Spinner(DigitalInput liftLimit, ColorSensorV3 colorSensor, CANSparkMax lift, CANSparkMax spinner) {
@@ -69,7 +68,6 @@ public class Spinner extends SubsystemBase {
    * runSpinner was designed to be completely automatic <br>
    * </br><b>Points of contention</b>
    * <ul>
-   * <li>lastColor could be implimented better (was the last remnant of Color.class)
    * <li>Wish targetRGB could be obtained easier
    * <li><b>Obviously the big gaping if statement that im on 90% sure on</b>
    * </ul>
@@ -81,9 +79,7 @@ public class Spinner extends SubsystemBase {
   public void runSpinner() {
     while (!liftLimit.get()) lift.set(1);
     lift.set(0);
-    lastColor[0] = colorSensor.getColor().red;
-    lastColor[1] = colorSensor.getColor().green;
-    lastColor[2] = colorSensor.getColor().blue;
+    double [] lastColor = {colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue};
     while (counter < 8) {
       double[] targetRGB = {colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue};
       if (Colors.threshHoldFind(targetRGB).getValue() < .1 && Math.abs(Colors.threshHoldFind(lastColor).getValue() - Colors.threshHoldFind(targetRGB).getValue()) > .3) {
