@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.Map;
 
 import com.revrobotics.CANSparkMax;
@@ -15,7 +16,9 @@ import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+/**
+ * Spinner implimented based on amount of times a single color goes past
+ */
 public class Spinner extends SubsystemBase {
 
   CANSparkMax lift, spinner;
@@ -69,12 +72,8 @@ public class Spinner extends SubsystemBase {
    * </br><b>Points of contention</b>
    * <ul>
    * <li>Wish targetRGB could be obtained easier
-   * <li><b>Obviously the big gaping if statement that im on 90% sure on</b>
+   * <li>not to sure on the output of compareColors being > 0
    * </ul>
-   * Note: if the if statement reaches the second condition, it can be assumed that the color being assessed is on the list of colors.<br>
-   * </br>So, the second condition is basically saying 'The last color seen - the current color seen == ?'.<br>
-   * </br>If the colors are significantly different, then i can asume were looking at a different color.<br></br><br></br>
-   * Different idea: subtract the respting RGB values, then average the abs value of the 3 values. If its small, then theyre the same.
    */
   public void runSpinner() {
     while (!liftLimit.get()) lift.set(1);
@@ -82,13 +81,20 @@ public class Spinner extends SubsystemBase {
     double [] lastColor = {colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue};
     while (counter < 8) {
       double[] targetRGB = {colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue};
-      if (Colors.threshHoldFind(targetRGB).getValue() < .1 && Math.abs(Colors.threshHoldFind(lastColor).getValue() - Colors.threshHoldFind(targetRGB).getValue()) > .3) {
+      if (Colors.threshHoldFind(targetRGB).getValue() < .1 && compareColors(Colors.threshHoldFind(lastColor).getKey().RGB, Colors.threshHoldFind(targetRGB).getKey().RGB) > 0) {
         counter++;
         lastColor = Colors.threshHoldFind(targetRGB).getKey().RGB;
       }
       spinner.set(1);
     }
     spinner.set(0);
+  }
+  
+
+  private double compareColors(double[] color1, double[] color2) {
+    if ((color1.length == 0 || color2.length == 0) || color1.length != color2.length) throw new NullPointerException();
+    double [] differenceInRgb = {Math.abs(color1[0] - color2[0]), Math.abs(color1[1] - color2[1]), Math.abs(color1[2] - color2[2])};
+    return Arrays.stream(differenceInRgb).average().orElse(Double.NaN);
   }
 
   @Override
