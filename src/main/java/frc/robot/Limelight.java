@@ -9,19 +9,19 @@ public class Limelight {
     /**
      * Horizontal offset from crosshair to target (+-29.8)
      */
-    double horizontalOffset;
+    public double horizontalOffset;
     /**
      * Vertical offset from crosshair to target (+-24.85)
      */
-    double verticalOffset;
+    public double verticalOffset;
     /**
      * Target area of total image (0% to 100%)
      */
-    double area;
+    public double area;
     /**
      * Skew or rotation (-90deg to 0deg)
      */
-    double skew;
+    public double skew;
     Target(double h, double v, double a, double s) {
       horizontalOffset = h;
       verticalOffset = v;
