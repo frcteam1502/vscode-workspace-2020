@@ -8,11 +8,12 @@
 package frc.robot.subsystems;
 
 import java.util.AbstractMap;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.ColorSensorV3.RawColor;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,6 +27,21 @@ public class Spinner extends SubsystemBase {
   ColorSensorV3 colorSensor;
   int counter = 0;
 
+  // red green blue yellow. Need to fix later
+  final Color RED = new Color(.602539, .300049, .097412);
+  final Color GREEN = new Color(.421875, .472656, .105469);
+  final Color BLUE = new Color(.234863, .528564, .236572);
+  final Color YELLOW = new Color(.184814, .422119, .393066);
+
+  final Map <String, Color> colorMap = new HashMap<String, Color>() {
+    private static final long serialVersionUID = 1L;
+    {
+    put("red", RED);
+    put("green", GREEN);
+    put("blue", BLUE);
+    put("yellow", YELLOW);
+  }};
+
   public Spinner(DigitalInput liftLimit, ColorSensorV3 colorSensor, CANSparkMax lift, CANSparkMax spinner) {
     this.lift = lift;
     this.spinner = spinner;
@@ -38,63 +54,99 @@ public class Spinner extends SubsystemBase {
    * useing exlucisvely the RGB values the thing spits out
    * @see Color.class
    */
-  enum Colors {
-    // Edit these colors. No matter what, this needs to be changed
-    Blue(.234863, .528564, .236572),
-    Red(.602539, .300049, .097412),
-    Green(.421875, .472656, .105469),
-    Yellow(.184814, .422119, .393066);
+  class Color {
 
-    public double [] RGB;
+    private double [] RGB = new double[3];
 
-    Colors (double... RGB) {
+    public Color (RawColor color) {
+      double mag = color.red + color.green + color.blue;
+      double [] RGB = {color.red / mag, color.green / mag, color.blue / mag};
       this.RGB = RGB;
     }
 
-    /**
-     * very very difficult to make, but i stand by this.
-     * @param RGB target RGB value that is to be compared
-     * @return a Map.Entry containing the closest possible Color and the threshHoldValue implimented as per Robbies orders
-     */
-    public static Map.Entry<Colors, Double> threshHoldFind(double [] RGB) {
-      Map.Entry<Colors, Double> threshHoldEntry = new AbstractMap.SimpleEntry<Colors, Double>(null, null);
-      for (Colors color : Colors.values()) {
-        double threshHoldValue = Math.pow(color.RGB[0] - RGB[0], 2) + Math.pow(color.RGB[1] - RGB[1], 2) + Math.pow(color.RGB[2] - RGB[2], 2);
-        if ((threshHoldEntry.getValue() == null || threshHoldEntry.getKey() == null) || threshHoldEntry.getValue() < threshHoldValue)
-          threshHoldEntry = new AbstractMap.SimpleEntry<Colors, Double>(color, threshHoldValue);
-      }
-      return threshHoldEntry;
+    public Color (double... RGB) {
+      if (RGB.length == 3) this.RGB = RGB;
+      else throw new IllegalArgumentException();
     }
+
+    public boolean compareTo(Color compare) {
+      return this.RGB == compare.RGB;
+    }
+
+    public double getThreshHold(Color compare) {
+      return Math.pow(this.RGB[0] - RGB[0], 2) + Math.pow(this.RGB[1] - RGB[1], 2) + Math.pow(this.RGB[2] - RGB[2], 2);
+    }
+  }
+
+  public Color expectColor(Color last) {
+    Color expected = null;
+    final Color[] mapSet = colorMap.keySet().toArray(new Color[colorMap.size()]);
+    for (int i = 0; i < mapSet.length; i++) {
+      try {
+        if (mapSet[i] == last) expected = mapSet[i + 1];
+      }
+      catch (ArrayIndexOutOfBoundsException e) {
+        expected = mapSet[0];
+      }
+    }
+    return expected;
   }
 
   /**
-   * runSpinner was designed to be completely automatic <br>
-   * </br><b>Points of contention</b>
-   * <ul>
-   * <li>Wish targetRGB could be obtained easier
-   * <li>not to sure on the output of compareColors being > 0
-   * </ul>
+   * @return status of completion
+   * Completed if the limit switch returns true.
+   * If the limit switch returns true if the limit switch is not being pressed, this needs to be flip flopped.
+   */
+  public boolean moveLift() {
+    boolean done = false;
+    if (!liftLimit.get()) lift.set(1);
+    else {
+      done = true;
+      lift.set(0);
+    }
+    return done;
+  }
+
+  public Color getColor() {
+    return new Color(colorSensor.getRawColor());
+  }
+
+  /**
+   * I... uh... im not too sure
+   * All contingent on @see {@link #moveLift()}
+   * Last color and Start color are initiated to the same color.
+   * Start color is final, last color changes if the current color is valid, different than the last color, and is expected<br></br>
+   * Valid color is considered any color with a threshhold of .1 or less.
+   * Current color, for all intents and purposes, is switched to the color it is closest to.
+   * If that color and the last color are exactly the same (remeber, youre no longer comparing a random rgb, but a predefined one).
+   * then nothing happens.
+   * If they arent the same, it checks the color is is against the predefined order of colors.
+   * If it is the expected color, the color sensor is considered to have completed a color change.
+   * If the current color is different than the last color, and the same as the first color, than one is added to the counter.
    */
   public void runSpinner() {
-    while (!liftLimit.get()) lift.set(1);
-    lift.set(0);
-    double [] lastColor = {colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue};
-    while (counter < 8) {
-      double[] targetRGB = {colorSensor.getColor().red, colorSensor.getColor().green, colorSensor.getColor().blue};
-      if (Colors.threshHoldFind(targetRGB).getValue() < .1 && compareColors(Colors.threshHoldFind(lastColor).getKey().RGB, Colors.threshHoldFind(targetRGB).getKey().RGB) > 0) {
-        counter++;
-        lastColor = Colors.threshHoldFind(targetRGB).getKey().RGB;
+    if (moveLift()) {
+      Color lastColor = getColor();
+      final Color startColor = getColor();
+      if (counter < 8) {
+        Color currentColor = getColor();
+        Map.Entry<Color, Double> min = new AbstractMap.SimpleEntry<Color, Double>(null, null);
+        for (Map.Entry<String, Color> color : colorMap.entrySet()) {
+          double threshHold = color.getValue().getThreshHold(currentColor);
+          if ((min.getValue() == null || min.getKey() == null) || threshHold < min.getValue())
+            min = new AbstractMap.SimpleEntry<Color, Double>(color.getValue(), threshHold);
+        }
+        currentColor = min.getKey();
+        if (min.getValue() < .1 && !currentColor.compareTo(lastColor)) {
+          if (expectColor(lastColor) == currentColor) {
+            lastColor = min.getKey();
+            if (currentColor == startColor) counter++;
+          }
+          spinner.set(1);
+        }
       }
-      spinner.set(1);
+      spinner.set(0);
     }
-    spinner.set(0);
-  }
-  
-
-  private double compareColors(double[] color1, double[] color2) {
-    if ((color1.length == 0 || color2.length == 0) || color1.length != color2.length) throw new NullPointerException();
-    double [] differenceInRgb = {Math.abs(color1[0] - color2[0]), Math.abs(color1[1] - color2[1]), Math.abs(color1[2] - color2[2])};
-    return Arrays.stream(differenceInRgb).average().orElse(Double.NaN);
   }
 
   @Override
