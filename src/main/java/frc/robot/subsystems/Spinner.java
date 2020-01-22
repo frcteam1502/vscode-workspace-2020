@@ -118,12 +118,12 @@ public class Spinner extends SubsystemBase {
       if (counter < 8) {
         Color currentColor = getColor();
         Double threshHold = null;
-        Color tCurrentColor= null;
-        for (Color color : colorMap) {
-          double tThreshHold = color.getThreshHold(currentColor);
-          if (threshHold == null || tCurrentColor == null || threshHold < tThreshHold) {
-            threshHold = tThreshHold;
-            tCurrentColor = color;
+        Color tCurrentColor = null;
+        for (Color element : colorMap) {
+          double elementThreshHold = element.getThreshHold(currentColor);
+          if (threshHold == null || threshHold < elementThreshHold) {
+            threshHold = elementThreshHold;
+            tCurrentColor = element;
           }
         }
         currentColor = tCurrentColor;
