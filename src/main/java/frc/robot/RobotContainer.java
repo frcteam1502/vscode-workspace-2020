@@ -1,16 +1,10 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.Constants.*;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -21,12 +15,18 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  
+  private final Autonomous autonCommands = new Autonomous();
+  // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick, Joysticks.rightJoystick,
+  //                                       new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
+  //                                       new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
+  //                                       new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
+  //                                       new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-
-
+  public final ColorTestCommand colorSensor = new ColorTestCommand(new ColorTest(Sensors.COLOR_SENSOR));
+  
+  public final Random motorGo = new Random(Motors.RANDOM_MOTOR);
+  public final RandomCommand randomCommand = new RandomCommand(motorGo);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -42,6 +42,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    Buttons.BACK.whenPressed(colorSensor);
   }
 
 
@@ -52,6 +53,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return autonCommands;
   }
 }
