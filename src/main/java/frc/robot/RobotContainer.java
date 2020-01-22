@@ -23,10 +23,6 @@ public class RobotContainer {
   //                                       new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
   //                                       new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
 
-  public final ColorTestCommand colorSensor = new ColorTestCommand(new ColorTest(Sensors.COLOR_SENSOR));
-  
-  public final Random motorGo = new Random(Motors.RANDOM_MOTOR);
-  public final RandomCommand randomCommand = new RandomCommand(motorGo);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -42,7 +38,6 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Buttons.BACK.whenPressed(colorSensor);
   }
 
 
