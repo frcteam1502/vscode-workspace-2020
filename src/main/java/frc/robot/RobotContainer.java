@@ -25,8 +25,6 @@ public class RobotContainer {
 
   public final ColorTestCommand colorSensor = new ColorTestCommand(new ColorTest(Sensors.COLOR_SENSOR));
   
-  public final Random motorGo = new Random(Motors.RANDOM_MOTOR);
-  public final RandomCommand randomCommand = new RandomCommand(motorGo);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */

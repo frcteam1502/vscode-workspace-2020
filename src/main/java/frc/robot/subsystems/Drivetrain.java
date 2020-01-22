@@ -21,6 +21,8 @@ public class Drivetrain extends SubsystemBase {
   ArrayList<CANSparkMax> rightMotors = new ArrayList<>();
   ArrayList<CANSparkMax> motors = new ArrayList<>();
   Joystick left, right;
+
+
   public Drivetrain(Joystick left, Joystick right, CANSparkMax... motors) {
     Collections.addAll(this.motors, motors); 
     leftMotors = (ArrayList<CANSparkMax>) this.motors.subList(0, (this.motors.size() - 1) / 2);
@@ -32,8 +34,15 @@ public class Drivetrain extends SubsystemBase {
     double rotateSpeed = right.getX();
     double leftPwr = -moveSpeed + rotateSpeed;
     double rightPwr = moveSpeed + rotateSpeed;
-    leftMotors.forEach(x -> x.set(leftPwr));
-    rightMotors.forEach(x -> x.set(rightPwr));
+    if ((leftPwr > 1 || leftPwr < -1) || (rightPwr > 1 || rightPwr < -1)) {
+      double max = Math.abs(Math.abs(leftPwr) > Math.abs(rightPwr) ? leftPwr : rightPwr);
+      leftPwr = leftPwr / max;
+      rightPwr = rightPwr / max;
+    }
+    final double fRightPower = rightPwr;
+    final double fLeftPower = leftPwr;
+    rightMotors.forEach(x -> x.set(fRightPower));
+    leftMotors.forEach(x -> x.set(fLeftPower));
   }
 
   @Override
