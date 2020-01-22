@@ -7,10 +7,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.RawColor;
@@ -32,15 +28,7 @@ public class Spinner extends SubsystemBase {
   final Color GREEN = new Color(.421875, .472656, .105469);
   final Color BLUE = new Color(.234863, .528564, .236572);
   final Color YELLOW = new Color(.184814, .422119, .393066);
-
-  final Map <String, Color> colorMap = new HashMap<String, Color>() {
-    private static final long serialVersionUID = 1L;
-    {
-    put("red", RED);
-    put("green", GREEN);
-    put("blue", BLUE);
-    put("yellow", YELLOW);
-  }};
+  final Color[] colorMap = {RED, GREEN, BLUE, YELLOW};
 
   public Spinner(DigitalInput liftLimit, ColorSensorV3 colorSensor, CANSparkMax lift, CANSparkMax spinner) {
     this.lift = lift;
@@ -80,13 +68,12 @@ public class Spinner extends SubsystemBase {
 
   public Color expectColor(Color last) {
     Color expected = null;
-    final Color[] mapSet = colorMap.keySet().toArray(new Color[colorMap.size()]);
-    for (int i = 0; i < mapSet.length; i++) {
+    for (int i = 0; i < colorMap.length; i++) {
       try {
-        if (mapSet[i] == last) expected = mapSet[i + 1];
+        if (colorMap[i] == last) expected = colorMap[i + 1];
       }
       catch (ArrayIndexOutOfBoundsException e) {
-        expected = mapSet[0];
+        expected = colorMap[0];
       }
     }
     return expected;
@@ -130,16 +117,19 @@ public class Spinner extends SubsystemBase {
       final Color startColor = getColor();
       if (counter < 8) {
         Color currentColor = getColor();
-        Map.Entry<Color, Double> min = new AbstractMap.SimpleEntry<Color, Double>(null, null);
-        for (Map.Entry<String, Color> color : colorMap.entrySet()) {
-          double threshHold = color.getValue().getThreshHold(currentColor);
-          if ((min.getValue() == null || min.getKey() == null) || threshHold < min.getValue())
-            min = new AbstractMap.SimpleEntry<Color, Double>(color.getValue(), threshHold);
+        Double threshHold = null;
+        Color tCurrentColor= null;
+        for (Color color : colorMap) {
+          double tThreshHold = color.getThreshHold(currentColor);
+          if (threshHold == null || tCurrentColor == null || threshHold < tThreshHold) {
+            threshHold = tThreshHold;
+            tCurrentColor = color;
+          }
         }
-        currentColor = min.getKey();
-        if (min.getValue() < .1 && !currentColor.compareTo(lastColor)) {
+        currentColor = tCurrentColor;
+        if (threshHold < .1 && !currentColor.compareTo(lastColor)) {
           if (expectColor(lastColor) == currentColor) {
-            lastColor = min.getKey();
+            lastColor = currentColor;
             if (currentColor == startColor) counter++;
           }
           spinner.set(1);
