@@ -40,7 +40,7 @@ public class Spinner extends SubsystemBase {
   /**
    * Decided to ditch the old implimentation of Color
    * useing exlucisvely the RGB values the thing spits out
-   * @see Color.class
+   * @see {@link #Color.class}
    */
   class Color {
 
