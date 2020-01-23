@@ -62,21 +62,23 @@ public class Spinner extends SubsystemBase {
     }
 
     public double getThreshHold(Color compare) {
-      return Math.pow(this.RGB[0] - RGB[0], 2) + Math.pow(this.RGB[1] - RGB[1], 2) + Math.pow(this.RGB[2] - RGB[2], 2);
+      return Math.pow(this.RGB[0] - compare.RGB[0], 2) + Math.pow(this.RGB[1] - compare.RGB[1], 2) + Math.pow(this.RGB[2] - compare.RGB[2], 2);
     }
-  }
 
-  public Color expectColor(Color last) {
-    Color expected = null;
-    for (int i = 0; i < colorMap.length; i++) {
-      try {
-        if (colorMap[i] == last) expected = colorMap[i + 1];
+    public Color nextColor() {
+      Color expected = null;
+      for (int i = 0; i < colorMap.length; i++) {
+        if (colorMap[i] == this) {
+          try {
+            expected = colorMap[i + 1];
+          }
+          catch (ArrayIndexOutOfBoundsException e) {
+            expected = colorMap[0];
+          }
+        }
       }
-      catch (ArrayIndexOutOfBoundsException e) {
-        expected = colorMap[0];
-      }
+      return expected;
     }
-    return expected;
   }
 
   /**
@@ -128,7 +130,7 @@ public class Spinner extends SubsystemBase {
         }
         currentColor = tCurrentColor;
         if (threshHold < .1 && !currentColor.compareTo(lastColor)) {
-          if (expectColor(lastColor) == currentColor) {
+          if (lastColor.nextColor() == currentColor) {
             lastColor = currentColor;
             if (currentColor == startColor) counter++;
           }
