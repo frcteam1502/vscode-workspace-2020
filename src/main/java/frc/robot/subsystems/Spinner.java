@@ -46,13 +46,9 @@ public class Spinner extends SubsystemBase {
       spinWheel.set(0);
   }
 
-  // TODO Add to chechColor so it actually checks color.
-  public boolean checkColor() {
-    return true;
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
 }
+
