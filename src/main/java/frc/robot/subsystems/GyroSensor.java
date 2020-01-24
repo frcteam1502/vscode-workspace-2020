@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.GyroPostionGetting;
+import frc.robot.commands.DisplayGyroPosition;
 
 public class GyroSensor extends SubsystemBase {
   /**
@@ -22,7 +22,7 @@ public class GyroSensor extends SubsystemBase {
    */
   ADXL345_I2C gyro = new ADXL345_I2C(I2C.Port.kOnboard, Range.k4G);
 
-  public GyroSensor(GyroPostionGetting m_GyroPostionGetting) {
+  public GyroSensor(DisplayGyroPosition m_GyroPostionGetting) {
 
   }
 

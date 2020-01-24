@@ -10,19 +10,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.GyroSensor;
 
-public class GyroPostionGetting extends CommandBase {
+public class DisplayGyroPosition extends CommandBase {
   /**
    * Creates a new GyroPostionGetting.
    */
   GyroSensor gyro;
 
-  public GyroPostionGetting(GyroSensor gyro) {
+  public DisplayGyroPosition(GyroSensor gyro) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(gyro);
     this.gyro = gyro;
   }
 
-  public GyroPostionGetting() {
+  public DisplayGyroPosition() {
   }
 
   // Called when the command is initially scheduled.

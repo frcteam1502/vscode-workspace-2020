@@ -10,7 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.GyroPostionGetting;
+import frc.robot.commands.DisplayGyroPosition;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.GyroSensor;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,9 +28,9 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  private final GyroPostionGetting m_GyroPostionGetting = new GyroPostionGetting();
+  private final DisplayGyroPosition m_displayGyroPosition = new DisplayGyroPosition();
 
-  private final GyroSensor m_GyroSensor = new GyroSensor(m_GyroPostionGetting);
+  private final GyroSensor m_gyroSensor = new GyroSensor(m_displayGyroPosition);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
