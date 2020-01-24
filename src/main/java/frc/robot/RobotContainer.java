@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.DisplayGyroPosition;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.GyroSensor;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -30,8 +30,6 @@ public class RobotContainer {
 
   private final DisplayGyroPosition m_displayGyroPosition = new DisplayGyroPosition();
 
-  private final GyroSensor m_gyroSensor = new GyroSensor(m_displayGyroPosition);
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -47,6 +45,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    Constants.Buttons.B.whenHeld(m_displayGyroPosition);
   }
 
   /**

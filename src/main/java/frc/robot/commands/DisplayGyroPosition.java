@@ -7,20 +7,13 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.ADXL345_I2C;
+import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.GyroSensor;
+import frc.robot.Constants;
 
 public class DisplayGyroPosition extends CommandBase {
-  /**
-   * Creates a new GyroPostionGetting.
-   */
-  GyroSensor gyro;
-
-  public DisplayGyroPosition(GyroSensor gyro) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(gyro);
-    this.gyro = gyro;
-  }
 
   public DisplayGyroPosition() {
   }
@@ -33,7 +26,13 @@ public class DisplayGyroPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    gyro.putToSmartDashboard();
+    ADXL345_I2C gyro = Constants.Sensors.gyro;
+    SmartDashboard.putNumber("Gyro X", gyro.getX());
+    SmartDashboard.putNumber("Gyro Y", gyro.getY());
+    SmartDashboard.putNumber("Gyro Z", gyro.getZ());
+    SmartDashboard.putNumber("X Axis Acceleration", gyro.getAcceleration(Axes.kX));
+    SmartDashboard.putNumber("Y Axis Acceleration", gyro.getAcceleration(Axes.kY));
+    SmartDashboard.putNumber("Z Axis Acceleration", gyro.getAcceleration(Axes.kZ));
   }
 
   // Called once the command ends or is interrupted.
