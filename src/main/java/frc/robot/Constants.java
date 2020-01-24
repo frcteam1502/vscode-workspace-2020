@@ -9,8 +9,10 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.I2C;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -31,5 +33,6 @@ public final class Constants {
 
     public static class Sensors {
         public static final DigitalInput SPINNER_LIMIT = new DigitalInput(0);
+        public static final ColorSensorV3 WHEEL_COLOR = new ColorSensorV3(I2C.Port.kMXP);
     }
 }
