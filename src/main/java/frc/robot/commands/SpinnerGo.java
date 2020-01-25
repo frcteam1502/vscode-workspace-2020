@@ -22,12 +22,12 @@ public class SpinnerGo extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    subsystem.run();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    subsystem.run();
   }
 
   // Called once the command ends or is interrupted.

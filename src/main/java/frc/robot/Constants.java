@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.I2C;
 import static edu.wpi.first.wpilibj.I2C.Port.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
@@ -35,6 +36,7 @@ public final class Constants {
         public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
         public static final DigitalInput SPINNER_LIMIT = new DigitalInput(0);
         public static final NavX LIFT_GYRO = new NavX(new AHRS(SPI.Port.kMXP));
+        public static final ColorSensorV3 WHEEL_COLOR = new ColorSensorV3(I2C.Port.kMXP);
         // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c
         // address
     }
