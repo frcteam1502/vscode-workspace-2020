@@ -1,6 +1,5 @@
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
