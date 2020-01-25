@@ -1,15 +1,8 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DisplayGyroPosition;
+import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -23,6 +16,14 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final DisplayGyroPosition m_displayGyroPosition = new DisplayGyroPosition();
+
+  private final Autonomous autonCommands = new Autonomous();
+  // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick,
+  // Joysticks.rightJoystick,
+  // new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
+  // new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
+  // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
+  // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -49,6 +50,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return autonCommands;
   }
 }
