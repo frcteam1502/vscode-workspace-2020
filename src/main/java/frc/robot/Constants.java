@@ -3,12 +3,14 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 
 import static edu.wpi.first.wpilibj.I2C.Port.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DPadButton.Direction;
@@ -30,6 +32,7 @@ public final class Constants {
         public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
         public static final Lidar LIDAR = new Lidar(new I2C(kOnboard, 0x62));
         // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c address
+        public static final ADXL345_I2C GYRO = new ADXL345_I2C(kMXP, Range.k4G);
     }
 
     public static final class Joysticks {
@@ -58,7 +61,7 @@ public final class Constants {
         public static final Button LEFT_TRIGGER = new JoystickButton(Joysticks.LEFT_JOYSTICK, 1);
         public static final Button LEFT_THUMB = new JoystickButton(Joysticks.LEFT_JOYSTICK, 2);
         public static final Button LEFT_UPPER_THREE = new JoystickButton(Joysticks.LEFT_JOYSTICK, 3);
-        public static final Button LEFT_UPEER_FOUR = new JoystickButton(Joysticks.LEFT_JOYSTICK, 4);
+        public static final Button LEFT_UPPER_FOUR = new JoystickButton(Joysticks.LEFT_JOYSTICK, 4);
         public static final Button LEFT_UPPER_FIVE = new JoystickButton(Joysticks.LEFT_JOYSTICK, 5);
         public static final Button LEFT_UPPER_SIX = new JoystickButton(Joysticks.LEFT_JOYSTICK, 6);
         public static final Button LEFT_LOWER_SEVEN = new JoystickButton(Joysticks.LEFT_JOYSTICK, 7);
