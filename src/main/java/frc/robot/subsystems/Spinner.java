@@ -11,38 +11,34 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.RawColor;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /**
  * Spinner implimented based on amount of times a single color goes past
  */
 public class Spinner extends SubsystemBase {
 
-  CANSparkMax lift, spinner;
-  DigitalInput liftLimit;
-  ColorSensorV3 colorSensor;
-  int counter = 0;
+  private final CANSparkMax spinner;
+  private final ColorSensorV3 colorSensor;
+  private int counter = 0;
 
+  private Color startColor;
+  private Color lastColor;
   // red green blue yellow. Need to fix later
-  final Color RED = new Color(.602539, .300049, .097412);
-  final Color GREEN = new Color(.421875, .472656, .105469);
-  final Color BLUE = new Color(.234863, .528564, .236572);
-  final Color YELLOW = new Color(.184814, .422119, .393066);
-  final Color[] colorMap = {RED, GREEN, BLUE, YELLOW};
+  private final Color RED = new Color(.602539, .300049, .097412);
+  private final Color GREEN = new Color(.421875, .472656, .105469);
+  private final Color BLUE = new Color(.234863, .528564, .236572);
+  private final Color YELLOW = new Color(.184814, .422119, .393066);
+  private final Color[] COLOR_MAP = {RED, GREEN, BLUE, YELLOW};
 
-  public Spinner(DigitalInput liftLimit, ColorSensorV3 colorSensor, CANSparkMax lift, CANSparkMax spinner) {
-    this.lift = lift;
+  public Spinner(ColorSensorV3 colorSensor, CANSparkMax spinner) {
     this.spinner = spinner;
-    this.liftLimit = liftLimit;
     this.colorSensor = colorSensor;
   }
 
   /**
-   * Decided to ditch the old implimentation of Color
-   * useing exlucisvely the RGB values the thing spits out
-   * @see {@link #Color.class}
+   * Previous color class didnt allow me to easily make new Colors, so i ditched it
    */
-  class Color {
+  private class Color {
 
     private double [] RGB = new double[3];
 
@@ -52,28 +48,38 @@ public class Spinner extends SubsystemBase {
       this.RGB = RGB;
     }
 
+    /**
+     * @param RGB must have length of 3
+     */
     public Color (double... RGB) {
       if (RGB.length == 3) this.RGB = RGB;
       else throw new IllegalArgumentException();
     }
 
+    /**
+     * @param compare compared either directly based on their respected RGB values, or their proximity to each other via {@link #getDifference(Color)}
+     * @return whether or not the two colors are equal
+     */
     public boolean compareTo(Color compare) {
-      return this.RGB == compare.RGB;
+      return this.RGB == compare.RGB || getDifference(compare) < .1;
     }
 
-    public double getThreshHold(Color compare) {
+    private double getDifference(Color compare) {
       return Math.pow(this.RGB[0] - compare.RGB[0], 2) + Math.pow(this.RGB[1] - compare.RGB[1], 2) + Math.pow(this.RGB[2] - compare.RGB[2], 2);
     }
 
+    /**
+     * @return expected next color based on the index of {@link #colorMap}
+     */
     public Color nextColor() {
       Color expected = null;
-      for (int i = 0; i < colorMap.length; i++) {
-        if (colorMap[i] == this) {
+      for (int i = 0; i < COLOR_MAP.length; i++) {
+        if (this.compareTo(COLOR_MAP[i])) {
           try {
-            expected = colorMap[i + 1];
+            expected = COLOR_MAP[i + 1];
           }
           catch (ArrayIndexOutOfBoundsException e) {
-            expected = colorMap[0];
+            expected = COLOR_MAP[0];
           }
         }
       }
@@ -82,62 +88,47 @@ public class Spinner extends SubsystemBase {
   }
 
   /**
-   * @return status of completion
-   * Completed if the limit switch returns true.
-   * If the limit switch returns true if the limit switch is not being pressed, this needs to be flip flopped.
+   * Sets inital values of startColor and lastColor.
+   * startColor should be effectively final
+   * lastColor is changed in @see {@link #runSpinner()}
    */
-  public boolean moveLift() {
-    boolean done = false;
-    if (!liftLimit.get()) lift.set(1);
-    else {
-      done = true;
-      lift.set(0);
-    }
-    return done;
+  public void setColor() {
+    startColor = getColor();
+    lastColor = getColor();
   }
 
+  /**
+   * Referring to the motorController
+   * @param speed
+   */
+  public void setSpinner(double speed) {
+    spinner.set(speed);
+  }
+
+  /**
+   * @return Color the sensor is looking at in Color format
+   */
   public Color getColor() {
     return new Color(colorSensor.getRawColor());
   }
 
   /**
-   * I... uh... im not too sure
-   * All contingent on @see {@link #moveLift()}
-   * Last color and Start color are initiated to the same color.
-   * Start color is final, last color changes if the current color is valid, different than the last color, and is expected<br></br>
-   * Valid color is considered any color with a threshhold of .1 or less.
-   * Current color, for all intents and purposes, is switched to the color it is closest to.
-   * If that color and the last color are exactly the same (remeber, youre no longer comparing a random rgb, but a predefined one).
-   * then nothing happens.
-   * If they arent the same, it checks the color is is against the predefined order of colors.
-   * If it is the expected color, the color sensor is considered to have completed a color change.
-   * If the current color is different than the last color, and the same as the first color, than one is added to the counter.
+   * @return whether the spinner has met its end condition
+   */
+  public boolean inPlace() {
+    return counter == 8;
+  }
+
+  /**
+   * Does fact checking, should make it more rigorous.
    */
   public void runSpinner() {
-    if (moveLift()) {
-      Color lastColor = getColor();
-      final Color startColor = getColor();
-      if (counter < 8) {
-        Color currentColor = getColor();
-        Double threshHold = null;
-        Color tCurrentColor = null;
-        for (Color element : colorMap) {
-          double elementThreshHold = element.getThreshHold(currentColor);
-          if (threshHold == null || threshHold < elementThreshHold) {
-            threshHold = elementThreshHold;
-            tCurrentColor = element;
-          }
-        }
-        currentColor = tCurrentColor;
-        if (threshHold < .1 && !currentColor.compareTo(lastColor)) {
-          if (lastColor.nextColor() == currentColor) {
-            lastColor = currentColor;
-            if (currentColor == startColor) counter++;
-          }
-          spinner.set(1);
-        }
+    Color currentColor = getColor();
+    if (!currentColor.compareTo(lastColor)) {
+      if (currentColor.compareTo(lastColor.nextColor())) {
+        lastColor = lastColor.nextColor();
+        if (currentColor.compareTo(startColor)) counter++;
       }
-      spinner.set(0);
     }
   }
 
