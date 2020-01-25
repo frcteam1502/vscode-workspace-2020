@@ -12,10 +12,10 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
-  
+
   private CANSparkMax top, bottom, intakeWheel;
   private boolean beltOn = true;
-  
+
   public Intake(CANSparkMax top, CANSparkMax bottom, CANSparkMax intakeWheel) {
     this.top = top;
     this.bottom = bottom;
@@ -27,6 +27,13 @@ public class Intake extends SubsystemBase {
     top.set(beltSpeed);
     bottom.set(-beltSpeed);
     intakeWheel.set(1);
+  }
+
+  public void stop() {
+    top.set(0);
+    bottom.set(0);
+    intakeWheel.set(0);
+    beltOn = false;
   }
 
   public void toggleBelt() {

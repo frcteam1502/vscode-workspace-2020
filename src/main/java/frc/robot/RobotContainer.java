@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.*;
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -16,6 +17,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final DisplayGyroPosition m_displayGyroPosition = new DisplayGyroPosition();
+
+  private final Intake intake = new Intake(Constants.Motors.INTAKE_TOP, Constants.Motors.INTAKE_BOTTOM,
+      Constants.Motors.INTAKE_WHEEL);
+  private final IntakeCommand intakeCommand = new IntakeCommand(intake);
 
   private final Autonomous autonCommands = new Autonomous();
   // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick,
@@ -41,6 +46,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     Constants.Buttons.B.whenHeld(m_displayGyroPosition);
+    Constants.Buttons.A.whenPressed(intakeCommand);
   }
 
   /**

@@ -13,7 +13,7 @@ import frc.robot.subsystems.Intake;
 public class IntakeCommand extends CommandBase {
 
   Intake subsystem;
-  
+
   public IntakeCommand(Intake subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -34,6 +34,7 @@ public class IntakeCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    subsystem.stop();
   }
 
   // Returns true when the command should end.
