@@ -1,17 +1,19 @@
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import static edu.wpi.first.wpilibj.I2C.Port.*;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DPadButton.Direction;
+import frc.robot.subsystems.NavX;
 
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
 
@@ -22,14 +24,18 @@ public final class Constants {
         public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(4, kBrushed);
         public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3, kBrushed);
         public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(5, kBrushed);
-        public static final CANSparkMax SPINNER_LIFT = new CANSparkMax(0, MotorType.kBrushed);
-        public static final CANSparkMax SPIN_WHEEL = new CANSparkMax(1, MotorType.kBrushless);
+        public static final CANSparkMax SPINNER_LIFT = new CANSparkMax(0, kBrushed);
+        public static final CANSparkMax SPIN_WHEEL = new CANSparkMax(1, kBrushless);
+        public static final CANSparkMax LIFT_LEFT = new CANSparkMax(7, kBrushed);
+        public static final CANSparkMax LIFT_RIGHT = new CANSparkMax(6, kBrushed);
+        public static final CANSparkMax LIFT_ADJUSTMENT = new CANSparkMax(8, kBrushed);
     }
 
     public static class Sensors {
         public static final DigitalInput SPINNER_LIFT_LIMIT = new DigitalInput(0);
         public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
         public static final DigitalInput SPINNER_LIMIT = new DigitalInput(0);
+        public static final NavX LIFT_GYRO = new NavX(new AHRS(SPI.Port.kMXP));
         public static final ColorSensorV3 WHEEL_COLOR = new ColorSensorV3(I2C.Port.kMXP);
         // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c
         // address
