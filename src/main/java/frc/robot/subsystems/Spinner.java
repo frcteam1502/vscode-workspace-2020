@@ -17,25 +17,23 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class Spinner extends SubsystemBase {
 
   CANSparkMax spinWheel;
-  CANSparkMax spinLift;
-  DigitalInput liftLimit;
   double wheelSpeed = 1;
   ColorSensorV3 wheelColor;
   int colorCount = 0;
   int rotationCount = 0;
   Color lastColor = null;
+  String gameData = DriverStation.getInstance().getGameSpecificMessage();
   final int colorsPerRotation = 8;
   final int totalOfRotations = 3;
-  final double diffrenceSumThreshhold = 0.15;
+  final double diffrenceSumThreshhold = 0.1;
 
-  public Spinner(CANSparkMax spinLift, CANSparkMax spinWheel, DigitalInput liftLimit, ColorSensorV3 wheelColor) {
-    this.spinLift = spinLift;
+  public Spinner(CANSparkMax spinWheel, ColorSensorV3 wheelColor) {
     this.spinWheel = spinWheel;
-    this.liftLimit = liftLimit;
     this.wheelColor = wheelColor;
   }
   /*
@@ -46,40 +44,45 @@ public class Spinner extends SubsystemBase {
 
   public void run() {
 
-    if (!liftLimit.get())
-      spinLift.set(1);
-    else if (rotationCount < totalOfRotations) {
-      spinLift.set(0);
-      if (lastColor == null) {
-        lastColor = wheelColor.getColor();
-        spinWheel.set(wheelSpeed);
-      } else {
-        Color currentColor = wheelColor.getColor();
-        Color difColor = getColorDiffernce(lastColor, currentColor);
-        double dif = difColor.red + difColor.blue + difColor.green;
-        if (dif >= diffrenceSumThreshhold) {
-          colorCount++;
-          if (colorCount % colorsPerRotation == 0) {
-            wheelSpeed = wheelSpeed - .15;
-            spinWheel.set(wheelSpeed);
-            rotationCount++;
-          }
+    if (lastColor == null) {
+      lastColor = wheelColor.getColor();
+      spinWheel.set(wheelSpeed);
+    } else if (lastColor != null) {
+      Color currentColor = wheelColor.getColor();
+      Color difColor = getColorDiffernce(lastColor, currentColor);
+      double dif = difColor.red + difColor.blue + difColor.green;
+      if (dif >= diffrenceSumThreshhold) {
+        colorCount++;
+        if (colorCount % colorsPerRotation == 0) {
+          wheelSpeed = wheelSpeed - .15;
+          spinWheel.set(wheelSpeed);
+          rotationCount++;
         }
-        lastColor = currentColor;
       }
+      lastColor = currentColor;
+    } else {
+      // compareColor(, currentColor);
+      /*
+       * else if current color is not desired { // TODO add go to color
+       * 
+       * }
+       */
     }
-    /*
-     * else if current color is not desired { // TODO add go to color
-     * 
-     * }
-     */
-    else {
+  }
+  /*
+   * CANEncoder enc = spinWheel.getEncoder(); if (enc.getPosition() < 10000)
+   * spinWheel.set(1); else spinWheel.set(0);
+   */
+
+  public void compareColor(Color color, Color currentColor) {
+    Color difColor = getColorDiffernce(color, currentColor);
+    double dif = difColor.red + difColor.blue + difColor.green;
+    if (dif >= diffrenceSumThreshhold) {
+      spinWheel.set(.5);
+    } else {
       spinWheel.set(0);
     }
-    /*
-     * CANEncoder enc = spinWheel.getEncoder(); if (enc.getPosition() < 10000)
-     * spinWheel.set(1); else spinWheel.set(0);
-     */
+
   }
 
   public Color getColorDiffernce(Color color1, Color color2) {
@@ -96,6 +99,31 @@ public class Spinner extends SubsystemBase {
 
     Color colorDiffernce = new Color(redDifference, greenDiffernce, blueDiffernce);
     return colorDiffernce;
+  }
+
+  public Color gameInfo() {
+    if (gameData.length() > 0) {
+      switch (gameData.charAt(0)) {
+      case 'B':
+        // Blue case code
+        return Color.kFirstBlue;
+      case 'G':
+        // Green case
+        break;
+      case 'R':
+        // Red case code
+        return Color.kFirstRed;
+      case 'Y':
+        // Yellow case code
+        break;
+      default:
+        // This is corrupt data
+        break;
+      }
+    } else {
+      // Code for no data received yet
+    }
+    return Color.kFirstRed;
   }
 
   @Override
