@@ -8,13 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Spinner;
+import frc.robot.subsystems.Intake;
 
-public class SpinnerGo extends CommandBase {
+public class IntakeCommand extends CommandBase {
 
-  private final Spinner subsystem;
-
-  public SpinnerGo(Spinner subsystem) {
+  Intake subsystem;
+  
+  public IntakeCommand(Intake subsystem) {
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     this.subsystem = subsystem;
   }

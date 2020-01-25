@@ -9,11 +9,13 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class NavX extends SubsystemBase {
   /**
    * Creates a new NavX.
+   * 
    */
   AHRS gyro;
 
@@ -23,6 +25,20 @@ public class NavX extends SubsystemBase {
 
   public double getAngle() {
     return gyro.getAngle();
+  }
+
+  public void outputDataToSmartDashboard() {
+    SmartDashboard.putNumber("Pitch: ", gyro.getPitch());
+    SmartDashboard.putNumber("Roll; ", gyro.getRoll());
+    SmartDashboard.putNumber("Yaw; ", gyro.getYaw());
+    SmartDashboard.putNumber("CompassHeading; ", gyro.getCompassHeading());
+    SmartDashboard.putBoolean("isCalibrating; ", gyro.isCalibrating());
+    SmartDashboard.putBoolean("isConnected; ", gyro.isConnected());
+    SmartDashboard.putNumber("WorldLinearAccelX; ", gyro.getWorldLinearAccelX());
+    SmartDashboard.putNumber("WorldLinearAccelY; ", gyro.getWorldLinearAccelY());
+    SmartDashboard.putNumber("WorldLinearAccelZ; ", gyro.getWorldLinearAccelZ());
+    SmartDashboard.putBoolean("isMoving; ", gyro.isMoving());
+    SmartDashboard.putBoolean("isRotating; ", gyro.isRotating());
   }
 
   @Override

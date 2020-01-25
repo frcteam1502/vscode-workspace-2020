@@ -8,15 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Spinner;
+import frc.robot.subsystems.Drivetrain;
 
-public class SpinnerGo extends CommandBase {
-
-  private final Spinner subsystem;
-
-  public SpinnerGo(Spinner subsystem) {
-    addRequirements(subsystem);
-    this.subsystem = subsystem;
+public class DriveCommand extends CommandBase {
+  /**
+   * Creates a new DriveCommand.
+   */
+  Drivetrain train;
+  public DriveCommand(Drivetrain train) {
+    addRequirements(train);
+    this.train = train;
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +28,7 @@ public class SpinnerGo extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subsystem.run();
+    train.move();
   }
 
   // Called once the command ends or is interrupted.
