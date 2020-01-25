@@ -24,8 +24,8 @@ public final class Constants {
     }
 
     public static class Sensors {
-        public static final ADXL345_I2C gyro = new ADXL345_I2C(kOnboard, Range.k4G);
-        public static final AHRS NAV_X = new AHRS(kMXP);
+        public static final ADXL345_I2C gyro = new ADXL345_I2C(kMXP, Range.k4G);
+        public static final Lidar lidar = new Lidar(kOnboard, 0x62);
     }
 
     public static final class Joysticks {
