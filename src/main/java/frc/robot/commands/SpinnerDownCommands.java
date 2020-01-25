@@ -10,11 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SpinnerLift;
 
-public class SpinnerLiftCommand extends CommandBase {
-
+public class SpinnerDownCommands extends CommandBase {
+  /**
+   * Creates a new SpinnerDownCommands.
+   */
   SpinnerLift subsystem;
 
-  public SpinnerLiftCommand(SpinnerLift subsystem) {
+  public SpinnerDownCommands(SpinnerLift subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     this.subsystem = subsystem;
@@ -40,6 +42,6 @@ public class SpinnerLiftCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return subsystem.getLimit();
+    return subsystem.getLowerLimit();
   }
 }

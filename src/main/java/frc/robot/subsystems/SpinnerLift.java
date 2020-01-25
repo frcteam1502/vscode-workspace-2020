@@ -13,21 +13,26 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SpinnerLift extends SubsystemBase {
-  
+
   CANSparkMax lift, spinner;
-  DigitalInput liftLimit;
-  
-  public SpinnerLift(DigitalInput liftLimit, CANSparkMax lift) {
+  DigitalInput upperLimit, lowerLimit;
+
+  public SpinnerLift(DigitalInput upperLimit, DigitalInput lowerLimit, CANSparkMax lift) {
     this.lift = lift;
-    this.liftLimit = liftLimit;
+    this.upperLimit = upperLimit;
+    this.lowerLimit = lowerLimit;
   }
 
   public void setLift(double speed) {
     lift.set(speed);
   }
 
-  public boolean getLimit() {
-    return liftLimit.get();
+  public boolean getUpperLimit() {
+    return upperLimit.get();
+  }
+
+  public boolean getLowerLimit() {
+    return lowerLimit.get();
   }
 
   @Override
