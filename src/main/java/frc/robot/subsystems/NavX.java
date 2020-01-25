@@ -27,6 +27,10 @@ public class NavX extends SubsystemBase {
     return gyro.getAngle();
   }
 
+  public double getRoll() {
+    return gyro.getRoll();
+  }
+
   public void outputDataToSmartDashboard() {
     SmartDashboard.putNumber("Pitch: ", gyro.getPitch());
     SmartDashboard.putNumber("Roll; ", gyro.getRoll());

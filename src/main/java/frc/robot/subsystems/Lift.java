@@ -11,6 +11,8 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.PIDController;
 
 public class Lift extends SubsystemBase {
 
@@ -19,14 +21,21 @@ public class Lift extends SubsystemBase {
   CANSparkMax LIFT_ADJUSTMENT;
   DigitalInput LIFT_TOP_LIMITS;
   DigitalInput LIFT_BOTTOM_LIMITS;
+  PIDController pid;
 
   public Lift(CANSparkMax LIFT_RIGHT, CANSparkMax LIFT_LEFT, NavX LIFT_GYRO, CANSparkMax LIFT_ADJUSTMENT,
-      DigitalInput LIFT_TOPLIMITS, DigitalInput LIFT_BTMLIMITS) {
+      DigitalInput LIFT_TOP_LIMITS, DigitalInput LIFT_BOTTOM_LIMITS) {
+    pid = new PIDController(0, 0, 0);
     this.LIFT_RIGHT = LIFT_RIGHT;
     this.LIFT_LEFT = LIFT_LEFT;
     this.LIFT_ADJUSTMENT = LIFT_ADJUSTMENT;
-    this.LIFT_TOP_LIMITS = LIFT_TOPLIMITS;
-    this.LIFT_BOTTOM_LIMITS = LIFT_BTMLIMITS;
+    this.LIFT_TOP_LIMITS = LIFT_TOP_LIMITS;
+    this.LIFT_BOTTOM_LIMITS = LIFT_BOTTOM_LIMITS;
+  }
+
+  public void adjust() {
+    pid.input(Constants.Sensors.LIFT_GYRO.getRoll());
+    LIFT_ADJUSTMENT.set(pid.getCorrection());
   }
 
   public void setSpeed(double speed) {
