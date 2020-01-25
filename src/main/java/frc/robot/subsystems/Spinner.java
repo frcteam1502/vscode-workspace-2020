@@ -12,6 +12,7 @@ import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.RawColor;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 /**
  * Spinner implimented based on amount of times a single color goes past
  */
@@ -28,7 +29,7 @@ public class Spinner extends SubsystemBase {
   private final Color GREEN = new Color(.421875, .472656, .105469);
   private final Color BLUE = new Color(.234863, .528564, .236572);
   private final Color YELLOW = new Color(.184814, .422119, .393066);
-  private final Color[] COLOR_MAP = {RED, GREEN, BLUE, YELLOW};
+  private final Color[] COLOR_MAP = { YELLOW, RED, GREEN, BLUE };
 
   public Spinner(ColorSensorV3 colorSensor, CANSparkMax spinner) {
     this.spinner = spinner;
@@ -36,28 +37,33 @@ public class Spinner extends SubsystemBase {
   }
 
   /**
-   * Previous color class didnt allow me to easily make new Colors, so i ditched it
+   * Previous color class didnt allow me to easily make new Colors, so i ditched
+   * it
    */
   private class Color {
 
-    private double [] RGB = new double[3];
+    private double[] RGB = new double[3];
 
-    public Color (RawColor color) {
+    public Color(RawColor color) {
       double mag = color.red + color.green + color.blue;
-      double [] RGB = {color.red / mag, color.green / mag, color.blue / mag};
+      double[] RGB = { color.red / mag, color.green / mag, color.blue / mag };
       this.RGB = RGB;
     }
 
     /**
      * @param RGB must have length of 3
      */
-    public Color (double... RGB) {
-      if (RGB.length == 3) this.RGB = RGB;
-      else throw new IllegalArgumentException();
+    public Color(double... RGB) {
+      if (RGB.length == 3)
+        this.RGB = RGB;
+      else
+        throw new IllegalArgumentException();
     }
 
     /**
-     * @param compare compared either directly based on their respected RGB values, or their proximity to each other via {@link #getDifference(Color)}
+     * @param compare compared either directly based on their respected RGB values,
+     *                or their proximity to each other via
+     *                {@link #getDifference(Color)}
      * @return whether or not the two colors are equal
      */
     public boolean compareTo(Color compare) {
@@ -65,7 +71,8 @@ public class Spinner extends SubsystemBase {
     }
 
     private double getDifference(Color compare) {
-      return Math.pow(this.RGB[0] - compare.RGB[0], 2) + Math.pow(this.RGB[1] - compare.RGB[1], 2) + Math.pow(this.RGB[2] - compare.RGB[2], 2);
+      return Math.pow(this.RGB[0] - compare.RGB[0], 2) + Math.pow(this.RGB[1] - compare.RGB[1], 2)
+          + Math.pow(this.RGB[2] - compare.RGB[2], 2);
     }
 
     /**
@@ -77,8 +84,7 @@ public class Spinner extends SubsystemBase {
         if (this.compareTo(COLOR_MAP[i])) {
           try {
             expected = COLOR_MAP[i + 1];
-          }
-          catch (ArrayIndexOutOfBoundsException e) {
+          } catch (ArrayIndexOutOfBoundsException e) {
             expected = COLOR_MAP[0];
           }
         }
@@ -88,9 +94,8 @@ public class Spinner extends SubsystemBase {
   }
 
   /**
-   * Sets inital values of startColor and lastColor.
-   * startColor should be effectively final
-   * lastColor is changed in @see {@link #runSpinner()}
+   * Sets inital values of startColor and lastColor. startColor should be
+   * effectively final lastColor is changed in @see {@link #runSpinner()}
    */
   public void setColor() {
     startColor = getColor();
@@ -99,6 +104,7 @@ public class Spinner extends SubsystemBase {
 
   /**
    * Referring to the motorController
+   * 
    * @param speed
    */
   public void setSpinner(double speed) {
@@ -127,7 +133,8 @@ public class Spinner extends SubsystemBase {
     if (!currentColor.compareTo(lastColor)) {
       if (currentColor.compareTo(lastColor.nextColor())) {
         lastColor = lastColor.nextColor();
-        if (currentColor.compareTo(startColor)) counter++;
+        if (currentColor.compareTo(startColor))
+          counter++;
       }
     }
   }
