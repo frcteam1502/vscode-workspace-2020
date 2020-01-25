@@ -5,12 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Subsystem;
-
 
 public class Lidar {
 
@@ -42,9 +40,9 @@ public class Lidar {
     buffer = new byte[2];
     busy = new byte[1];
 
-    if (count == 0) {    //Write w/ receiver bias every 100 measurements
+    if (count == 0) { // Write w/ receiver bias every 100 measurements
       sensor.write(0x00, 0x04);
-    } else {    //Write w/o receiver bias
+    } else { // Write w/o receiver bias
       sensor.write(0x00, 0x03);
     }
     count++;
@@ -56,11 +54,5 @@ public class Lidar {
     sensor.read(0x8f, 2, buffer);
     
     return (int)Integer.toUnsignedLong(buffer[0]) + Byte.toUnsignedInt(buffer[1]);	//swap this if it doesn't look right
-  }
-
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
   }
 }

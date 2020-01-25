@@ -4,6 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.I2C;
+
 import static edu.wpi.first.wpilibj.I2C.Port.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -26,6 +28,7 @@ public final class Constants {
     public static class Sensors {
         public static final DigitalInput SPINNER_LIFT_LIMIT = new DigitalInput(0);
         public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
+        public static final Lidar LIDAR = new Lidar(new I2C(kOnboard, 0x62));
         // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c address
     }
 
