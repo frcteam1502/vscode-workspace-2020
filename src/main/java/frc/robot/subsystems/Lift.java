@@ -17,14 +17,16 @@ public class Lift extends SubsystemBase {
   CANSparkMax LIFT_RIGHT;
   CANSparkMax LIFT_LEFT;
   CANSparkMax LIFT_ADJUSTMENT;
-  DigitalInput LIFT_LIMITS;
+  DigitalInput LIFT_TOP_LIMITS;
+  DigitalInput LIFT_BOTTOM_LIMITS;
 
-      
-  public Lift(CANSparkMax LIFT_RIGHT, CANSparkMax LIFT_LEFT, NavX LIFT_GYRO, CANSparkMax LIFT_ADJUSTMENT, DigitalInput LIFT_LIMITS) {
+  public Lift(CANSparkMax LIFT_RIGHT, CANSparkMax LIFT_LEFT, NavX LIFT_GYRO, CANSparkMax LIFT_ADJUSTMENT,
+      DigitalInput LIFT_TOPLIMITS, DigitalInput LIFT_BTMLIMITS) {
     this.LIFT_RIGHT = LIFT_RIGHT;
     this.LIFT_LEFT = LIFT_LEFT;
     this.LIFT_ADJUSTMENT = LIFT_ADJUSTMENT;
-    this.LIFT_LIMITS = LIFT_LIMITS;
+    this.LIFT_TOP_LIMITS = LIFT_TOPLIMITS;
+    this.LIFT_BOTTOM_LIMITS = LIFT_BTMLIMITS;
   }
 
   public void setSpeed(double speed) {
@@ -33,8 +35,24 @@ public class Lift extends SubsystemBase {
     LIFT_ADJUSTMENT.set(speed);
   }
 
-  // public void run(){ 
-  // }
+  public void runUp() {
+    if (!LIFT_TOP_LIMITS.get()) {
+      LIFT_RIGHT.set(1);
+      LIFT_LEFT.set(1);
+    } else {
+      runDown();
+    }
+  }
+
+  public void runDown() {
+    if (!LIFT_BOTTOM_LIMITS.get()) {
+      LIFT_LEFT.set(-1);
+      LIFT_RIGHT.set(-1);
+    } else {
+      LIFT_LEFT.set(0);
+      LIFT_RIGHT.set(0);
+    }
+  }
 
   @Override
   public void periodic() {
