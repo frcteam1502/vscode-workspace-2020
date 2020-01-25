@@ -70,13 +70,30 @@ public class Spinner extends SubsystemBase {
       return this.RGB == compare.RGB || getDifference(compare) < .1;
     }
 
+    /**
+     * Returns the closest color from COLOR_MAP
+     * 
+     * @param color
+     * @return
+     */
+    public Color getClosestColor() {
+      Color closestColor = null;
+      for (Color wheelColor : COLOR_MAP) {
+        if (closestColor == null || wheelColor.getDifference(this) < closestColor.getDifference(this)) {
+          closestColor = wheelColor;
+        }
+      }
+      return closestColor;
+    }
+
     private double getDifference(Color compare) {
       return Math.pow(this.RGB[0] - compare.RGB[0], 2) + Math.pow(this.RGB[1] - compare.RGB[1], 2)
           + Math.pow(this.RGB[2] - compare.RGB[2], 2);
     }
 
     /**
-     * @return expected next color based on the index of {@link #colorMap}
+     * @return expected next color on the wheel (clockwise) based on the index of
+     *         {@link #colorMap}
      */
     public Color nextColor() {
       Color expected = null;
@@ -98,8 +115,8 @@ public class Spinner extends SubsystemBase {
    * effectively final lastColor is changed in @see {@link #runSpinner()}
    */
   public void setColor() {
-    startColor = getColor();
-    lastColor = getColor();
+    startColor = getColor().getClosestColor();
+    lastColor = getColor().getClosestColor();
   }
 
   /**
@@ -130,12 +147,10 @@ public class Spinner extends SubsystemBase {
    */
   public void runSpinner() {
     Color currentColor = getColor();
-    if (!currentColor.compareTo(lastColor)) {
-      if (currentColor.compareTo(lastColor.nextColor())) {
-        lastColor = lastColor.nextColor();
-        if (currentColor.compareTo(startColor))
-          counter++;
-      }
+    if (!currentColor.compareTo(lastColor) && currentColor.compareTo(lastColor.nextColor())) {
+      lastColor = lastColor.nextColor();
+      if (currentColor.compareTo(startColor))
+        counter++;
     }
   }
 
