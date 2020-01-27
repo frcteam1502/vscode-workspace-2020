@@ -34,7 +34,7 @@ public final class Constants {
     }
 
     /**
-     * I have no words.
+     * I have no words. comments are stupid and pointless
      */
     public static final class Buttons {
         public static final Button DP_UP = new DPadButton(Joysticks.XBOX, Direction.Up);

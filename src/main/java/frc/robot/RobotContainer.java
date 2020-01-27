@@ -2,7 +2,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.Joysticks;
+import frc.robot.Constants.Motors;
 import frc.robot.commands.*;
+import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -16,12 +19,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Autonomous autonCommands = new Autonomous();
-  // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick,
-  // Joysticks.rightJoystick,
-  // new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
-  // new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
-  // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
-  // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
+
+  public static final Drivetrain drivetrain = new Drivetrain(Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT,
+      Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

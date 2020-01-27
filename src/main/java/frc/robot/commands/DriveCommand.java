@@ -15,6 +15,7 @@ public class DriveCommand extends CommandBase {
    * Creates a new DriveCommand.
    */
   Drivetrain train;
+
   public DriveCommand(Drivetrain train) {
     addRequirements(train);
     this.train = train;

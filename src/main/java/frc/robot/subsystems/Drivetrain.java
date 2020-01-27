@@ -13,25 +13,32 @@ import java.util.Collections;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
+import frc.robot.Constants.Joysticks;
+import frc.robot.commands.DriveCommand;
 
 public class Drivetrain extends SubsystemBase {
-  
-  ArrayList<CANSparkMax> leftMotors = new ArrayList<>();
-  ArrayList<CANSparkMax> rightMotors = new ArrayList<>();
-  ArrayList<CANSparkMax> motors = new ArrayList<>();
+
+  CANSparkMax frontLeft, backLeft, frontRight, backRight;
   Joystick left, right;
 
-
-  public Drivetrain(Joystick left, Joystick right, CANSparkMax... motors) {
-    Collections.addAll(this.motors, motors); 
-    leftMotors = (ArrayList<CANSparkMax>) this.motors.subList(0, (this.motors.size() - 1) / 2);
-    rightMotors = (ArrayList<CANSparkMax>) this.motors.subList((this.motors.size() - 1) / 2, this.motors.size() - 1);
+  public Drivetrain(CANSparkMax frontLeft, CANSparkMax backLeft, CANSparkMax frontRight, CANSparkMax backRight) {
+    setDefaultCommand(new DriveCommand(this));
+    this.frontLeft = frontLeft;
+    this.backLeft = backLeft;
+    this.frontRight = frontRight;
+    this.backRight = backRight;
   }
 
   public void move() {
-    double moveSpeed = left.getY();
-    double rotateSpeed = right.getX();
+    double moveSpeed = Joysticks.RIGHT_JOYSTICK.getY() > .2 || Joysticks.RIGHT_JOYSTICK.getY() < -.2
+        ? Joysticks.RIGHT_JOYSTICK.getY()
+        : 0;
+    double rotateSpeed = Joysticks.LEFT_JOYSTICK.getX() > .2 || Joysticks.LEFT_JOYSTICK.getX() < -.2
+        ? Joysticks.LEFT_JOYSTICK.getX()
+        : 0;
     double leftPwr = -moveSpeed + rotateSpeed;
     double rightPwr = moveSpeed + rotateSpeed;
     if ((leftPwr > 1 || leftPwr < -1) || (rightPwr > 1 || rightPwr < -1)) {
@@ -39,10 +46,18 @@ public class Drivetrain extends SubsystemBase {
       leftPwr = leftPwr / max;
       rightPwr = rightPwr / max;
     }
-    final double fRightPower = rightPwr;
-    final double fLeftPower = leftPwr;
-    rightMotors.forEach(x -> x.set(fRightPower));
-    leftMotors.forEach(x -> x.set(fLeftPower));
+    SmartDashboard.putNumber("Right power", rightPwr);
+    SmartDashboard.putNumber("Left power", leftPwr);
+    SmartDashboard.putNumber("Turn", rotateSpeed);
+    SmartDashboard.putNumber("move", moveSpeed);
+    SmartDashboard.putNumber("frontRight", frontRight.getEncoder().getPosition());
+    SmartDashboard.putNumber("backRight", backRight.getEncoder().getPosition());
+    SmartDashboard.putNumber("frontLeft", frontLeft.getEncoder().getPosition());
+    SmartDashboard.putNumber("backLeft", backLeft.getEncoder().getPosition());
+    frontRight.set(rightPwr);
+    backRight.set(rightPwr);
+    frontLeft.set(leftPwr);
+    backLeft.set(-leftPwr);
   }
 
   @Override
