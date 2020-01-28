@@ -35,7 +35,7 @@ public final class Constants {
         public static final DigitalInput SPINNER_LIFT_LIMIT = new DigitalInput(0);
         public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
         public static final DigitalInput SPINNER_LIMIT = new DigitalInput(0);
-        public static final NavX LIFT_GYRO = new NavX(new AHRS(SPI.Port.kMXP));
+        public static final AHRS LIFT_GYRO = new AHRS(SPI.Port.kMXP);
         public static final ColorSensorV3 WHEEL_COLOR = new ColorSensorV3(I2C.Port.kMXP);
         // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c
         // address
