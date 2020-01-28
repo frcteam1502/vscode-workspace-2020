@@ -31,7 +31,7 @@ public class ColorTestCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putBoolean("Is Blue: ", subsystem.isRed());
+    // SmartDashboard.putBoolean("Is Blue: ", subsystem.isRed());
   }
 
   // Called once the command ends or is interrupted.
