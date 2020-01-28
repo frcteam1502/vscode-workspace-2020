@@ -57,7 +57,7 @@ public class Drivetrain extends SubsystemBase {
     frontRight.set(rightPwr);
     backRight.set(rightPwr);
     frontLeft.set(leftPwr);
-    backLeft.set(-leftPwr);
+    backLeft.set(leftPwr);
   }
 
   @Override
