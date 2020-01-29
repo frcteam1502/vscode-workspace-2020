@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 
@@ -13,6 +14,8 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DPadButton.Direction;
+
+import edu.wpi.first.wpilibj.SPI;
 
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
 
@@ -28,7 +31,7 @@ public final class Constants {
     public static class Sensors {
         public static final DigitalInput SPINNER_LIFT_LIMIT = new DigitalInput(0);
         public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
-        // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c address
+        public static final AHRS LIFT_GYRO = new AHRS(SPI.Port.kMXP);
         public static final ADXL345_I2C GYRO = new ADXL345_I2C(kMXP, Range.k4G);
         public static final Lidar LIDAR = new Lidar(new I2C(kOnboard, 0x62));
     }
