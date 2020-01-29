@@ -25,13 +25,19 @@ public class RobotContainer {
   // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
 
-  public static final SpinnerLift spinnerLift = new SpinnerLift(Sensors.SPINNER_LOWER_LIFT_LIMIT,
-      Sensors.SPINNER_UPPER_LIFT_LIMIT, Motors.SPINNER_LIFT_MOTOR);
-  public static final SpinnerUpCommand spinnerLiftUp = new SpinnerUpCommand(spinnerLift);
-  public static final SpinnerDownCommands spinnerLiftDown = new SpinnerDownCommands(spinnerLift);
+  // public static final SpinnerLift spinnerLift = new
+  // SpinnerLift(Sensors.SPINNER_LOWER_LIFT_LIMIT,
+  // Sensors.SPINNER_UPPER_LIFT_LIMIT, Motors.SPINNER_LIFT_MOTOR);
+  // public static final SpinnerUpCommand spinnerLiftUp = new
+  // SpinnerUpCommand(spinnerLift);
+  // public static final SpinnerDownCommands spinnerLiftDown = new
+  // SpinnerDownCommands(spinnerLift);
 
-  public static final Spinner spinner = new Spinner(Sensors.COLOR_SENSOR, Motors.SPINNER_MOTOR);
-  public static final SpinCommand spinnerCommands = new SpinCommand(spinner);
+  // public static final Spinner spinner = new Spinner(Sensors.COLOR_SENSOR,
+  // Motors.SPINNER_MOTOR);
+  // public static final SpinCommand spinnerCommands = new SpinCommand(spinner);
+
+  public static final ColorTest colorTest = new ColorTest(Sensors.COLOR_SENSOR);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -48,7 +54,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Buttons.BACK.whenPressed(spinnerLiftUp.andThen(spinnerCommands).andThen(spinnerLiftDown));
+    // Buttons.BACK.whenPressed(spinnerLiftUp.andThen(spinnerCommands).andThen(spinnerLiftDown));
   }
 
   /**
