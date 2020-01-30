@@ -27,15 +27,6 @@ public class GameData extends SubsystemBase {
     public String toString() {
       return Character.toString(initial);
     }
-
-    public static Colors GetColor(char c) {
-      for (Colors color : Colors.values()) {
-        if (color.initial == c) {
-          return color;
-        }
-      }
-      return null;
-    }
   }
 
   public GameData() {
@@ -44,6 +35,15 @@ public class GameData extends SubsystemBase {
 
   public void GetData() {
 
+  }
+
+  public static Colors GetColor(char c) {
+    for (Colors color : Colors.values()) {
+      if (color.initial == c) {
+        return color;
+      }
+    }
+    return null;
   }
 
   @Override

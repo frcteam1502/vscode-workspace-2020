@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.GameData;
 
@@ -14,12 +15,12 @@ public class GetGameData extends CommandBase {
   /**
    * Creates a new GetGameData.
    */
-  GameData game;
+  GameData subsystem;
 
-  public GetGameData(GameData game) {
+  public GetGameData(GameData subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(game);
-    this.game = game;
+    addRequirements(subsystem);
+    this.subsystem = subsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -30,7 +31,9 @@ public class GetGameData extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // game.GetColor();
+    String gameData;
+    gameData = DriverStation.getInstance().getGameSpecificMessage();
+    GameData.GetColor(gameData.charAt(0));
   }
 
   // Called once the command ends or is interrupted.
