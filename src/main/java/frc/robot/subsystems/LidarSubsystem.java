@@ -15,6 +15,7 @@ public class LidarSubsystem extends SubsystemBase {
   Lidar lidar;
   double disCM;
   double disIN;
+  double disM;
 
   /**
    * Creates a new Lidar.
@@ -26,8 +27,14 @@ public class LidarSubsystem extends SubsystemBase {
   public void getDistance() {
     disCM = lidar.getDistance();
     disIN = disCM / 2.54;
+    disM = disCM / 100;
     SmartDashboard.putNumber("Distance (CM): ", disCM);
     SmartDashboard.putNumber("Distance (IN): ", disIN);
+    SmartDashboard.putNumber("Distance (M): ", disM);
+  }
+
+  public double getCM() {
+    return disCM;
   }
 
   @Override

@@ -2,10 +2,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.Joysticks;
-import frc.robot.Constants.Motors;
+import frc.robot.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.LidarSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -22,6 +22,7 @@ public class RobotContainer {
 
   public static final Drivetrain drivetrain = new Drivetrain(Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT,
       Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
+  public static final LidarSubsystem lidar = new LidarSubsystem(Sensors.lidar);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

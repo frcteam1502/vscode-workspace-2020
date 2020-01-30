@@ -16,13 +16,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.Joysticks;
+import frc.robot.Constants.*;
 import frc.robot.commands.DriveCommand;
 
 public class Drivetrain extends SubsystemBase {
 
   CANSparkMax frontLeft, backLeft, frontRight, backRight;
   Joystick left, right;
+  LidarSubsystem lidar;
 
   public Drivetrain(CANSparkMax frontLeft, CANSparkMax backLeft, CANSparkMax frontRight, CANSparkMax backRight) {
     setDefaultCommand(new DriveCommand(this));
@@ -30,21 +31,27 @@ public class Drivetrain extends SubsystemBase {
     this.backLeft = backLeft;
     this.frontRight = frontRight;
     this.backRight = backRight;
+    this.lidar = new LidarSubsystem(Sensors.lidar);
   }
 
   public void move() {
-    double moveSpeed = Joysticks.RIGHT_JOYSTICK.getY() > .2 || Joysticks.RIGHT_JOYSTICK.getY() < -.2
+    double moveSpeed = Joysticks.RIGHT_JOYSTICK.getY() > .1 || Joysticks.RIGHT_JOYSTICK.getY() < -.1
         ? Joysticks.RIGHT_JOYSTICK.getY()
         : 0;
-    double rotateSpeed = Joysticks.LEFT_JOYSTICK.getX() > .2 || Joysticks.LEFT_JOYSTICK.getX() < -.2
+    double rotateSpeed = Joysticks.LEFT_JOYSTICK.getX() > .1 || Joysticks.LEFT_JOYSTICK.getX() < -.1
         ? Joysticks.LEFT_JOYSTICK.getX()
         : 0;
+    moveSpeed = Math.pow(moveSpeed, 3);
+    rotateSpeed = Math.pow(rotateSpeed, 3);
     double leftPwr = -moveSpeed + rotateSpeed;
     double rightPwr = moveSpeed + rotateSpeed;
     if ((leftPwr > 1 || leftPwr < -1) || (rightPwr > 1 || rightPwr < -1)) {
       double max = Math.abs(Math.abs(leftPwr) > Math.abs(rightPwr) ? leftPwr : rightPwr);
       leftPwr = leftPwr / max;
       rightPwr = rightPwr / max;
+    }
+    if (lidar.getCM() < 400 && Buttons.RIGHT_TRIGGER.get()) {
+      leftPwr = rightPwr = 0;
     }
     SmartDashboard.putNumber("Right power", rightPwr);
     SmartDashboard.putNumber("Left power", leftPwr);
