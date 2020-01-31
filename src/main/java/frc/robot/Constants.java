@@ -4,16 +4,17 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import static edu.wpi.first.wpilibj.I2C.Port.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DPadButton.Direction;
-import frc.robot.subsystems.NavX;
 
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
 
@@ -35,8 +36,9 @@ public final class Constants {
         public static final DigitalInput SPINNER_LIFT_LIMIT = new DigitalInput(0);
         public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
         public static final DigitalInput SPINNER_LIMIT = new DigitalInput(0);
-        public static final AHRS LIFT_GYRO = new AHRS(SPI.Port.kMXP);
+        public static final AHRS NAVX = new AHRS(SPI.Port.kMXP);
         public static final ColorSensorV3 WHEEL_COLOR = new ColorSensorV3(I2C.Port.kMXP);
+        public static final ADXRS450_Gyro LIFT_GYRO = new ADXRS450_Gyro(Port.kOnboardCS0);
         // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c
         // address
     }

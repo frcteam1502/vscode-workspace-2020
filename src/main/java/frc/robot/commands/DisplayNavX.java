@@ -15,11 +15,11 @@ public class DisplayNavX extends CommandBase {
   /**
    * Creates a new DisplayNavX.
    */
-  NavX gyro;
+  NavX NAVX;
 
-  public DisplayNavX(NavX gyro) {
+  public DisplayNavX(NavX NAVX) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.gyro = gyro;
+    this.NAVX = NAVX;
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +31,7 @@ public class DisplayNavX extends CommandBase {
   @Override
   public void execute() {
 
-    SmartDashboard.putNumber("angle", gyro.getAngle());
+    SmartDashboard.putNumber("angle", NAVX.getAngle());
 
   }
 

@@ -17,32 +17,32 @@ public class NavX extends SubsystemBase {
    * Creates a new NavX.
    * 
    */
-  AHRS gyro;
+  AHRS NAVX;
 
-  public NavX(AHRS gyro) {
-    this.gyro = gyro;
+  public NavX(AHRS NAVX) {
+    this.NAVX = NAVX;
   }
 
   public double getAngle() {
-    return gyro.getAngle();
+    return NAVX.getAngle();
   }
 
   public double getRoll() {
-    return gyro.getRoll();
+    return NAVX.getRoll();
   }
 
   public void outputDataToSmartDashboard() {
-    SmartDashboard.putNumber("Pitch: ", gyro.getPitch());
-    SmartDashboard.putNumber("Roll; ", gyro.getRoll());
-    SmartDashboard.putNumber("Yaw; ", gyro.getYaw());
-    SmartDashboard.putNumber("CompassHeading; ", gyro.getCompassHeading());
-    SmartDashboard.putBoolean("isCalibrating; ", gyro.isCalibrating());
-    SmartDashboard.putBoolean("isConnected; ", gyro.isConnected());
-    SmartDashboard.putNumber("WorldLinearAccelX; ", gyro.getWorldLinearAccelX());
-    SmartDashboard.putNumber("WorldLinearAccelY; ", gyro.getWorldLinearAccelY());
-    SmartDashboard.putNumber("WorldLinearAccelZ; ", gyro.getWorldLinearAccelZ());
-    SmartDashboard.putBoolean("isMoving; ", gyro.isMoving());
-    SmartDashboard.putBoolean("isRotating; ", gyro.isRotating());
+    SmartDashboard.putNumber("Pitch: ", NAVX.getPitch());
+    SmartDashboard.putNumber("Roll; ", NAVX.getRoll());
+    SmartDashboard.putNumber("Yaw; ", NAVX.getYaw());
+    SmartDashboard.putNumber("CompassHeading; ", NAVX.getCompassHeading());
+    SmartDashboard.putBoolean("isCalibrating; ", NAVX.isCalibrating());
+    SmartDashboard.putBoolean("isConnected; ", NAVX.isConnected());
+    SmartDashboard.putNumber("WorldLinearAccelX; ", NAVX.getWorldLinearAccelX());
+    SmartDashboard.putNumber("WorldLinearAccelY; ", NAVX.getWorldLinearAccelY());
+    SmartDashboard.putNumber("WorldLinearAccelZ; ", NAVX.getWorldLinearAccelZ());
+    SmartDashboard.putBoolean("isMoving; ", NAVX.isMoving());
+    SmartDashboard.putBoolean("isRotating; ", NAVX.isRotating());
   }
 
   @Override
