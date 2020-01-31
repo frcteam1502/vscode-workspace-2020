@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Spinner extends SubsystemBase {
+public class SpinToColor extends SubsystemBase {
 
   CANSparkMax spinWheel;
   double wheelSpeed = 1;
@@ -38,7 +38,7 @@ public class Spinner extends SubsystemBase {
   private final Color YELLOW = new Color(.184814, .422119, .393066);
   private final Color BLACK = new Color(0, 0, 0);
 
-  public Spinner(CANSparkMax spinWheel, ColorSensorV3 wheelColor) {
+  public SpinToColor(CANSparkMax spinWheel, ColorSensorV3 wheelColor) {
     this.spinWheel = spinWheel;
     this.wheelColor = wheelColor;
   }
@@ -48,27 +48,11 @@ public class Spinner extends SubsystemBase {
    * public void SpinWheel(double placeholder2) { spinWheel.set(placeholder2); }
    */
 
-  public void runSpin() {
-
-    if (lastColor == null) {
-      lastColor = wheelColor.getColor();
-      spinWheel.set(wheelSpeed);
-    } else if (lastColor != null) {
-      Color currentColor = wheelColor.getColor();
-      Color difColor = getColorDiffernce(lastColor, currentColor);
-      double dif = difColor.red + difColor.blue + difColor.green;
-      if (dif >= diffrenceSumThreshhold) {
-        colorCount++;
-        if (colorCount % colorsPerRotation == 0) {
-          wheelSpeed = wheelSpeed - .15;
-          spinWheel.set(wheelSpeed);
-          rotationCount++;
-        }
-      }
-      lastColor = currentColor;
+  public void runToColor() {
+    if (true) {
+      compareColor(gameInfo(), wheelColor.getColor());
     }
   }
-
   /*
    * CANEncoder enc = spinWheel.getEncoder(); if (enc.getPosition() < 10000)
    * spinWheel.set(1); else spinWheel.set(0);

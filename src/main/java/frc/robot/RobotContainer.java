@@ -6,23 +6,28 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  
+
   private final Autonomous autonCommands = new Autonomous();
-  // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick, Joysticks.rightJoystick,
-  //                                       new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
-  //                                       new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
-  //                                       new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
-  //                                       new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
+  private final SpinnerGo activateSpinnerCommand = new SpinnerGo(null);
+  private final SpinnerLiftDown spinnerLiftDown = new SpinnerLiftDown();
+  private final SpinnerLiftUp spinnerLiftUp = new SpinnerLiftUp();
+  // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick,
+  // Joysticks.rightJoystick,
+  // new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
+  // new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
+  // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
+  // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
 
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
@@ -30,14 +35,14 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    Constants.Buttons.LB.whenHeld(new SpinnerGo(null).andThen(new SpinnerLiftDown()).andThen(new SpinnerLiftUp()));
   }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
