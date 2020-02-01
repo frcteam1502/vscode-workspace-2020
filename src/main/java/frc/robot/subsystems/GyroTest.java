@@ -17,18 +17,20 @@ public class GyroTest extends SubsystemBase {
    * Creates a new GyroTest.
    */
   final ADXRS450_Gyro TEST_GYRO;
-  PIDController pid;
+  // PIDController pid;
 
-  public GyroTest(ADXRS450_Gyro TEST_GYRO) {
+  public GyroTest(ADXRS450_Gyro TEST_GYRO/* , PIDController pid */) {
     this.TEST_GYRO = TEST_GYRO;
-    pid = new PIDController(0, 0, 0);
+    // pid = new PIDController(0, 0, 0);
 
   }
 
-  public void run(){
+  public void run() {
     SmartDashboard.putNumber("Gyro angle", TEST_GYRO.getAngle());
-    pid.input(TEST_GYRO.getAngle()));
-    TEST_GYRO.getAngle(); 
+    /*
+     * pid.input(TEST_GYRO.getAngle()); SmartDashboard.putNumber("pid",
+     * pid.getCorrection());
+     */
   }
 
   @Override
