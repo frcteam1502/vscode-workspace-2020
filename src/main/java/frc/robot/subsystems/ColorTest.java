@@ -25,12 +25,14 @@ public class ColorTest extends SubsystemBase {
 
   public void run() {
     ColorKeystone current = ColorKeystone.getInstance(colorSensor.getColor());
+    ColorKeystone constant = current.getClosestColor();
     SmartDashboard.putNumber("Current red", current.getRGB()[0]);
     SmartDashboard.putNumber("Current green", current.getRGB()[1]);
     SmartDashboard.putNumber("Current blue", current.getRGB()[2]);
-    SmartDashboard.putNumber("constant red", current.getClosestColor().getRGB()[0]);
-    SmartDashboard.putNumber("constant green", current.getClosestColor().getRGB()[1]);
-    SmartDashboard.putNumber("constant blue", current.getClosestColor().getRGB()[2]);
+    SmartDashboard.putNumber("constant red", constant.getRGB()[0]);
+    SmartDashboard.putNumber("constant green", constant.getRGB()[1]);
+    SmartDashboard.putNumber("constant blue", constant.getRGB()[2]);
+    SmartDashboard.putString("Name", constant.name);
   }
 
   @Override
