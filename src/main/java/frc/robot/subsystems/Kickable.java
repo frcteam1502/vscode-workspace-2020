@@ -11,6 +11,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+@Deprecated(since = "2020", forRemoval = true) // hehe
 public class Kickable extends SubsystemBase {
   /**
    * Creates a new Kickable.
