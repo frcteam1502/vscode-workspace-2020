@@ -19,10 +19,10 @@ import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import frc.robot.Constants.Joysticks;
 
-public class SkidDrivetrain extends SubsystemBase {
+public class SkidDriveTrain extends SubsystemBase {
   /**
-  * Creates a new SkidDrivetrain.
-  */
+   * Creates a new SkidDrivetrain.
+   */
 
   ArrayList<CANSparkMax> leftMotors = new ArrayList<>();
   ArrayList<CANSparkMax> rightMotors = new ArrayList<>();
@@ -34,7 +34,7 @@ public class SkidDrivetrain extends SubsystemBase {
   private final double minMovement = 0.05;
   CANSparkMax motor;
 
-  public SkidDrivetrain(Joystick left, Joystick right, CANSparkMax... motors) {
+  public SkidDriveTrain(Joystick left, Joystick right, CANSparkMax... motors) {
     Collections.addAll(this.motors, motors);
     leftMotors = (ArrayList<CANSparkMax>) this.motors.subList(0, (this.motors.size() - 1) / 2);
     rightMotors = (ArrayList<CANSparkMax>) this.motors.subList((this.motors.size() - 1) / 2, this.motors.size() - 1);
