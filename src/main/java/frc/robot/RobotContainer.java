@@ -2,11 +2,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.*;
-import frc.robot.commands.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.Motors;
+import frc.robot.Constants.Sensors;
+import frc.robot.commands.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LidarSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

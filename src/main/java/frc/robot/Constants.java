@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import static edu.wpi.first.wpilibj.I2C.Port.*;
 import edu.wpi.first.wpilibj.Joystick;
@@ -26,6 +27,7 @@ public final class Constants {
     public static class Sensors {
         public static final ADXL345_I2C gyro = new ADXL345_I2C(kMXP, Range.k4G);
         public static final Lidar lidar = new Lidar(kOnboard, 0x62);
+        public static final UsbCamera CAMERA = new UsbCamera("USB Camera", 0);
     }
 
     public static final class Joysticks {

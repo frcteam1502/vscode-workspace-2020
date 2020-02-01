@@ -53,12 +53,6 @@ public class Drivetrain extends SubsystemBase {
     }
     SmartDashboard.putNumber("Right power", rightPwr);
     SmartDashboard.putNumber("Left power", leftPwr);
-    SmartDashboard.putNumber("Turn", rotateSpeed);
-    SmartDashboard.putNumber("move", moveSpeed);
-    SmartDashboard.putNumber("frontRight", frontRight.getEncoder().getPosition());
-    SmartDashboard.putNumber("backRight", backRight.getEncoder().getPosition());
-    SmartDashboard.putNumber("frontLeft", frontLeft.getEncoder().getPosition());
-    SmartDashboard.putNumber("backLeft", backLeft.getEncoder().getPosition());
     frontRight.set(rightPwr);
     backRight.set(rightPwr);
     frontLeft.set(leftPwr);

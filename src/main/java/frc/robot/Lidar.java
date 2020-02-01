@@ -51,8 +51,6 @@ public class Lidar {
     }
     sensor.read(0x8f, 2, buffer);
 
-    return (int) Integer.toUnsignedLong(buffer[0] * 0x100) + Byte.toUnsignedInt(buffer[1]); // swap this if it doesn't
-                                                                                            // look
-    // right
+    return (int) Integer.toUnsignedLong(buffer[0] * 0x100) + Byte.toUnsignedInt(buffer[1]);
   }
 }
