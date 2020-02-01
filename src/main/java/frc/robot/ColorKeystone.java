@@ -1,17 +1,7 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.util.Color;
 
-/**
- * Add your docs here.
- */
 public class ColorKeystone {
 
   final double[] rgb;
@@ -36,7 +26,7 @@ public class ColorKeystone {
   public ColorKeystone getClosestColor() {
     ColorKeystone min = null;
     for (ColorKeystone constant : COLOR_MAP) {
-      if (this.getDifference(constant) < .1 && this.getDifference(constant) < this.getDifference(min))
+      if (this.getDifference(constant) < .3 && this.getDifference(constant) < this.getDifference(min))
         min = constant;
     }
     return min;
@@ -44,10 +34,12 @@ public class ColorKeystone {
 
   private double getDifference(ColorKeystone compare) {
     try {
-      return Math.pow(this.rgb[0] - compare.rgb[0], 2) + Math.pow(this.rgb[1] - compare.rgb[1], 2)
-          + Math.pow(this.rgb[2] - compare.rgb[2], 2);
+      double differenceRed = this.rgb[0] - compare.rgb[0];
+      double differenceGreen = this.rgb[1] - compare.rgb[1];
+      double differenceBlue = this.rgb[2] - compare.rgb[2];
+      return Math.abs(differenceRed) + Math.abs(differenceGreen) + Math.abs(differenceBlue);
     } catch (NullPointerException e) {
-      return 1;
+      return 3;
     }
   }
 }

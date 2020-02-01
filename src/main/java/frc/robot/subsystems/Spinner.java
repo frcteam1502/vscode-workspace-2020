@@ -35,7 +35,7 @@ public class Spinner extends SubsystemBase {
         this.counter++;
       this.lastColor = current;
     }
-    return counter >= 8;
+    return this.counter >= 8;
   }
 
   public void setSpeed(double speed) {
