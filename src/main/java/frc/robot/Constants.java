@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.I2C;
 import static edu.wpi.first.wpilibj.I2C.Port.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -39,6 +40,10 @@ public final class Constants {
         public static final AHRS NAVX = new AHRS(SPI.Port.kMXP);
         public static final ColorSensorV3 WHEEL_COLOR = new ColorSensorV3(I2C.Port.kMXP);
         public static final ADXRS450_Gyro LIFT_GYRO = new ADXRS450_Gyro(Port.kOnboardCS0);
+        public static final Solenoid one = new Solenoid(0);
+        public static final Solenoid two = new Solenoid(1);
+        public static final Solenoid three = new Solenoid(2);
+        public static final Solenoid four = new Solenoid(3);
         // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c
         // address
     }
