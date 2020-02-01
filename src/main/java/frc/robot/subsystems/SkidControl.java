@@ -7,20 +7,17 @@
 
 package frc.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Joysticks;
 
 public class SkidControl extends SubsystemBase {
   /**
    * Creates a new SkidControl.
    */
 
-  ADXL345_I2C accelerometer;
+  private final ADXL345_I2C accelerometer;
 
   private final double minMovement = 0.01;
   CANSparkMax motor;
