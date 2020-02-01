@@ -7,16 +7,14 @@
 
 package frc.robot.subsystems;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.*;
+import frc.robot.Constants.Buttons;
+import frc.robot.Constants.Joysticks;
+import frc.robot.Constants.Sensors;
 import frc.robot.commands.DriveCommand;
 
 public class Drivetrain extends SubsystemBase {
