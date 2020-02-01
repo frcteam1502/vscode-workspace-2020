@@ -21,29 +21,36 @@ import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
 
 public final class Constants {
     public static final class Motors {
-        public static final CANSparkMax RANDOM_MOTOR = new CANSparkMax(1, kBrushless);
-        public static final CANSparkMax DRIVE_FRONT_LEFT = new CANSparkMax(2, kBrushed);
-        public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(4, kBrushed);
-        public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3, kBrushed);
-        public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(5, kBrushed);
-        public static final CANSparkMax SPINNER_LIFT = new CANSparkMax(0, kBrushed);
-        public static final CANSparkMax SPIN_WHEEL = new CANSparkMax(1, kBrushless);
-        public static final CANSparkMax LIFT_LEFT = new CANSparkMax(7, kBrushed);
-        public static final CANSparkMax LIFT_RIGHT = new CANSparkMax(6, kBrushed);
-        public static final CANSparkMax LIFT_ADJUSTMENT = new CANSparkMax(8, kBrushed);
+        // public static final CANSparkMax RANDOM_MOTOR = new CANSparkMax(1,
+        // kBrushless);
+        // public static final CANSparkMax DRIVE_FRONT_LEFT = new CANSparkMax(2,
+        // kBrushed);
+        // public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(4,
+        // kBrushed);
+        // public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3,
+        // kBrushed);
+        // public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(5,
+        // kBrushed);
+        // public static final CANSparkMax SPINNER_LIFT = new CANSparkMax(0, kBrushed);
+        // public static final CANSparkMax SPIN_WHEEL = new CANSparkMax(1, kBrushless);
+        // public static final CANSparkMax LIFT_LEFT = new CANSparkMax(7, kBrushed);
+        // public static final CANSparkMax LIFT_RIGHT = new CANSparkMax(6, kBrushed);
+        // public static final CANSparkMax LIFT_ADJUSTMENT = new CANSparkMax(8,
+        // kBrushed);
     }
 
     public static class Sensors {
-        public static final DigitalInput SPINNER_LIFT_LIMIT = new DigitalInput(0);
-        public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
-        public static final DigitalInput SPINNER_LIMIT = new DigitalInput(0);
-        public static final AHRS NAVX = new AHRS(SPI.Port.kMXP);
-        public static final ColorSensorV3 WHEEL_COLOR = new ColorSensorV3(I2C.Port.kMXP);
+        // public static final DigitalInput SPINNER_LIFT_LIMIT = new DigitalInput(0);
+        // public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
+        // public static final DigitalInput SPINNER_LIMIT = new DigitalInput(0);
+        // public static final AHRS NAVX = new AHRS(SPI.Port.kMXP);
+        // public static final ColorSensorV3 WHEEL_COLOR = new
+        // ColorSensorV3(I2C.Port.kMXP);
         public static final ADXRS450_Gyro LIFT_GYRO = new ADXRS450_Gyro(Port.kOnboardCS0);
-        public static final Solenoid one = new Solenoid(0);
-        public static final Solenoid two = new Solenoid(1);
-        public static final Solenoid three = new Solenoid(2);
-        public static final Solenoid four = new Solenoid(3);
+        // public static final Solenoid one = new Solenoid(0);
+        // public static final Solenoid two = new Solenoid(1);
+        // public static final Solenoid three = new Solenoid(2);
+        // public static final Solenoid four = new Solenoid(3);
         // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c
         // address
     }
