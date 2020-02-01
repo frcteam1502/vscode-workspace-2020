@@ -2,10 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.*;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.Autonomous;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -24,7 +22,6 @@ public class RobotContainer {
   // new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));../.
-  public static final ColorTest test = new ColorTest(Sensors.COLOR_SENSOR);
 
   // public static final SpinnerLift spinnerLift = new
   // SpinnerLift(Sensors.SPINNER_LOWER_LIFT_LIMIT,
