@@ -11,16 +11,16 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import frc.robot.PIDController;
+import frc.robot.commands.TestGyroCommand;
 
 public class GyroTest extends SubsystemBase {
-  /**
-   * Creates a new GyroTest.
-   */
+
   final ADXRS450_Gyro TEST_GYRO;
   // PIDController pid;
 
   public GyroTest(ADXRS450_Gyro TEST_GYRO/* , PIDController pid */) {
     this.TEST_GYRO = TEST_GYRO;
+    setDefaultCommand(new TestGyroCommand(this));
     // pid = new PIDController(0, 0, 0);
 
   }

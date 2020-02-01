@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.*;
+import frc.robot.subsystems.GyroTest;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -16,15 +17,16 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Autonomous autonCommands = new Autonomous();
-  private final SpinnerGo activateSpinnerCommand = new SpinnerGo(null);
-  private final SpinnerLiftDown spinnerLiftDown = new SpinnerLiftDown();
-  private final SpinnerLiftUp spinnerLiftUp = new SpinnerLiftUp();
+  // private final SpinnerGo activateSpinnerCommand = new SpinnerGo(null);
+  // private final SpinnerLiftDown spinnerLiftDown = new SpinnerLiftDown();
+  // private final SpinnerLiftUp spinnerLiftUp = new SpinnerLiftUp();
   // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick,
   // Joysticks.rightJoystick,
   // new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
+  private static final GyroTest test = new GyroTest(Constants.Sensors.LIFT_GYRO);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -41,7 +43,8 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Constants.Buttons.LB.whenHeld(new SpinnerGo(null).andThen(new SpinnerLiftDown()).andThen(new SpinnerLiftUp()));
+    // Constants.Buttons.LB.whenHeld(new SpinnerGo(null).andThen(new
+    // SpinnerLiftDown()).andThen(new SpinnerLiftUp()));
   }
 
   /**
