@@ -7,42 +7,30 @@
 
 package frc.robot.subsystems;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.Joysticks.*;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-import frc.robot.Constants.Joysticks;
 
 public class SkidDrivetrain extends SubsystemBase {
-  /**
-  * Creates a new SkidDrivetrain.
-  */
-
-  ArrayList<CANSparkMax> leftMotors = new ArrayList<>();
-  ArrayList<CANSparkMax> rightMotors = new ArrayList<>();
-  ArrayList<CANSparkMax> motors = new ArrayList<>();
-  Joystick left, right;
-
-  ADXL345_I2C accelerometer;
+  private final ADXL345_I2C accelerometer;
+  private final CANSparkMax FRONT_LEFT,  BACK_LEFT,  FRONT_RIGHT,  BACK_RIGHT;
 
   private final double minMovement = 0.05;
   CANSparkMax motor;
 
-  public SkidDrivetrain(Joystick left, Joystick right, CANSparkMax... motors) {
-    Collections.addAll(this.motors, motors);
-    leftMotors = (ArrayList<CANSparkMax>) this.motors.subList(0, (this.motors.size() - 1) / 2);
-    rightMotors = (ArrayList<CANSparkMax>) this.motors.subList((this.motors.size() - 1) / 2, this.motors.size() - 1);
+  public SkidDrivetrain(ADXL345_I2C accelerometer, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT, CANSparkMax FRONT_RIGHT, CANSparkMax BACK_RIGHT) {
+    this.FRONT_LEFT = FRONT_LEFT;
+    this.BACK_LEFT = BACK_LEFT;
+    this.FRONT_RIGHT = FRONT_RIGHT;
+    this.BACK_RIGHT = BACK_RIGHT;
+    this.accelerometer = accelerometer;
   }
 
   public void move() {
-    double moveSpeed = left.getY();
-    double rotateSpeed = right.getX();
+    double moveSpeed = LEFT_JOYSTICK.getY() > .1 ? Math.pow(LEFT_JOYSTICK.getY(), 3) : 0;
+    double rotateSpeed = RIGHT_JOYSTICK.getX() > .1 ? Math.pow(RIGHT_JOYSTICK.getX(), 3) : 0;
     double leftPwr = -moveSpeed + rotateSpeed;
     double rightPwr = moveSpeed + rotateSpeed;
     if ((leftPwr > 1 || leftPwr < -1) || (rightPwr > 1 || rightPwr < -1)) {
@@ -50,10 +38,10 @@ public class SkidDrivetrain extends SubsystemBase {
       leftPwr = leftPwr / max;
       rightPwr = rightPwr / max;
     }
-    final double fRightPower = rightPwr;
-    final double fLeftPower = leftPwr;
-    rightMotors.forEach(x -> x.set(fRightPower));
-    leftMotors.forEach(x -> x.set(fLeftPower));
+    FRONT_LEFT.set(leftPwr);
+    BACK_LEFT.set(leftPwr);
+    FRONT_RIGHT.set(rightPwr);
+    BACK_RIGHT.set(rightPwr);
   }
 
   public boolean isSkidding() {
