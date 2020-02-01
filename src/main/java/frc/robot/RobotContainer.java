@@ -23,7 +23,8 @@ public class RobotContainer {
   // new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
-  // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
+  // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));../.
+  public static final ColorTest test = new ColorTest(Sensors.COLOR_SENSOR);
 
   // public static final SpinnerLift spinnerLift = new
   // SpinnerLift(Sensors.SPINNER_LOWER_LIFT_LIMIT,
@@ -36,8 +37,6 @@ public class RobotContainer {
   // public static final Spinner spinner = new Spinner(Sensors.COLOR_SENSOR,
   // Motors.SPINNER_MOTOR);
   // public static final SpinCommand spinnerCommands = new SpinCommand(spinner);
-
-  public static final ColorTest colorTest = new ColorTest(Sensors.COLOR_SENSOR);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
