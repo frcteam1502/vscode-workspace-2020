@@ -2,8 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.*;
-import frc.robot.subsystems.GyroTest;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Autonomous;
 
@@ -24,7 +22,6 @@ public class RobotContainer {
   // new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
-  private static final GyroTest test = new GyroTest(Constants.Sensors.LIFT_GYRO);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

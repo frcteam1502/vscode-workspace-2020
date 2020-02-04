@@ -7,18 +7,13 @@
 
 package frc.robot.subsystems;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SpinToColor extends SubsystemBase {
 
@@ -36,7 +31,6 @@ public class SpinToColor extends SubsystemBase {
   private final Color GREEN = new Color(.421875, .472656, .105469);
   private final Color BLUE = new Color(.234863, .528564, .236572);
   private final Color YELLOW = new Color(.184814, .422119, .393066);
-  private final Color BLACK = new Color(0, 0, 0);
 
   public SpinToColor(CANSparkMax spinWheel, ColorSensorV3 wheelColor) {
     this.spinWheel = spinWheel;
