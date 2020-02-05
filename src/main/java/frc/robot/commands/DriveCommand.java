@@ -15,6 +15,7 @@ public class DriveCommand extends CommandBase {
    * Creates a new DriveCommand.
    */
   Drivetrain train;
+
   public DriveCommand(Drivetrain train) {
     addRequirements(train);
     this.train = train;
@@ -28,7 +29,7 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    train.move();
+    train.moveByJoysticks();
   }
 
   // Called once the command ends or is interrupted.
