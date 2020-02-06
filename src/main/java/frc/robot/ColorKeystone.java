@@ -1,52 +1,32 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
-public class ColorKeystone {
+public class ColorKeystone extends Color{
 
-  final double[] rgb;
-  public final String name;
-  final static ColorKeystone RED = new ColorKeystone("red", .5, .35, .14);
-  final static ColorKeystone YELLOW = new ColorKeystone("yellow", .32, .55, .13);
-  final static ColorKeystone GREEN = new ColorKeystone("green", .173, .563, .264);
-  final static ColorKeystone BLUE = new ColorKeystone("blue", .128, .41, .46);
-  final static ColorKeystone[] COLOR_MAP = { YELLOW, RED, GREEN, BLUE };
+  private final double[] rgb;
+  private final static ColorKeystone RED = new ColorKeystone(.5, .35, .14);
+  private final static ColorKeystone YELLOW = new ColorKeystone(.32, .55, .13);
+  private final static ColorKeystone GREEN = new ColorKeystone(.173, .563, .264);
+  private final static ColorKeystone BLUE = new ColorKeystone(.128, .41, .46);
+  private final static ColorKeystone[] COLOR_MAP = { YELLOW, RED, GREEN, BLUE };
 
-  private ColorKeystone(String name, double... rgb) {
-    this.name = name;
+  private ColorKeystone(double... rgb) {
+    super(rgb[0], rgb[1], rgb[2]);
     this.rgb = rgb;
   }
 
-  public static ColorKeystone getInstance(Color rawColor) {
-    return new ColorKeystone("current", rawColor.red, rawColor.green, rawColor.blue);
-  }
-
-  public double[] getRGB() {
-    return rgb;
-  }
-
-  public ColorKeystone getClosestColor() {
+  public static ColorKeystone getClosestColor(Color currentColor) {
+    ColorKeystone current = new ColorKeystone(currentColor.red, currentColor.green, currentColor.blue);
     ColorKeystone min = null;
     for (ColorKeystone constant : COLOR_MAP) {
-      double constantDiff = this.getDifference(constant);
-      SmartDashboard.putNumber("Constant difference", constantDiff);
-      double minDiff = this.getDifference(min);
-      SmartDashboard.putNumber("Mininum difference", constantDiff);
-      if (constantDiff < .1 && constantDiff < minDiff)
+      if (current.getDifference(constant) < .1 && current.getDifference(constant) < current.getDifference(min))
         min = constant;
     }
     return min;
   }
 
   private double getDifference(ColorKeystone compare) {
-    try {
-      double differenceRed = this.rgb[0] - compare.rgb[0];
-      double differenceGreen = this.rgb[1] - compare.rgb[1];
-      double differenceBlue = this.rgb[2] - compare.rgb[2];
-      return Math.pow(differenceRed, 2) + Math.pow(differenceGreen, 2) + Math.pow(differenceBlue, 2);
-    } catch (NullPointerException e) {
-      return 3;
-    }
+    return compare == null ? 3 : Math.pow(rgb[0] - compare.rgb[0], 2) + Math.pow(rgb[1] - compare.rgb[1], 2) + Math.pow(rgb[2] - compare.rgb[2], 2);
   }
 }
