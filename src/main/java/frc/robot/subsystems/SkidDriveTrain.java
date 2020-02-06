@@ -34,6 +34,7 @@ public class SkidDriveTrain extends SubsystemBase {
     double rotateSpeed = RIGHT_JOYSTICK.getX() > .1 ? Math.pow(RIGHT_JOYSTICK.getX(), 3) : 0;
     double leftPwr = -moveSpeed + rotateSpeed;
     double rightPwr = moveSpeed + rotateSpeed;
+    int toggleCount = 0;
     if ((leftPwr > 1 || leftPwr < -1) || (rightPwr > 1 || rightPwr < -1)) {
       double max = Math.abs(Math.abs(leftPwr) > Math.abs(rightPwr) ? leftPwr : rightPwr);
       leftPwr = leftPwr / max;
@@ -43,11 +44,33 @@ public class SkidDriveTrain extends SubsystemBase {
     BACK_LEFT.set(leftPwr);
     FRONT_RIGHT.set(rightPwr);
     BACK_RIGHT.set(rightPwr);
+  
+    if (isSkidding()){
+      toggleCount += 1;
+      skidControl(toggleCount);
+    }
+  }
+
+  public void skidControl(int toggleCount) {
+    double skidPwr = .2;
+    if (toggleCount % 2 == 0) {
+      FRONT_LEFT.set(0);
+      BACK_LEFT.set(0);
+      FRONT_RIGHT.set(0);
+      BACK_RIGHT.set(0);
+    } else {
+      FRONT_LEFT.set(skidPwr);
+      BACK_LEFT.set(skidPwr);
+      FRONT_RIGHT.set(skidPwr);
+      BACK_RIGHT.set(skidPwr);
+    }
   }
 
   public boolean isSkidding() {
-    return accelerometer.getZ() < motor.getEncoder().getVelocity() - minMovement
-        || accelerometer.getZ() > motor.getEncoder().getVelocity() + minMovement;
+    double realVelocity = accelerometer.getZ();
+    double motorVelocitty = motor.getEncoder().getVelocity();
+    return realVelocity < motorVelocitty - minMovement
+        || realVelocity > motorVelocitty + minMovement;
   }
 
   @Override

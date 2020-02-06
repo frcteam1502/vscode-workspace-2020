@@ -9,9 +9,9 @@ import frc.robot.PIDController;
 
 public class Kickable extends SubsystemBase {
 
-  PIDController PID = new PIDController(0, 0, 0);
+  PIDController PID = new PIDController(0, 0, 0); 
 
-  private final AHRS gyro;
+  private final AHRS gyro;     
   private final double initial;
 
   CANSparkMax FRONT_LEFT = new CANSparkMax(1, MotorType.kBrushless);
@@ -26,14 +26,14 @@ public class Kickable extends SubsystemBase {
 
   public void fixRotation() {
     PID.input(gyro.getYaw() - initial);
-    FRONT_RIGHT.set(PID.getCorrection());
-    FRONT_LEFT.set(PID.getCorrection());
-    BACK_RIGHT.set(PID.getCorrection());
-    BACK_RIGHT.set(PID.getCorrection());
+    FRONT_RIGHT.set(FRONT_RIGHT.get() + PID.getCorrection());
+    FRONT_LEFT.set(FRONT_LEFT.get() - PID.getCorrection());
+    BACK_RIGHT.set(BACK_RIGHT.get() + PID.getCorrection());
+    BACK_LEFT.set(BACK_LEFT.get() - PID.getCorrection());
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
   }
 }
