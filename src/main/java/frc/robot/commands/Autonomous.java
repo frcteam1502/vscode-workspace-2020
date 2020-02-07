@@ -15,6 +15,6 @@ public class Autonomous extends SequentialCommandGroup {
    * Creates a new Autonomous.
    */
   public Autonomous(Drivetrain drivetrain) {
-    addCommands(new DriveByDistance(drivetrain));
+    addCommands(new DriveByDistance(drivetrain, 100));
   }
 }
