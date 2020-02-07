@@ -1,7 +1,5 @@
 package frc.robot;
 
-import java.util.Set;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Buttons;
@@ -10,8 +8,6 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.ReverseControls;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very little robot logic should

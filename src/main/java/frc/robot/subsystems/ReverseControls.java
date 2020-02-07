@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.commands.ReverseCommandDriveTrain;
 
 import static frc.robot.Constants.Joysticks.*;
@@ -19,15 +18,13 @@ public class ReverseControls extends SubsystemBase {
   /**
    * Creates a new ReverseControls.
    */
-  CANSparkMax FRONT_LEFT;
-  CANSparkMax FRONT_RIGHT;
-  CANSparkMax BACK_LEFT;
-  CANSparkMax BACK_RIGHT;
-  int direction = 1;
+  private final CANSparkMax FRONT_LEFT;
+  private final CANSparkMax FRONT_RIGHT;
+  private final CANSparkMax BACK_LEFT;
+  private final CANSparkMax BACK_RIGHT;
+  private int direction = 1;
 
-  public ReverseControls(CANSparkMax FRONT_LEFT, CANSparkMax FRONT_RIGHT, CANSparkMax BACK_LEFT,
-      CANSparkMax BACK_RIGHT) {
-
+  public ReverseControls(CANSparkMax FRONT_LEFT, CANSparkMax FRONT_RIGHT, CANSparkMax BACK_LEFT,  CANSparkMax BACK_RIGHT) {
     setDefaultCommand(new ReverseCommandDriveTrain(this));
     this.BACK_LEFT = BACK_LEFT;
     this.BACK_RIGHT = BACK_RIGHT;
