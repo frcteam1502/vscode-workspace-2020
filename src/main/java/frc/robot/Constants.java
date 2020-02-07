@@ -42,6 +42,8 @@ public final class Constants {
         public static final DigitalInput SPINNER_LIFT_LIMIT = new DigitalInput(0);
         public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(Port.kOnboard);
         public static final ADXL345_I2C gyro = new ADXL345_I2C(Port.kOnboard, Range.k4G);
+        public static final DigitalInput INFRARED_ONE = new DigitalInput(1);
+        public static final DigitalInput INFRARED_TWO = new DigitalInput(2);
 
         // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c
         // address

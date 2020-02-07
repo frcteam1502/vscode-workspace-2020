@@ -9,17 +9,23 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
 
   private CANSparkMax top, bottom, intakeWheel;
   private boolean beltOn = true;
+  private DigitalInput infarredOne;
+  private DigitalInput infarredTwo;
 
-  public Intake(CANSparkMax top, CANSparkMax bottom, CANSparkMax intakeWheel) {
+  public Intake(CANSparkMax top, CANSparkMax bottom, CANSparkMax intakeWheel, DigitalInput infarredOne,
+      DigitalInput infarredTwo) {
     this.top = top;
     this.bottom = bottom;
     this.intakeWheel = intakeWheel;
+    this.infarredOne = infarredOne;
+    this.infarredTwo = infarredTwo;
   }
 
   public void run() {
@@ -38,6 +44,15 @@ public class Intake extends SubsystemBase {
 
   public void toggleBelt() {
     beltOn = !beltOn;
+  }
+
+  public void broke() {
+    if (infarredOne.get()) {
+      beltOn = true;
+    }
+    if (infarredTwo.get()) {
+      beltOn = false;
+    }
   }
 
   @Override

@@ -19,8 +19,11 @@ public class RobotContainer {
   private final DisplayGyroPosition m_displayGyroPosition = new DisplayGyroPosition();
 
   private final Intake intake = new Intake(Constants.Motors.INTAKE_TOP, Constants.Motors.INTAKE_BOTTOM,
-      Constants.Motors.INTAKE_WHEEL);
-  private final IntakeCommand intakeCommand = new IntakeCommand(intake);
+      Constants.Motors.INTAKE_WHEEL, Constants.Sensors.INFRARED_ONE, Constants.Sensors.INFRARED_TWO);
+
+  private final RunIntakeCommand runIntakeCommand = new RunIntakeCommand(intake);
+
+  private final ToggleIntakeCommand toggleIntakeCommand = new ToggleIntakeCommand(intake);
 
   private final Autonomous autonCommands = new Autonomous();
   // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick,
@@ -46,7 +49,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     Constants.Buttons.B.whenHeld(m_displayGyroPosition);
-    Constants.Buttons.A.whenPressed(intakeCommand);
+    Constants.Buttons.A.whenPressed(runIntakeCommand);
+    Constants.Buttons.RB.cancelWhenPressed(toggleIntakeCommand);
   }
 
   /**
