@@ -1,9 +1,16 @@
 package frc.robot;
 
+import java.util.Set;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.Buttons;
+import frc.robot.Constants.Motors;
 import frc.robot.commands.*;
+import frc.robot.subsystems.ReverseControls;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -16,6 +23,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Autonomous autonCommands = new Autonomous();
+  public static final ReverseControls thing = new ReverseControls(Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_FRONT_RIGHT,
+      Motors.DRIVE_BACK_LEFT, Motors.DRIVE_BACK_RIGHT);
   // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick,
   // Joysticks.rightJoystick,
   // new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
@@ -38,6 +47,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    Buttons.START.whenPressed(new CommandBase() {
+      public void initialize() {
+        thing.reverse();
+      }
+    });
   }
 
   /**
