@@ -4,10 +4,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Buttons;
 import frc.robot.Constants.Motors;
+import frc.robot.Constants.PIDControllers;
+import frc.robot.Constants.Sensors;
 import frc.robot.commands.*;
-import frc.robot.subsystems.ReverseControls;
+import frc.robot.subsystems.IntegratedDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very little robot logic should
@@ -19,14 +20,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Autonomous autonCommands = new Autonomous();
-  public static final ReverseControls thing = new ReverseControls(Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_FRONT_RIGHT,
-      Motors.DRIVE_BACK_LEFT, Motors.DRIVE_BACK_RIGHT);
-  // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick,
-  // Joysticks.rightJoystick,
-  // new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
-  // new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
-  // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
-  // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
+
+  public static final IntegratedDrivetrain drivetrain = 
+    new IntegratedDrivetrain(
+      Sensors.LIDAR,
+      PIDControllers.DRIVE_TRAIN_PID, 
+      Motors.DRIVE_FRONT_LEFT, 
+      Motors.DRIVE_BACK_LEFT, 
+      Motors.DRIVE_FRONT_RIGHT, 
+      Motors.DRIVE_BACK_RIGHT);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -43,11 +45,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Buttons.START.whenPressed(new CommandBase() {
-      public void initialize() {
-        thing.reverse();
-      }
-    });
+    Buttons.A.whenPressed(new ReverseControls(drivetrain));
   }
 
   /**
