@@ -16,15 +16,16 @@ import frc.robot.PIDController;
 import frc.robot.commands.IntegratedDrivetrainCommand;
 
 public class IntegratedDrivetrain extends SubsystemBase {
-  
+
   private static final double STOP_TIME = .5;
   private static final double INCHES_PER_ENCODER_VALUE = (60 * Math.PI) / 109;
   private final Lidar LIDAR;
   private final PIDController PID;
   private final CANSparkMax FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT;
-  private boolean direction = true; //forward is true because it is default
+  private boolean direction = true; // forward is true because it is default
 
-  public IntegratedDrivetrain(Lidar LIDAR, PIDController PID, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT, CANSparkMax FRONT_RIGHT, CANSparkMax BACK_RIGHT) {
+  public IntegratedDrivetrain(Lidar LIDAR, PIDController PID, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT,
+      CANSparkMax FRONT_RIGHT, CANSparkMax BACK_RIGHT) {
     setDefaultCommand(new IntegratedDrivetrainCommand(this));
     this.LIDAR = LIDAR;
     this.PID = PID;
@@ -35,23 +36,27 @@ public class IntegratedDrivetrain extends SubsystemBase {
   }
 
   private boolean isClose() {
-    return averageVelocity(FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT) * INCHES_PER_ENCODER_VALUE / LIDAR.getDistance() < STOP_TIME;
+    return averageVelocity(FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT) * INCHES_PER_ENCODER_VALUE
+        / LIDAR.getDistance() < STOP_TIME;
   }
 
-  private double averageVelocity (CANSparkMax... motors) {
+  private double averageVelocity(CANSparkMax... motors) {
     double val = 0;
-    for (CANSparkMax x : motors) val += x.getEncoder().getVelocity();
-    return val / motors.length; 
+    for (CANSparkMax x : motors)
+      val += x.getEncoder().getVelocity();
+    return val / motors.length;
   }
 
   public void move(boolean lidarOn) {
     double moveSpeed = 0;
-    if (isClose() && lidarOn && direction) {
-      PID.input(LIDAR.getDistance());
-      moveSpeed = PID.getCorrection();
-    }
-    else if (!direction) moveSpeed = LEFT_JOYSTICK.getY() > .1 ? -Math.pow(LEFT_JOYSTICK.getY(), 3) : 0;
-    else moveSpeed = LEFT_JOYSTICK.getY() > .1 ? Math.pow(LEFT_JOYSTICK.getY(), 3) : 0;
+    // if (isClose() && lidarOn && direction) {
+    // PID.input(LIDAR.getDistance());
+    // moveSpeed = PID.getCorrection();
+    // }
+    if (!direction)
+      moveSpeed = LEFT_JOYSTICK.getY() > .1 ? -Math.pow(LEFT_JOYSTICK.getY(), 3) : 0;
+    else
+      moveSpeed = LEFT_JOYSTICK.getY() > .1 ? Math.pow(LEFT_JOYSTICK.getY(), 3) : 0;
     double rotateSpeed = RIGHT_JOYSTICK.getX() > .1 ? Math.pow(RIGHT_JOYSTICK.getX(), 3) : 0;
     double leftPwr = -moveSpeed + rotateSpeed;
     double rightPwr = moveSpeed + rotateSpeed;
