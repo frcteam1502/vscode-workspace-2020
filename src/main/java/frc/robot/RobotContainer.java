@@ -2,8 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.Buttons;
+import frc.robot.Constants.Sensors;
 import frc.robot.commands.*;
 import frc.robot.subsystems.GyroTest;
+import frc.robot.subsystems.SolenoidTest;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -26,7 +29,7 @@ public class RobotContainer {
   // new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
-  private static final GyroTest test = new GyroTest(Constants.Sensors.LIFT_GYRO);
+  public static final SolenoidTest solTest = new SolenoidTest(Sensors.one);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -45,6 +48,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Constants.Buttons.LB.whenHeld(new SpinnerGo(null).andThen(new
     // SpinnerLiftDown()).andThen(new SpinnerLiftUp()));
+    Buttons.A.whenPressed(() -> solTest.toggle());
   }
 
   /**
