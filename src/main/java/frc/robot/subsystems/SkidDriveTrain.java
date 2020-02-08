@@ -25,9 +25,10 @@ public class SkidDriveTrain extends SubsystemBase {
 
   private final double minMovement = 0.05;
   private static final double UNITCONVERT = 6 * Math.PI / 10.9 * 2.54;
-  private final double SKIDPWR = .2;
+  private final double SKIDRATE = 2;
   private final double ENCODERTICKS = .5;
   CANSparkMax motor;
+  Boolean toggle = true;
 
   public SkidDriveTrain(ADXL345_I2C accelerometer, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT,
       CANSparkMax FRONT_RIGHT, CANSparkMax BACK_RIGHT, AHRS navx) {
@@ -56,21 +57,31 @@ public class SkidDriveTrain extends SubsystemBase {
 
     if (isSkidding()) {
       skidControl();
+      toggle = !toggle;
     }
   }
 
+  /*
+   * get position target position if position != target move
+   */
   public void skidControl() {
-    
-    if (% 2 == 0) {
-      FRONT_LEFT.set(SKIDPWR);
-      BACK_LEFT.set(SKIDPWR);
-      FRONT_RIGHT.set(SKIDPWR);
-      BACK_RIGHT.set(SKIDPWR);
+    if (toggle) {
+      if (FRONT_LEFT.getEncoder().getPosition() < FRONT_LEFT.getEncoder().getPosition() + 5
+          || FRONT_RIGHT.getEncoder().getPosition() < FRONT_RIGHT.getEncoder().getPosition() + 5) {
+        FRONT_LEFT.setOpenLoopRampRate(SKIDRATE);
+        BACK_LEFT.setOpenLoopRampRate(SKIDRATE);
+        FRONT_RIGHT.setOpenLoopRampRate(SKIDRATE);
+        BACK_RIGHT.setOpenLoopRampRate(SKIDRATE);
+      }
     } else {
-      FRONT_LEFT.set(-SKIDPWR);
-      BACK_LEFT.set(-SKIDPWR);
-      FRONT_RIGHT.set(-SKIDPWR);
-      BACK_RIGHT.set(-SKIDPWR);
+      if (FRONT_LEFT.getEncoder().getPosition() < FRONT_LEFT.getEncoder().getPosition() - 5
+          || FRONT_RIGHT.getEncoder().getPosition() < FRONT_RIGHT.getEncoder().getPosition() - 5) {
+        FRONT_LEFT.setOpenLoopRampRate(-SKIDRATE);
+        BACK_LEFT.setOpenLoopRampRate(-SKIDRATE);
+        FRONT_RIGHT.setOpenLoopRampRate(-SKIDRATE);
+        BACK_RIGHT.setOpenLoopRampRate(-SKIDRATE);
+      }
+
     }
   }
 
