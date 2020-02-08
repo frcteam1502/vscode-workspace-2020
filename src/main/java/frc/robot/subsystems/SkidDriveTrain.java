@@ -7,36 +7,30 @@
 
 package frc.robot.subsystems;
 
+import com.fasterxml.jackson.databind.deser.std.StackTraceElementDeserializer;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 import static frc.robot.Constants.Joysticks.*;
-import edu.wpi.first.wpilibj.ADXL345_I2C;
-import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
-import edu.wpi.first.wpilibj.Timer;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SkidDriveTrain extends SubsystemBase {
-  private final ADXL345_I2C accelerometer;
   private final AHRS navx;
-  private final CANSparkMax FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT;
 
-  private final double minMovement = 0.05;
   private static final double UNITCONVERT = 6 * Math.PI / 10.9 * 2.54;
-  private final double SKIDRATE = 2;
-  private final double ENCODERTICKS = .5;
-  CANSparkMax motor;
-  Boolean toggle = true;
+  private final double targetHigh = 100;
+  private final double targetLow = 50;
+  private double target = targetHigh;
+  ArrayList<CANSparkMax> motors = new ArrayList<>();
+  ArrayList<CANSparkMax> leftMotors = new ArrayList<>();
+  ArrayList<CANSparkMax> rightMotors = new ArrayList<>();
 
-  public SkidDriveTrain(ADXL345_I2C accelerometer, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT,
-      CANSparkMax FRONT_RIGHT, CANSparkMax BACK_RIGHT, AHRS navx) {
-    this.FRONT_LEFT = FRONT_LEFT;
-    this.BACK_LEFT = BACK_LEFT;
-    this.FRONT_RIGHT = FRONT_RIGHT;
-    this.BACK_RIGHT = BACK_RIGHT;
-    this.accelerometer = accelerometer;
+  public SkidDriveTrain(AHRS navx, CANSparkMax... motors) {
+    this.motors = (ArrayList<CANSparkMax>) Arrays.asList(motors);
     this.navx = navx;
   }
 
@@ -50,55 +44,62 @@ public class SkidDriveTrain extends SubsystemBase {
       leftPwr = leftPwr / max;
       rightPwr = rightPwr / max;
     }
-    FRONT_LEFT.set(leftPwr);
-    BACK_LEFT.set(leftPwr);
-    FRONT_RIGHT.set(rightPwr);
-    BACK_RIGHT.set(rightPwr);
+    setMotors(leftMotors, leftPwr);
+    setMotors(rightMotors, rightPwr);
 
     if (isSkidding()) {
       skidControl();
-      toggle = !toggle;
     }
+  }
+
+  private void initMotors() {
+    for (CANSparkMax x : motors) {
+      x.setOpenLoopRampRate(2);
+      x.getEncoder().setPosition(0);
+    }
+    rightMotors = (ArrayList<CANSparkMax>) motors.subList(0, motors.size() / 2);
+    leftMotors = (ArrayList<CANSparkMax>) motors.subList(motors.size() / 2 + 1, motors.size());
+  }
+
+  private void setMotors(ArrayList<CANSparkMax> motors, final double speed) {
+    motors.forEach(x -> x.set(speed));
+  }
+
+  private double getPosition(ArrayList<CANSparkMax> motors) {
+    double val = 0;
+    for (CANSparkMax x : motors)
+      val += x.getEncoder().getPosition();
+    return val / motors.size();
+  }
+
+  private void toggleTarget() {
+    target = target == targetHigh ? targetLow : targetHigh;
   }
 
   /*
    * get position target position if position != target move
    */
   public void skidControl() {
-    if (toggle) {
-      if (FRONT_LEFT.getEncoder().getPosition() < FRONT_LEFT.getEncoder().getPosition() + 5
-          || FRONT_RIGHT.getEncoder().getPosition() < FRONT_RIGHT.getEncoder().getPosition() + 5) {
-        FRONT_LEFT.setOpenLoopRampRate(SKIDRATE);
-        BACK_LEFT.setOpenLoopRampRate(SKIDRATE);
-        FRONT_RIGHT.setOpenLoopRampRate(SKIDRATE);
-        BACK_RIGHT.setOpenLoopRampRate(SKIDRATE);
-      }
-    } else {
-      if (FRONT_LEFT.getEncoder().getPosition() < FRONT_LEFT.getEncoder().getPosition() - 5
-          || FRONT_RIGHT.getEncoder().getPosition() < FRONT_RIGHT.getEncoder().getPosition() - 5) {
-        FRONT_LEFT.setOpenLoopRampRate(-SKIDRATE);
-        BACK_LEFT.setOpenLoopRampRate(-SKIDRATE);
-        FRONT_RIGHT.setOpenLoopRampRate(-SKIDRATE);
-        BACK_RIGHT.setOpenLoopRampRate(-SKIDRATE);
-      }
+    double avgPosition = (getPosition(leftMotors) + getPosition(rightMotors)) / 2;
 
-    }
+    if (avgPosition == target)
+      toggleTarget();
+    else if (avgPosition > target) {
+      setMotors(leftMotors, .2);
+      setMotors(rightMotors, .2);
+    } else if (avgPosition < target)
+      setMotors(leftMotors, -.2);
+    setMotors(rightMotors, -.2);
   }
 
   public boolean isSkidding() {
     double moveSpeed = LEFT_JOYSTICK.getY();
     double forwardVelocity = Math.sqrt(Math.pow(navx.getVelocityX(), 2) + Math.pow(navx.getVelocityZ(), 2))
         * Math.abs(moveSpeed) / moveSpeed;
-
-    return motor.getEncoder().getVelocity() * UNITCONVERT <= forwardVelocity + 20
-        || motor.getEncoder().getVelocity() * UNITCONVERT >= forwardVelocity - 20;
+    // TODO: Fix this plez soon
+    return motors.get(0).getEncoder().getVelocity() * UNITCONVERT <= forwardVelocity + 20
+        || motors.get(0).getEncoder().getVelocity() * UNITCONVERT >= forwardVelocity - 20;
   }
-
-  /*
-   * double realVelocity = accelerometer.getZ(); double motorVelocitty =
-   * motor.getEncoder().getVelocity(); return realVelocity < motorVelocitty -
-   * minMovement || realVelocity > motorVelocitty + minMovement;
-   */
 
   @Override
   public void periodic() {
