@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
 
+  private static double INTAKESTARTPOS;
   private CANSparkMax top, bottom, intakeWheel;
   private boolean beltOn = true;
   private DigitalInput infarredOne;
@@ -26,6 +27,7 @@ public class Intake extends SubsystemBase {
     this.intakeWheel = intakeWheel;
     this.infarredOne = infarredOne;
     this.infraredTwo = infraredTwo;
+    Intake.INTAKESTARTPOS = intakeWheel.getEncoder().getPosition();
   }
 
   public void run() {
@@ -34,10 +36,15 @@ public class Intake extends SubsystemBase {
     bottom.set(-beltSpeed);
     intakeWheel.set(1);
 
-    if (infraredTwo.get()) {
+    if (infraredTwo.get() && infarredOne.get()) {
+      if (intakeWheel.getEncoder().getPosition() < Intake.INTAKESTARTPOS + 10) { //TODO: get good number
+        intakeWheel.set(1);
+      }
+    }
+    else if (infraredTwo.get()) {
       beltOn = false;
     }
-    if (infarredOne.get()) {
+    else if (infarredOne.get()) {
       beltOn = true;
     }
   }
