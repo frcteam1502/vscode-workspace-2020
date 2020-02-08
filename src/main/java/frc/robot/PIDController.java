@@ -36,7 +36,7 @@ public class PIDController {
   }
 
   public void input(double err) {
-    if ((err > 0 && latest().err < 0) || (err < 0 && latest().err > 0)) {
+    if (points.size() > 0 && ((err > 0 && latest().err < 0) || (err < 0 && latest().err > 0))) {
       points.clear();
     }
     points.add(new Point(System.currentTimeMillis(), err));
@@ -47,6 +47,8 @@ public class PIDController {
   }
 
   public double getP() {
+    if (points.size() == 0)
+      return 0;
     return P * latest().err;
   }
 
@@ -64,23 +66,40 @@ public class PIDController {
   }
 
   public double getD() {
+    return D * getRateOfChange();
+  }
+
+  private double getRateOfChange() {
     if (points.size() < 2) {
       return 0;
     }
-    double derr = latest().err - prev().err;
-    double dt = latest().millis - prev().millis;
-    return D * derr / dt;
+    double derr = latest().err - previous().err;
+    double dt = latest().millis - previous().millis;
+    return derr / dt;
   }
 
-  public boolean isStable(double threshold) {
-    return Math.abs(latest().err) < threshold && Math.abs(getD()) / D * 8000/* ms */ < threshold;
+  /**
+   * Checks if the controller is stable--in bounds and not about to go out of the
+   * threshold within timeThresholdMs.
+   * 
+   * @param threshold       The threshold to check for stability
+   * @param timeThresholdMs The time used for the prediction of whether or not the
+   *                        system will go out of threshold bounds within this
+   *                        time
+   * @return
+   */
+  public boolean isStable(double threshold, double timeThresholdMs) {
+    if (points.size() < 2)
+      return false;
+    double predictedErrorValue = latest().err + getRateOfChange() * timeThresholdMs;
+    return Math.abs(latest().err) < threshold && Math.abs(predictedErrorValue) < threshold;
   }
 
-  public Point prev() {
+  public Point previous() {
     try {
       return points.get(points.size() - 2);
     } catch (ArrayIndexOutOfBoundsException e) {
-      return new Point(System.currentTimeMillis(), 0);
+      return null;
     }
   }
 
@@ -88,7 +107,7 @@ public class PIDController {
     try {
       return points.get(points.size() - 1);
     } catch (IndexOutOfBoundsException e) {
-      return new Point(System.currentTimeMillis(), 0);
+      return null;
     }
   }
 }

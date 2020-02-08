@@ -19,7 +19,7 @@ public class Lidar {
    * was running the lidar. read was reading the specific converted distance byte.
    * can read many other byes. see documentation.
    * 
-   * @return distance
+   * @return distance in cm
    */
   public int getDistance() {
     if (count == 100) {

@@ -7,21 +7,26 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
-public class DriveByDistance extends DriveStraight {
+public class DriveToWall extends DriveStraight {
 
-  static final double INCHES_PER_ENCODER_TICK = 89.0 / 50.0;
-  double targetEncoderPosition;
+  static final double STOPPING_DISTANCE_CM = 20;
 
-  public DriveByDistance(Drivetrain drivetrain, double inchesToGo) {
+  public DriveToWall(Drivetrain drivetrain) {
     super(drivetrain);
-    targetEncoderPosition = inchesToGo / INCHES_PER_ENCODER_TICK;
+  }
+
+  @Override
+  public void execute() {
+    super.execute();
+    SmartDashboard.putNumber("lidar distance", Constants.Sensors.LIDAR.getDistance());
   }
 
   @Override
   public boolean isFinished() {
-    double averageEncoderPosition = (drivetrain.getLeftEncoderPosition() + drivetrain.getRightEncoderPosition()) / 2;
-    return averageEncoderPosition > targetEncoderPosition;
+    return Constants.Sensors.LIDAR.getDistance() <= STOPPING_DISTANCE_CM;
   }
 }

@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Joysticks;
 import frc.robot.commands.DriveCommand;
@@ -26,23 +27,42 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void moveByJoysticks() {
-    double moveSpeed = Joysticks.LEFT_JOYSTICK.getY();
-    double rotateSpeed = Joysticks.RIGHT_JOYSTICK.getX();
-    double leftPwr = Math.pow(moveSpeed - rotateSpeed, 3);
-    double rightPwr = Math.pow(moveSpeed + rotateSpeed, 3);
-    if (moveSpeed >= 1 || rotateSpeed >= 1) {
-      double max = moveSpeed >= rotateSpeed ? moveSpeed : rotateSpeed;
+    double moveSpeed = Math.pow(Joysticks.RIGHT_JOYSTICK.getY(), 3);
+    double rotateSpeed = Math.pow(Joysticks.LEFT_JOYSTICK.getX(), 3);
+    double leftPwr = -moveSpeed + rotateSpeed;
+    double rightPwr = -moveSpeed - rotateSpeed;
+    if (Math.abs(leftPwr) >= 1 || Math.abs(rightPwr) >= 1) {
+      double max = Math.abs(Math.abs(moveSpeed) >= Math.abs(rotateSpeed) ? moveSpeed : rotateSpeed);
       leftPwr /= max;
       rightPwr /= max;
     }
+    SmartDashboard.putNumber("Left power", leftPwr);
+    SmartDashboard.putNumber("Right power", rightPwr);
+    SmartDashboard.putNumber("Move speed", moveSpeed);
+    SmartDashboard.putNumber("Rotate speed", rotateSpeed);
     move(leftPwr, rightPwr);
+    /*
+     * double moveSpeed = Joysticks.RIGHT_JOYSTICK.getY() > .1 ||
+     * Joysticks.RIGHT_JOYSTICK.getY() < -.1 ? Joysticks.RIGHT_JOYSTICK.getY() : 0;
+     * double rotateSpeed = Joysticks.LEFT_JOYSTICK.getX() > .1 ||
+     * Joysticks.LEFT_JOYSTICK.getX() < -.1 ? Joysticks.LEFT_JOYSTICK.getX() : 0;
+     * moveSpeed = Math.pow(moveSpeed, 3); rotateSpeed = Math.pow(rotateSpeed, 3);
+     * double leftPwr = -moveSpeed + rotateSpeed; double rightPwr = moveSpeed +
+     * rotateSpeed; if ((leftPwr > 1 || leftPwr < -1) || (rightPwr > 1 || rightPwr <
+     * -1)) { double max = Math.abs(Math.abs(leftPwr) > Math.abs(rightPwr) ? leftPwr
+     * : rightPwr); leftPwr = leftPwr / max; rightPwr = rightPwr / max; } if
+     * (lidar.getCM() < 400 && Buttons.RIGHT_TRIGGER.get()) { leftPwr = rightPwr =
+     * 0; } SmartDashboard.putNumber("Right power", rightPwr);
+     * SmartDashboard.putNumber("Left power", leftPwr); frontRight.set(rightPwr);
+     * backRight.set(rightPwr); frontLeft.set(leftPwr); backLeft.set(leftPwr);
+     */
   }
 
   public void move(double leftPower, double rightPower) {
-    LEFT_FRONT.set(-leftPower);
-    LEFT_BACK.set(-leftPower);
-    RIGHT_FRONT.set(rightPower);
-    RIGHT_BACK.set(rightPower);
+    LEFT_FRONT.set(leftPower);
+    LEFT_BACK.set(leftPower);
+    RIGHT_FRONT.set(-rightPower);
+    RIGHT_BACK.set(-rightPower);
   }
 
   public void resetEncoders() {
@@ -53,11 +73,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getLeftEncoderPosition() {
-    return -(LEFT_FRONT.getEncoder().getPosition() + LEFT_BACK.getEncoder().getPosition()) / 2;
+    return (LEFT_FRONT.getEncoder().getPosition() + LEFT_BACK.getEncoder().getPosition()) / 2;
   }
 
   public double getRightEncoderPosition() {
-    return (RIGHT_FRONT.getEncoder().getPosition() + RIGHT_BACK.getEncoder().getPosition()) / 2;
+    return -(RIGHT_FRONT.getEncoder().getPosition() + RIGHT_BACK.getEncoder().getPosition()) / 2;
   }
 
   @Override

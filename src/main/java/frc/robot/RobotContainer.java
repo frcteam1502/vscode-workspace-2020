@@ -1,9 +1,14 @@
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import frc.robot.Constants.Joysticks;
 import frc.robot.commands.Autonomous;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -15,13 +20,9 @@ import frc.robot.commands.Autonomous;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  private final Autonomous autonCommands = new Autonomous();
-  // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick,
-  // Joysticks.rightJoystick,
-  // new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
-  // new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
-  // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
-  // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
+  private final Drivetrain drivetrain = new Drivetrain(Constants.Motors.DRIVE_FRONT_LEFT,
+      Constants.Motors.DRIVE_BACK_LEFT, Constants.Motors.DRIVE_FRONT_RIGHT, Constants.Motors.DRIVE_BACK_RIGHT);
+  private final Autonomous autonCommands = new Autonomous(drivetrain);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -29,6 +30,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    Constants.Sensors.LIFT_GYRO.calibrate();
   }
 
   /**
