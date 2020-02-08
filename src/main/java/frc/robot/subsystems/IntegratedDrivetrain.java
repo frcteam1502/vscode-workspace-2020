@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Joysticks.*;
 import frc.robot.Lidar;
@@ -54,10 +55,12 @@ public class IntegratedDrivetrain extends SubsystemBase {
     // moveSpeed = PID.getCorrection();
     // }
     if (!direction)
-      moveSpeed = LEFT_JOYSTICK.getY() > .1 ? -Math.pow(LEFT_JOYSTICK.getY(), 3) : 0;
+      moveSpeed = -Math.pow(RIGHT_JOYSTICK.getY(), 3);
     else
-      moveSpeed = LEFT_JOYSTICK.getY() > .1 ? Math.pow(LEFT_JOYSTICK.getY(), 3) : 0;
-    double rotateSpeed = RIGHT_JOYSTICK.getX() > .1 ? Math.pow(RIGHT_JOYSTICK.getX(), 3) : 0;
+      moveSpeed = Math.pow(RIGHT_JOYSTICK.getY(), 3);
+    SmartDashboard.putNumber("movespeed", moveSpeed);
+    SmartDashboard.putBoolean("Forward", direction);
+    double rotateSpeed = Math.pow(LEFT_JOYSTICK.getX(), 3);
     double leftPwr = -moveSpeed + rotateSpeed;
     double rightPwr = moveSpeed + rotateSpeed;
     if ((leftPwr > 1 || leftPwr < -1) || (rightPwr > 1 || rightPwr < -1)) {
