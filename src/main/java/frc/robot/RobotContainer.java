@@ -50,7 +50,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Constants.Buttons.B.whenHeld(m_displayGyroPosition);
     Constants.Buttons.A.whenPressed(runIntakeCommand);
-    Constants.Buttons.RB.cancelWhenPressed(toggleIntakeCommand);
+    Constants.Buttons.RB.whenPressed(toggleIntakeCommand);
   }
 
   /**

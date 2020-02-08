@@ -17,15 +17,15 @@ public class Intake extends SubsystemBase {
   private CANSparkMax top, bottom, intakeWheel;
   private boolean beltOn = true;
   private DigitalInput infarredOne;
-  private DigitalInput infarredTwo;
+  private DigitalInput infraredTwo;
 
   public Intake(CANSparkMax top, CANSparkMax bottom, CANSparkMax intakeWheel, DigitalInput infarredOne,
-      DigitalInput infarredTwo) {
+      DigitalInput infraredTwo) {
     this.top = top;
     this.bottom = bottom;
     this.intakeWheel = intakeWheel;
     this.infarredOne = infarredOne;
-    this.infarredTwo = infarredTwo;
+    this.infraredTwo = infraredTwo;
   }
 
   public void run() {
@@ -33,6 +33,13 @@ public class Intake extends SubsystemBase {
     top.set(beltSpeed);
     bottom.set(-beltSpeed);
     intakeWheel.set(1);
+
+    if (infraredTwo.get()) {
+      beltOn = false;
+    }
+    if (infarredOne.get()) {
+      beltOn = true;
+    }
   }
 
   public void stop() {
@@ -44,15 +51,6 @@ public class Intake extends SubsystemBase {
 
   public void toggleBelt() {
     beltOn = !beltOn;
-  }
-
-  public void broke() {
-    if (infarredOne.get()) {
-      beltOn = true;
-    }
-    if (infarredTwo.get()) {
-      beltOn = false;
-    }
   }
 
   @Override
