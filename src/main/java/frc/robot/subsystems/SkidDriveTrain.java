@@ -21,10 +21,9 @@ public class SkidDriveTrain extends SubsystemBase {
   private final AHRS navx;
 
   private static final double UNIT_CONVERT = 6 * Math.PI / 10.9 * 2.54;
-  //TODO needs to relate to current position + amount of movemenet
-  private final double targetHigh = 100;
-  private final double targetLow = 50;
-  private double target = targetHigh;
+  private Double targetHigh;
+  private Double targetLow;
+  private Double target;
   private final CANSparkMax[] motors, leftMotors, rightMotors;
 
   public SkidDriveTrain(AHRS navx, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT, CANSparkMax FRONT_RIGHT, CANSparkMax BACK_RIGHT) {
@@ -45,25 +44,28 @@ public class SkidDriveTrain extends SubsystemBase {
     return val / motors.length;
   }
 
-  private boolean isSkidding(double moveSpeed) {
+  /*
+   * get position target position if position != target move
+   */
+  private double skidControl(double moveSpeed) {
     // TODO fix this you morons
     double actualVelocity = Math.sqrt(Math.pow(navx.getVelocityX(), 2) + Math.pow(navx.getVelocityZ(), 2)) * Math.abs(moveSpeed) / moveSpeed;
     double expectedVelocity = average(x -> x.getEncoder().getVelocity(), motors) * UNIT_CONVERT;
     boolean wheelsSkidding = expectedVelocity <= actualVelocity + 20 || expectedVelocity <= actualVelocity - 20;
     boolean botSkidding = expectedVelocity >= actualVelocity - 20 || expectedVelocity >= actualVelocity + 20;
-    return wheelsSkidding || botSkidding;
-  }
-
-  /*
-   * get position target position if position != target move
-   */
-  private double skidControl(double moveSpeed) {
-    if (isSkidding(moveSpeed)) {
+    if (wheelsSkidding || botSkidding) {
       double avgPosition = (average(x -> x.getEncoder().getPosition(), motors));
-      if (avgPosition == target) target = target == targetHigh ? targetLow : targetHigh;
+      if (target == null) {
+        targetHigh = avgPosition + 1;
+        targetLow = avgPosition - 1;
+      }
+      else if (avgPosition == target) target = target == targetHigh ? targetLow : targetHigh;
       return avgPosition > target ? .2 : -.2;
     }
-    else return moveSpeed;
+    else {
+      target = null;
+      return moveSpeed;
+    }
   }
 
   public void initMotors() {
