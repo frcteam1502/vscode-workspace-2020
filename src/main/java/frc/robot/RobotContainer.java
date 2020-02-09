@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.Buttons;
 import frc.robot.Constants.Motors;
 import frc.robot.Constants.PIDControllers;
@@ -9,6 +10,7 @@ import frc.robot.Constants.Sensors;
 import frc.robot.commands.*;
 import frc.robot.subsystems.IntegratedDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very little robot logic should
@@ -21,13 +23,8 @@ public class RobotContainer {
 
   private final Autonomous autonCommands = new Autonomous();
 
-  public static final IntegratedDrivetrain drivetrain = 
-    new IntegratedDrivetrain(
-      Sensors.LIDAR,
-      PIDControllers.DRIVE_TRAIN_PID, 
-      Motors.DRIVE_FRONT_LEFT, 
-      Motors.DRIVE_BACK_LEFT, 
-      Motors.DRIVE_FRONT_RIGHT, 
+  public static final IntegratedDrivetrain drivetrain = new IntegratedDrivetrain(Sensors.LIDAR,
+      PIDControllers.DRIVE_TRAIN_PID, Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT,
       Motors.DRIVE_BACK_RIGHT);
 
   /**
@@ -45,7 +42,10 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Buttons.A.whenPressed(new ReverseControls(drivetrain));
+    Buttons.A.whenPressed(() -> {
+      drivetrain.reverse();
+      SmartDashboard.putBoolean("B was pressed and it was reversed", true);
+    });
   }
 
   /**
