@@ -12,6 +12,9 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Joysticks.*;
+
+import java.util.function.Function;
+
 import frc.robot.Lidar;
 import frc.robot.PIDController;
 import frc.robot.commands.IntegratedDrivetrainCommand;
@@ -36,25 +39,29 @@ public class IntegratedDrivetrain extends SubsystemBase {
     this.BACK_RIGHT = BACK_RIGHT;
   }
 
+  public interface Runnable <K,T> {
+    K run(T obj);
+  }
+
   private boolean isClose() {
-    return averageVelocity(FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT) * INCHES_PER_ENCODER_VALUE
+    return average(x -> x.getEncoder().getVelocity(), BACK_LEFT, FRONT_RIGHT, BACK_RIGHT) * INCHES_PER_ENCODER_VALUE
         / LIDAR.getDistance() < STOP_TIME;
   }
 
-  private double averageVelocity(CANSparkMax... motors) {
+  private double average(Function<CANSparkMax, Double> func, CANSparkMax... motors) {
     double val = 0;
     for (CANSparkMax x : motors)
-      val += x.getEncoder().getVelocity();
+      val += func.apply(x);
     return val / motors.length;
   }
 
   public void move(boolean lidarOn) {
     double moveSpeed = 0;
-    // if (isClose() && lidarOn && direction) {
-    // PID.input(LIDAR.getDistance());
-    // moveSpeed = PID.getCorrection();
-    // }
-    if (!direction)
+    if (isClose() && lidarOn && direction) {
+    PID.input(LIDAR.getDistance());
+    moveSpeed = PID.getCorrection();
+    }
+    else if (!direction)
       moveSpeed = -Math.pow(RIGHT_JOYSTICK.getY(), 3);
     else
       moveSpeed = Math.pow(RIGHT_JOYSTICK.getY(), 3);
