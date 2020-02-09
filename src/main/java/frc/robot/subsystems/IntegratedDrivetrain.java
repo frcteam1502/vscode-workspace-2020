@@ -39,10 +39,6 @@ public class IntegratedDrivetrain extends SubsystemBase {
     this.BACK_RIGHT = BACK_RIGHT;
   }
 
-  public interface Runnable <K,T> {
-    K run(T obj);
-  }
-
   private boolean isClose() {
     return average(x -> x.getEncoder().getVelocity(), BACK_LEFT, FRONT_RIGHT, BACK_RIGHT) * INCHES_PER_ENCODER_VALUE
         / LIDAR.getDistance() < STOP_TIME;
