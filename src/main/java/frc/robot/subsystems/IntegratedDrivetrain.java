@@ -34,14 +34,18 @@ public class IntegratedDrivetrain extends SubsystemBase {
     this.BACK_RIGHT = BACK_RIGHT;
   }
 
-  private boolean isClose() {
-    return averageVelocity(FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT) * INCHES_PER_ENCODER_VALUE / LIDAR.getDistance() < STOP_TIME;
+  public interface Runnable<T, K> {
+    K run(T obj);
   }
 
-  private double averageVelocity (CANSparkMax... motors) {
+  private boolean isClose() {
+    return average(obj -> obj.getEncoder().getVelocity(), FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT) * INCHES_PER_ENCODER_VALUE / LIDAR.getDistance() < STOP_TIME;
+  }
+
+  private double average(Runnable<CANSparkMax, Double> varGet, CANSparkMax... motors) {
     double val = 0;
-    for (CANSparkMax x : motors) val += x.getEncoder().getVelocity();
-    return val / motors.length; 
+    for (CANSparkMax x: motors) val += varGet.run(x);
+    return val / motors.length;
   }
 
   public void move(boolean lidarOn) {
