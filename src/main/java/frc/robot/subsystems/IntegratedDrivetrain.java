@@ -37,8 +37,8 @@ public class IntegratedDrivetrain extends SubsystemBase {
   }
 
   private boolean isClose() {
-    return averageVelocity(FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT) * INCHES_PER_ENCODER_VALUE
-        / LIDAR.getDistance() < STOP_TIME;
+    SmartDashboard.putNumber("distance", LIDAR.getDistance());
+    return LIDAR.getDistance() < 20;
   }
 
   private double averageVelocity(CANSparkMax... motors) {
@@ -50,10 +50,12 @@ public class IntegratedDrivetrain extends SubsystemBase {
 
   public void move(boolean lidarOn) {
     double moveSpeed = 0;
-    // if (isClose() && lidarOn && direction) {
-    // PID.input(LIDAR.getDistance());
-    // moveSpeed = PID.getCorrection();
-    // }
+    lidarOn = true;
+    if (isClose() && lidarOn && direction) {
+      // PID.input(LIDAR.getDistance());
+      // moveSpeed = PID.getCorrection();
+      moveSpeed = 0;
+    }
     if (!direction)
       moveSpeed = -Math.pow(RIGHT_JOYSTICK.getY(), 3);
     else
