@@ -42,10 +42,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Buttons.A.whenPressed(() -> {
-      drivetrain.reverse();
-      SmartDashboard.putBoolean("B was pressed and it was reversed", true);
-    });
+    Buttons.A.whenPressed(() -> drivetrain.reverse());
   }
 
   /**
