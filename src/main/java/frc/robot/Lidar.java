@@ -22,21 +22,19 @@ public class Lidar {
   }
 
   /**
-   * Simple get distance.
-   * Just expresses the ways to get various functions.
-   * write was running the lidar.
-   * read was reading the specific converted distance byte.
-   * can read many other byes.
-   * see documentation.
+   * Simple get distance. Just expresses the ways to get various functions. write
+   * was running the lidar. read was reading the specific converted distance byte.
+   * can read many other byes. see documentation.
+   * 
    * @return distance
    */
   public int getDistance() {
     if (count == 100) {
-      count = 0; //Restart the count every 100
+      count = 0; // Restart the count every 100
     }
 
-    byte [] buffer;
-    byte [] busy;
+    byte[] buffer;
+    byte[] busy;
     buffer = new byte[2];
     busy = new byte[1];
 
@@ -52,7 +50,9 @@ public class Lidar {
       Timer.delay(.001);
     }
     sensor.read(0x8f, 2, buffer);
-    
-    return (int)Integer.toUnsignedLong(buffer[0]) + Byte.toUnsignedInt(buffer[1]);	//swap this if it doesn't look right
+
+    return (int) Integer.toUnsignedLong(buffer[0] * 0x100) + Byte.toUnsignedInt(buffer[1]); // swap this if it doesn't
+                                                                                            // look
+    // right
   }
 }

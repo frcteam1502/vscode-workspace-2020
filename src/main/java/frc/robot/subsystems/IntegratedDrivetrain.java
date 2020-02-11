@@ -23,12 +23,15 @@ public class IntegratedDrivetrain extends SubsystemBase {
 
   private static final double STOP_TIME = .5;
   private static final double INCHES_PER_ENCODER_VALUE = (60 * Math.PI) / 109;
-  private final Lidar LIDAR;
+  private final LidarSubsystem LIDAR;
   private final PIDController PID;
   private final CANSparkMax FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT;
   private boolean direction = true; // forward is true because it is default
+  double farVal = 1;
+  double targetDistance = 150;
+  double startDistance = 200;
 
-  public IntegratedDrivetrain(Lidar LIDAR, PIDController PID, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT,
+  public IntegratedDrivetrain(LidarSubsystem LIDAR, PIDController PID, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT,
       CANSparkMax FRONT_RIGHT, CANSparkMax BACK_RIGHT) {
     setDefaultCommand(new IntegratedDrivetrainCommand(this));
     this.LIDAR = LIDAR;
@@ -40,8 +43,8 @@ public class IntegratedDrivetrain extends SubsystemBase {
   }
 
   private boolean isClose() {
-    return average(x -> x.getEncoder().getVelocity(), BACK_LEFT, FRONT_RIGHT, BACK_RIGHT) * INCHES_PER_ENCODER_VALUE
-        / LIDAR.getDistance() < STOP_TIME;
+    SmartDashboard.putBoolean("isClose", LIDAR.getCM() < startDistance);
+    return LIDAR.getCM() < 200;
   }
 
   private double average(Function<CANSparkMax, Double> func, CANSparkMax... motors) {
@@ -53,14 +56,27 @@ public class IntegratedDrivetrain extends SubsystemBase {
 
   public void move(boolean lidarOn) {
     double moveSpeed = 0;
-    if (isClose() && lidarOn && direction) {
-    PID.input(LIDAR.getDistance());
-    moveSpeed = PID.getCorrection();
+    LIDAR.getDistance();
+    SmartDashboard.putNumber("distane", LIDAR.getCM() - targetDistance);
+    PID.input(LIDAR.getCM() - targetDistance);
+    double pidMove = PID.getP() - PID.getI() + PID.getD();
+    if (LIDAR.getCM() == startDistance) {
+      SmartDashboard.putNumber("FarVal", farVal);
+      farVal = pidMove;
     }
-    else if (!direction)
-      moveSpeed = -Math.pow(RIGHT_JOYSTICK.getY(), 3);
+    SmartDashboard.putNumber("Correct", pidMove);
+    if (isClose() && lidarOn && direction) {
+      PID.input(LIDAR.getCM());
+      moveSpeed = (pidMove / farVal) * Math.abs(Math.pow(RIGHT_JOYSTICK.getY(), 3));
+    }
+    // if (!direction)
+    // moveSpeed = -Math.pow(RIGHT_JOYSTICK.getY(), 3);
     else
       moveSpeed = Math.pow(RIGHT_JOYSTICK.getY(), 3);
+    if (moveSpeed == 1) {
+      moveSpeed = 0;
+      SmartDashboard.putString("Whoa,", "Hold on there big dog");
+    }
     SmartDashboard.putNumber("movespeed", moveSpeed);
     SmartDashboard.putBoolean("Forward", direction);
     double rotateSpeed = Math.pow(LEFT_JOYSTICK.getX(), 3);

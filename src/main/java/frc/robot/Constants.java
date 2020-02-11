@@ -40,11 +40,11 @@ public final class Constants {
         public static final XboxController XBOX = new XboxController(2);
         public static final Joystick LEFT_JOYSTICK = new Joystick(0);
         public static final Joystick RIGHT_JOYSTICK = new Joystick(1);
-        public static final 
     }
 
     public static final class PIDControllers {
-        public static final PIDController DRIVE_TRAIN_PID = new PIDController(1e-5, 0, 0);
+        public static final PIDController INTEGRATED_DRIVE_TRAIN = new PIDController(1e-7, 1e-12, 0);
+
     }
 
     /**
