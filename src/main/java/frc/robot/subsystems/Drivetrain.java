@@ -16,6 +16,7 @@ import frc.robot.commands.DriveCommand;
 
 public class Drivetrain extends SubsystemBase {
 
+  static final double INCHES_PER_ENCODER_TICK = 89.0 / 50.0;
   CANSparkMax LEFT_FRONT, LEFT_BACK, RIGHT_FRONT, RIGHT_BACK;
 
   public Drivetrain(CANSparkMax LEFT_FRONT, CANSparkMax LEFT_BACK, CANSparkMax RIGHT_FRONT, CANSparkMax RIGHT_BACK) {
