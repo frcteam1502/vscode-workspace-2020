@@ -9,6 +9,7 @@ import frc.robot.Constants.PIDControllers;
 import frc.robot.Constants.Sensors;
 import frc.robot.commands.*;
 import frc.robot.subsystems.IntegratedDrivetrain;
+import frc.robot.subsystems.LidarSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -22,9 +23,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Autonomous autonCommands = new Autonomous();
-
-  public static final IntegratedDrivetrain drivetrain = new IntegratedDrivetrain(Sensors.LIDAR,
-      PIDControllers.DRIVE_TRAIN_PID, Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT,
+  public static final LidarSubsystem lidar = new LidarSubsystem(Sensors.LIDAR);
+  public static final IntegratedDrivetrain drivetrain = new IntegratedDrivetrain(lidar,
+      PIDControllers.INTEGRATED_DRIVE_TRAIN, Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT,
       Motors.DRIVE_BACK_RIGHT);
 
   /**

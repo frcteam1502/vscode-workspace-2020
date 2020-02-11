@@ -43,7 +43,7 @@ public final class Constants {
     }
 
     public static final class PIDControllers {
-        public static final PIDController DRIVE_TRAIN_PID = new PIDController(1e-5, 0, 0);
+        public static final PIDController INTEGRATED_DRIVE_TRAIN = new PIDController(1e-7, 1e-12, 0);
 
     }
 
