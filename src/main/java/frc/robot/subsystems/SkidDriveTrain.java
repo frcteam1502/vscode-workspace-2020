@@ -48,11 +48,11 @@ public class SkidDriveTrain extends SubsystemBase {
    * get position target position if position != target move
    */
   private double skidControl(double moveSpeed) {
-    // TODO fix this you morons
     double actualVelocity = Math.sqrt(Math.pow(navx.getVelocityX(), 2) + Math.pow(navx.getVelocityZ(), 2)) * Math.abs(moveSpeed) / moveSpeed;
     double expectedVelocity = average(x -> x.getEncoder().getVelocity(), motors) * UNIT_CONVERT;
-    boolean wheelsSkidding = expectedVelocity <= actualVelocity + 20 || expectedVelocity <= actualVelocity - 20;
-    boolean botSkidding = expectedVelocity >= actualVelocity - 20 || expectedVelocity >= actualVelocity + 20;
+    // TODO yell at trevor about this yelling AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    boolean wheelsSkidding = /*expectedVelocity <= actualVelocity + 20 || */expectedVelocity <= actualVelocity - 20;
+    boolean botSkidding = /*expectedVelocity >= actualVelocity - 20 || */expectedVelocity >= actualVelocity + 20;
     if (wheelsSkidding || botSkidding) {
       double avgPosition = (average(x -> x.getEncoder().getPosition(), motors));
       if (target == null) {
@@ -74,7 +74,7 @@ public class SkidDriveTrain extends SubsystemBase {
       x.getEncoder().setPosition(0);
     }
   }
-
+// TODO think about why in the world this is it's own method and not in periodic
   public void move() {
     double moveSpeed = LEFT_JOYSTICK.getY() > .1 ? Math.pow(LEFT_JOYSTICK.getY(), 3) : 0;
     double rotateSpeed = RIGHT_JOYSTICK.getX() > .1 ? Math.pow(RIGHT_JOYSTICK.getX(), 3) : 0;
