@@ -28,7 +28,7 @@ public class IntegratedDrivetrain extends SubsystemBase {
   private final CANSparkMax FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT;
   private boolean direction = true; // forward is true because it is default
 
-  public IntegratedDrivetrain(Lidar LIDAR, PIDController PID, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT,
+  public IntegratedDrivetrain(LidarSubsystem LIDAR, PIDController PID, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT,
       CANSparkMax FRONT_RIGHT, CANSparkMax BACK_RIGHT) {
     setDefaultCommand(new IntegratedDrivetrainCommand(this));
     this.LIDAR = LIDAR;
