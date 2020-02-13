@@ -21,7 +21,6 @@ public class DriveByDistance extends DriveStraight {
 
   @Override
   public boolean isFinished() {
-    double averageEncoderPosition = (drivetrain.getLeftEncoderPosition() + drivetrain.getRightEncoderPosition()) / 2;
-    return averageEncoderPosition > targetEncoderPosition;
+    return drivetrain.getAverageEncoderPosition() > targetEncoderPosition;
   }
 }

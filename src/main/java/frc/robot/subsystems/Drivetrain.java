@@ -81,6 +81,15 @@ public class Drivetrain extends SubsystemBase {
     return -(RIGHT_FRONT.getEncoder().getPosition() + RIGHT_BACK.getEncoder().getPosition()) / 2;
   }
 
+  /**
+   * Returns the average of the left and right encoder positions. Remember to
+   * reset both encoders to zero some time before using in order to make the
+   * average value relevant.
+   */
+  public double getAverageEncoderPosition() {
+    return (getLeftEncoderPosition() + getRightEncoderPosition()) / 2;
+  }
+
   @Override
   public void periodic() {
   }
