@@ -37,6 +37,10 @@ public class LidarSubsystem extends SubsystemBase {
     return disCM;
   }
 
+  public double getIN() {
+    return disIN;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

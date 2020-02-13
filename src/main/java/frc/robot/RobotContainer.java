@@ -2,15 +2,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Buttons;
 import frc.robot.Constants.Motors;
-import frc.robot.Constants.PIDControllers;
 import frc.robot.Constants.Sensors;
-import frc.robot.commands.*;
+import frc.robot.commands.Autonomous;
 import frc.robot.subsystems.IntegratedDrivetrain;
 import frc.robot.subsystems.LidarSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -24,9 +22,8 @@ public class RobotContainer {
 
   private final Autonomous autonCommands = new Autonomous();
   public static final LidarSubsystem lidar = new LidarSubsystem(Sensors.LIDAR);
-  public static final IntegratedDrivetrain drivetrain = new IntegratedDrivetrain(lidar,
-      PIDControllers.INTEGRATED_DRIVE_TRAIN, Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT,
-      Motors.DRIVE_BACK_RIGHT);
+  public static final IntegratedDrivetrain drivetrain = new IntegratedDrivetrain(lidar, Motors.DRIVE_FRONT_LEFT,
+      Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

@@ -7,78 +7,71 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK;
+import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK;
+
+import java.util.function.Function;
+
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.Joysticks.*;
-
-import java.util.function.Function;
-
-import frc.robot.Lidar;
+import frc.robot.Constants;
 import frc.robot.PIDController;
 import frc.robot.commands.IntegratedDrivetrainCommand;
 
 public class IntegratedDrivetrain extends SubsystemBase {
 
-  private static final double STOP_TIME = .5;
-  private static final double INCHES_PER_ENCODER_VALUE = (60 * Math.PI) / 109;
-  private final LidarSubsystem LIDAR;
-  private final PIDController PID;
-  private final CANSparkMax FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT;
+  private static final double STOP_TIME = 2;
+  private static final double INCHES_PER_ENCODER_VALUE = 89.0 / 50.0;
+  private final LidarSubsystem lidarSubsystem;
+  private final PIDController lidarStopController = new PIDController(2e-8, 0, 0);
+  private final CANSparkMax frontLeft, backLeft, frontRight, backRight;
+  private Double stopDistance = null;
   private boolean direction = true; // forward is true because it is default
   double farVal = 1;
   double targetDistance = 150;
   double startDistance = 200;
 
-  public IntegratedDrivetrain(LidarSubsystem LIDAR, PIDController PID, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT,
-      CANSparkMax FRONT_RIGHT, CANSparkMax BACK_RIGHT) {
+  public IntegratedDrivetrain(LidarSubsystem lidarSubsystem, CANSparkMax frontLeft, CANSparkMax backLeft,
+      CANSparkMax frontRight, CANSparkMax backRight) {
     setDefaultCommand(new IntegratedDrivetrainCommand(this));
-    this.LIDAR = LIDAR;
-    this.PID = PID;
-    this.FRONT_LEFT = FRONT_LEFT;
-    this.BACK_LEFT = BACK_LEFT;
-    this.FRONT_RIGHT = FRONT_RIGHT;
-    this.BACK_RIGHT = BACK_RIGHT;
+    this.lidarSubsystem = lidarSubsystem;
+    this.frontLeft = frontLeft;
+    this.backLeft = backLeft;
+    this.frontRight = frontRight;
+    this.backRight = backRight;
   }
 
-  private boolean isClose() {
-    SmartDashboard.putBoolean("isClose", LIDAR.getCM() < startDistance);
-    return LIDAR.getCM() < 200;
-  }
+  private boolean hasReachedStoppingDistance() {
+    double averageVel = (getLeftEncoderVelocity() + getRightEncoderVelocity()) / 2;
+    double speedInCmPerSecond = averageVel * Constants.ConversionFactors.CENTIMETERS_PER_SECOND_PER_ENCODER_RPM;
+    SmartDashboard.putNumber("Vel CM", speedInCmPerSecond);
+    SmartDashboard.putNumber("Other thing", speedInCmPerSecond / STOP_TIME);
+    if (lidarSubsystem.getCM() < speedInCmPerSecond / STOP_TIME && stopDistance == null) {
+      stopDistance = lidarSubsystem.getCM();
+    }
 
-  private double average(Function<CANSparkMax, Double> func, CANSparkMax... motors) {
-    double val = 0;
-    for (CANSparkMax x : motors)
-      val += func.apply(x);
-    return val / motors.length;
+    if (stopDistance != null) {
+      SmartDashboard.putNumber("Stop Distance", stopDistance);
+      if (lidarSubsystem.getCM() > stopDistance) {
+        SmartDashboard.putNumber("Range", 1);
+        stopDistance = null;
+      } else {
+        SmartDashboard.putNumber("Range", 0);
+        return lidarSubsystem.getCM() < stopDistance;
+      }
+    }
+    return false;
   }
 
   public void move(boolean lidarOn) {
     double moveSpeed = 0;
-    LIDAR.getDistance();
-    SmartDashboard.putNumber("distane", LIDAR.getCM() - targetDistance);
-    PID.input(LIDAR.getCM() - targetDistance);
-    double pidMove = PID.getP() - PID.getI() + PID.getD();
-    if (LIDAR.getCM() == startDistance) {
-      SmartDashboard.putNumber("FarVal", farVal);
-      farVal = pidMove;
-    }
-    SmartDashboard.putNumber("Correct", pidMove);
-    if (isClose() && lidarOn && direction) {
-      PID.input(LIDAR.getCM());
-      moveSpeed = (pidMove / farVal) * Math.abs(Math.pow(RIGHT_JOYSTICK.getY(), 3));
-    }
-    // if (!direction)
-    // moveSpeed = -Math.pow(RIGHT_JOYSTICK.getY(), 3);
-    else
+    if (hasReachedStoppingDistance() && lidarOn) {
+      lidarStopController.input(lidarSubsystem.getCM());
+      moveSpeed = lidarStopController.getCorrection();
+    } else
       moveSpeed = Math.pow(RIGHT_JOYSTICK.getY(), 3);
-    if (moveSpeed == 1) {
-      moveSpeed = 0;
-      SmartDashboard.putString("Whoa,", "Hold on there big dog");
-    }
-    SmartDashboard.putNumber("movespeed", moveSpeed);
-    SmartDashboard.putBoolean("Forward", direction);
     double rotateSpeed = Math.pow(LEFT_JOYSTICK.getX(), 3);
     double leftPwr = -moveSpeed + rotateSpeed;
     double rightPwr = moveSpeed + rotateSpeed;
@@ -87,10 +80,26 @@ public class IntegratedDrivetrain extends SubsystemBase {
       leftPwr = leftPwr / max;
       rightPwr = rightPwr / max;
     }
-    FRONT_LEFT.set(leftPwr);
-    BACK_LEFT.set(leftPwr);
-    FRONT_RIGHT.set(rightPwr);
-    BACK_RIGHT.set(rightPwr);
+    frontLeft.set(leftPwr);
+    backLeft.set(leftPwr);
+    frontRight.set(rightPwr);
+    backRight.set(rightPwr);
+  }
+
+  public double getLeftEncoderPosition() {
+    return (frontLeft.getEncoder().getPosition() + backLeft.getEncoder().getPosition()) / 2;
+  }
+
+  public double getRightEncoderPosition() {
+    return -(frontRight.getEncoder().getPosition() + backRight.getEncoder().getPosition()) / 2;
+  }
+
+  public double getLeftEncoderVelocity() {
+    return (frontLeft.getEncoder().getVelocity() + backLeft.getEncoder().getVelocity()) / 2;
+  }
+
+  public double getRightEncoderVelocity() {
+    return -(frontRight.getEncoder().getVelocity() + backRight.getEncoder().getVelocity()) / 2;
   }
 
   public void reverse() {
