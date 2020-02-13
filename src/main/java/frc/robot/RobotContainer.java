@@ -24,7 +24,7 @@ public class RobotContainer {
 
   public static final Drivetrain drivetrain = new Drivetrain(Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT,
       Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
-  public static final LidarSubsystem lidar = new LidarSubsystem(Sensors.lidar);
+  public static final LidarSubsystem lidar = new LidarSubsystem(Sensors.LIDAR);
   // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick,
   // Joysticks.rightJoystick,
   // new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed),
