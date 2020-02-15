@@ -26,7 +26,7 @@ public class DisplayGyroPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ADXL345_I2C gyro = Constants.Sensors.gyro;
+    ADXL345_I2C gyro = Constants.Sensors.GYRO;
     SmartDashboard.putNumber("Gyro X", gyro.getX());
     SmartDashboard.putNumber("Gyro Y", gyro.getY());
     SmartDashboard.putNumber("Gyro Z", gyro.getZ());
