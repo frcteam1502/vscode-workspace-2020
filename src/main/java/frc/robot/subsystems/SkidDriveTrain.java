@@ -26,11 +26,12 @@ public class SkidDriveTrain extends SubsystemBase {
   private Double target;
   private final CANSparkMax[] motors, leftMotors, rightMotors;
 
-  public SkidDriveTrain(AHRS navx, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT, CANSparkMax FRONT_RIGHT, CANSparkMax BACK_RIGHT) {
-    this.motors = new CANSparkMax[] {FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT};
+  public SkidDriveTrain(AHRS navx, CANSparkMax FRONT_LEFT, CANSparkMax BACK_LEFT, CANSparkMax FRONT_RIGHT,
+      CANSparkMax BACK_RIGHT) {
+    this.motors = new CANSparkMax[] { FRONT_LEFT, BACK_LEFT, FRONT_RIGHT, BACK_RIGHT };
     this.navx = navx;
-    this.leftMotors = new CANSparkMax[] {FRONT_LEFT, BACK_LEFT};
-    this.rightMotors = new CANSparkMax[] {FRONT_RIGHT, BACK_RIGHT};
+    this.leftMotors = new CANSparkMax[] { FRONT_LEFT, BACK_LEFT };
+    this.rightMotors = new CANSparkMax[] { FRONT_RIGHT, BACK_RIGHT };
   }
 
   private void setMotors(final double speed, CANSparkMax... motors) {
@@ -48,21 +49,18 @@ public class SkidDriveTrain extends SubsystemBase {
    * get position target position if position != target move
    */
   private double skidControl(double moveSpeed) {
-    double actualVelocity = Math.sqrt(Math.pow(navx.getVelocityX(), 2) + Math.pow(navx.getVelocityZ(), 2)) * Math.abs(moveSpeed) / moveSpeed;
+    double actualVelocity = Math.sqrt(Math.pow(navx.getVelocityX(), 2) + Math.pow(navx.getVelocityZ(), 2))
+        * Math.abs(moveSpeed) / moveSpeed;
     double expectedVelocity = average(x -> x.getEncoder().getVelocity(), motors) * UNIT_CONVERT;
-    // TODO yell at trevor about this yelling AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    boolean wheelsSkidding = /*expectedVelocity <= actualVelocity + 20 || */expectedVelocity <= actualVelocity - 20;
-    boolean botSkidding = /*expectedVelocity >= actualVelocity - 20 || */expectedVelocity >= actualVelocity + 20;
-    if (wheelsSkidding || botSkidding) {
+    if (expectedVelocity >= actualVelocity + 20 || expectedVelocity <= actualVelocity - 20) {
       double avgPosition = (average(x -> x.getEncoder().getPosition(), motors));
       if (target == null) {
         targetHigh = avgPosition + 1;
         targetLow = avgPosition - 1;
-      }
-      else if (avgPosition == target) target = target == targetHigh ? targetLow : targetHigh;
+      } else if (avgPosition == target)
+        target = target == targetHigh ? targetLow : targetHigh;
       return avgPosition > target ? .2 : -.2;
-    }
-    else {
+    } else {
       target = null;
       return moveSpeed;
     }
@@ -74,7 +72,8 @@ public class SkidDriveTrain extends SubsystemBase {
       x.getEncoder().setPosition(0);
     }
   }
-// TODO think about why in the world this is it's own method and not in periodic
+
+  // TODO think about why this is it's own method and not in periodic
   public void move() {
     double moveSpeed = LEFT_JOYSTICK.getY() > .1 ? Math.pow(LEFT_JOYSTICK.getY(), 3) : 0;
     double rotateSpeed = RIGHT_JOYSTICK.getX() > .1 ? Math.pow(RIGHT_JOYSTICK.getX(), 3) : 0;
@@ -87,7 +86,7 @@ public class SkidDriveTrain extends SubsystemBase {
       rightPwr = rightPwr / max;
     }
     setMotors(leftPwr, leftMotors);
-    setMotors(rightPwr, rightMotors);
+
   }
 
   @Override
