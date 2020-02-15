@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.Joysticks;
@@ -22,7 +23,7 @@ public class RobotContainer {
 
   private final Drivetrain drivetrain = new Drivetrain(Constants.Motors.DRIVE_FRONT_LEFT,
       Constants.Motors.DRIVE_BACK_LEFT, Constants.Motors.DRIVE_FRONT_RIGHT, Constants.Motors.DRIVE_BACK_RIGHT);
-  private final Autonomous autonCommands = new Autonomous(drivetrain);
+  SendableChooser<Autonomous.StartPosition> startPositionChooser = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -31,6 +32,9 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     Constants.Sensors.LIFT_GYRO.calibrate();
+    startPositionChooser.setDefaultOption("Left", Autonomous.StartPosition.LEFT);
+    startPositionChooser.addOption("Center", Autonomous.StartPosition.CENTER);
+    startPositionChooser.addOption("Right", Autonomous.StartPosition.RIGHT);
   }
 
   /**
@@ -50,7 +54,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return autonCommands;
+    return new Autonomous(drivetrain, startPositionChooser.getSelected());
   }
 }
