@@ -43,7 +43,7 @@ public class LidarStop extends CommandBase {
       hasReachedStoppingDistance = true;
     }
     if (hasReachedStoppingDistance) {
-      double error = Constants.Sensors.LIDAR.getDistance() - TARGET_DISTANCE;
+      double error = Constants.Sensors.FRONT_LIDAR.getDistance() - TARGET_DISTANCE;
       double correction = lidarStopController.getCorrection(error);
       drivetrain.move(correction, correction);
     } else
@@ -59,7 +59,7 @@ public class LidarStop extends CommandBase {
   private boolean isBeyondStoppingDistance() {
     double averageVel = (drivetrain.getLeftEncoderVelocity() + drivetrain.getRightEncoderVelocity()) / 2;
     double speedInCmPerSecond = averageVel * Constants.ConversionFactors.CENTIMETERS_PER_SECOND_PER_ENCODER_RPM;
-    double distanceFromTarget = Constants.Sensors.LIDAR.getDistance() - TARGET_DISTANCE;
+    double distanceFromTarget = Constants.Sensors.FRONT_LIDAR.getDistance() - TARGET_DISTANCE;
     double timeToReachDestination = distanceFromTarget / speedInCmPerSecond;
     SmartDashboard.putNumber("Time to reach destination", timeToReachDestination);
     return timeToReachDestination < STOPPING_TIME;
