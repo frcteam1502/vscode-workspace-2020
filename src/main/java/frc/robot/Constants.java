@@ -33,7 +33,8 @@ public final class Constants {
     public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
     public static final AHRS LIFT_GYRO = new AHRS(SPI.Port.kMXP);
     public static final ADXL345_I2C GYRO = new ADXL345_I2C(kMXP, Range.k4G);
-    public static final Lidar LIDAR = new Lidar(new I2C(kOnboard, 0x62));
+    public static final Lidar BACK_LIDAR = new Lidar(new I2C(kOnboard, 0x62), 0x60); // Do changed address first
+    public static final Lidar FRONT_LIDAR = new Lidar(new I2C(kOnboard, 0x62), 0x62);
   }
 
   public static final class Joysticks {
