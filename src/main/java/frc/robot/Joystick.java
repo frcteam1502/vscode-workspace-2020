@@ -7,6 +7,7 @@ public class Joystick {
 
   private edu.wpi.first.wpilibj.Joystick joystick;
   private boolean reversed = false;
+  static final double EXPONENTIAL_RATE = 3;
 
   public final Button TRIGGER;
   public final Button THUMB;
@@ -38,11 +39,15 @@ public class Joystick {
   }
 
   public double getX() {
-    return joystick.getX();
+    return expRate(joystick.getX());
   }
 
   public double getY() {
-    return reversed ? joystick.getY() : -joystick.getY();
+    return expRate(reversed ? joystick.getY() : -joystick.getY());
+  }
+
+  private double expRate(double input) {
+    return Math.pow(input, EXPONENTIAL_RATE);
   }
 
   public double getTwist() {

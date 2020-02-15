@@ -9,26 +9,36 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Lidar;
 import frc.robot.commands.DriveByJoysticks;
 
 public class Drivetrain extends SubsystemBase {
 
   final CANSparkMax frontLeft, backLeft, frontRight, backRight;
+  private Lidar back;
+  private Lidar front;
 
-  public Drivetrain(CANSparkMax frontLeft, CANSparkMax backLeft, CANSparkMax frontRight, CANSparkMax backRight) {
+  public Drivetrain(Lidar back, Lidar front, CANSparkMax frontLeft, CANSparkMax backLeft, CANSparkMax frontRight,
+      CANSparkMax backRight) {
     setDefaultCommand(new DriveByJoysticks(this));
     this.frontLeft = frontLeft;
     this.backLeft = backLeft;
     this.frontRight = frontRight;
     this.backRight = backRight;
+    this.back = back;
+    this.front = front;
   }
 
   public void move(double leftPower, double rightPower) {
     frontLeft.set(leftPower);
     backLeft.set(leftPower);
-    frontRight.set(rightPower);
-    backRight.set(rightPower);
+    frontRight.set(-rightPower);
+    backRight.set(-rightPower);
+    SmartDashboard.putNumber("Back distance", back.getDistance());
+    SmartDashboard.putNumber("Front distace", front.getDistance());
   }
 
   public double getLeftEncoderPosition() {

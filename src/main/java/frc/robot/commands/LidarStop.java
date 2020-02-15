@@ -23,10 +23,12 @@ public class LidarStop extends CommandBase {
   private PIDController lidarStopController = new PIDController(2e-8, 0, 0);
   boolean hasReachedStoppingDistance;
   Supplier<Boolean> shouldFinish;
+  Supplier<Double> getSpeed;
 
-  public LidarStop(Drivetrain drivetrain, Supplier<Boolean> shouldFinish) {
+  public LidarStop(Drivetrain drivetrain, Supplier<Boolean> shouldFinish, Supplier<Double> getSpeed) {
     addRequirements(drivetrain);
     this.shouldFinish = shouldFinish;
+    this.getSpeed = getSpeed;
   }
 
   // Called when the command is initially scheduled.
@@ -43,11 +45,13 @@ public class LidarStop extends CommandBase {
       hasReachedStoppingDistance = true;
     }
     if (hasReachedStoppingDistance) {
-      double error = Constants.Sensors.FRONT_LIDAR.getDistance() - TARGET_DISTANCE;
+      double error = Constants.Sensors.BACK_LIDAR.getDistance() - TARGET_DISTANCE;
       double correction = lidarStopController.getCorrection(error);
       drivetrain.move(correction, correction);
-    } else
-      drivetrain.move(0.5, 0.5);
+    } else {
+      double speed = getSpeed.get();
+      drivetrain.move(speed, speed);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -56,10 +60,10 @@ public class LidarStop extends CommandBase {
     drivetrain.move(0, 0);
   }
 
-  private boolean isBeyondStoppingDistance() {
+  boolean isBeyondStoppingDistance() {
     double averageVel = (drivetrain.getLeftEncoderVelocity() + drivetrain.getRightEncoderVelocity()) / 2;
     double speedInCmPerSecond = averageVel * Constants.ConversionFactors.CENTIMETERS_PER_SECOND_PER_ENCODER_RPM;
-    double distanceFromTarget = Constants.Sensors.FRONT_LIDAR.getDistance() - TARGET_DISTANCE;
+    double distanceFromTarget = Constants.Sensors.BACK_LIDAR.getDistance() - TARGET_DISTANCE;
     double timeToReachDestination = distanceFromTarget / speedInCmPerSecond;
     SmartDashboard.putNumber("Time to reach destination", timeToReachDestination);
     return timeToReachDestination < STOPPING_TIME;
@@ -67,6 +71,7 @@ public class LidarStop extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return lidarStopController.isStable(2, 2000) || shouldFinish.get();
+    // return lidarStopController.isStable(2, 2000) || shouldFinish.get();
+    return false;
   }
 }

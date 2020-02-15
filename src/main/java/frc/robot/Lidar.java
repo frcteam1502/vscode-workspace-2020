@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.I2C;
+import static edu.wpi.first.wpilibj.I2C.Port.*;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Lidar {
@@ -16,12 +17,18 @@ public class Lidar {
 
   int count;
 
-  byte[] serialHigh;
-  byte[] serialLow;
+  byte[] serialHigh = new byte[1];
+  byte[] serialLow = new byte[1];
+
+  byte[] address = new byte[1];
+
+  int lidarAddress;
 
   public Lidar(I2C sensor, int lidarAddress) {
-    changeAddress(sensor, lidarAddress);
+    this.sensor = sensor;
     count = 0;
+    this.lidarAddress = lidarAddress;
+    changeAddress();
   }
 
   /**
@@ -31,7 +38,7 @@ public class Lidar {
    * 
    * @return distance in cm
    */
-  public double getDistance() {
+  public int getDistance() {
     if (count == 100) {
       count = 0; // Restart the count every 100
     }
@@ -54,10 +61,10 @@ public class Lidar {
     }
     sensor.read(0x8f, 2, buffer);
 
-    return (double) Integer.toUnsignedLong(buffer[0] * 0x100) + Byte.toUnsignedInt(buffer[1]);
+    return (int) Integer.toUnsignedLong(buffer[0] * 0x100) + Byte.toUnsignedInt(buffer[1]);
   }
 
-  private void changeAddress(I2C sensor, int lidarAddress) {
+  public void changeAddress() {
     if (lidarAddress != 0x62) {
       sensor.read(0x16, 1, serialHigh);
       sensor.read(0x17, 1, serialLow);
@@ -65,7 +72,16 @@ public class Lidar {
       sensor.write(0x19, serialLow[0]);
       sensor.write(0x1a, lidarAddress);
       sensor.write(0x1e, 0x08);
+      sensor = new I2C(kOnboard, lidarAddress);
     }
-    this.sensor = sensor;
+  }
+
+  public boolean addressOnly() {
+    return sensor.addressOnly();
+  }
+
+  public int readAddress() {
+    sensor.read(0x1a, 1, address);
+    return address[0];
   }
 }
