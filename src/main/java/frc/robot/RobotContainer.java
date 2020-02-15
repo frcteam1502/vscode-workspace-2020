@@ -23,7 +23,8 @@ public class RobotContainer {
 
   public static final Drivetrain drivetrain = new Drivetrain(Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT,
       Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
-  public static final LidarSubsystem lidar = new LidarSubsystem(Sensors.lidar);
+  public static final LidarSubsystem lidarb = new LidarSubsystem(Sensors.BACK_LIDAR);
+  public static final LidarSubsystem lidarf = new LidarSubsystem(Sensors.FRONT_LIDAR);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

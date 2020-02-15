@@ -29,7 +29,7 @@ public class Drivetrain extends SubsystemBase {
     this.backLeft = backLeft;
     this.frontRight = frontRight;
     this.backRight = backRight;
-    this.lidar = new LidarSubsystem(Sensors.lidar);
+    this.lidar = new LidarSubsystem(Sensors.BACK_LIDAR);
   }
 
   public void move() {

@@ -16,8 +16,11 @@ public class Lidar {
 
   int count;
 
+  byte[] serialHigh;
+  byte[] serialLow;
+
   public Lidar(I2C.Port port, int lidarAddress) {
-    sensor = new I2C(port, lidarAddress);
+    changeAddress(port, lidarAddress);
     count = 0;
   }
 
@@ -52,5 +55,19 @@ public class Lidar {
     sensor.read(0x8f, 2, buffer);
 
     return (int) Integer.toUnsignedLong(buffer[0] * 0x100) + Byte.toUnsignedInt(buffer[1]);
+  }
+
+  private void changeAddress(I2C.Port port, int lidarAddress) {
+    if (lidarAddress == 0x62) {
+      sensor = new I2C(port, lidarAddress);
+    } else {
+      sensor = new I2C(port, 0x62);
+      sensor.read(0x16, 1, serialHigh);
+      sensor.read(0x17, 1, serialLow);
+      sensor.write(0x18, serialHigh[0]);
+      sensor.write(0x19, serialLow[0]);
+      sensor.write(0x1a, lidarAddress);
+      sensor.write(0x1e, 0x08);
+    }
   }
 }

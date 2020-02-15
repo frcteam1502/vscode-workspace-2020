@@ -26,7 +26,8 @@ public final class Constants {
 
     public static class Sensors {
         public static final ADXL345_I2C gyro = new ADXL345_I2C(kMXP, Range.k4G);
-        public static final Lidar lidar = new Lidar(kOnboard, 0x62);
+        public static final Lidar BACK_LIDAR = new Lidar(kOnboard, 0x60); // Do the lower address first
+        public static final Lidar FRONT_LIDAR = new Lidar(kOnboard, 0x62);
         public static final UsbCamera CAMERA = new UsbCamera("USB Camera", 0);
     }
 
