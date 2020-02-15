@@ -7,6 +7,7 @@ import frc.robot.Constants.Motors;
 import frc.robot.Constants.Sensors;
 import frc.robot.commands.Autonomous;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.GyroTest;
 import frc.robot.subsystems.LidarSubsystem;
 
 /**
@@ -41,6 +42,8 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // Constants.Buttons.LB.whenHeld(new SpinnerGo(null).andThen(new
+    // SpinnerLiftDown()).andThen(new SpinnerLiftUp()));
   }
 
   /**
