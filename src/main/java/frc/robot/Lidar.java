@@ -26,9 +26,9 @@ public class Lidar {
    * was running the lidar. read was reading the specific converted distance byte.
    * can read many other byes. see documentation.
    * 
-   * @return distance
+   * @return distance in cm
    */
-  public int getDistance() {
+  public double getDistance() {
     if (count == 100) {
       count = 0; // Restart the count every 100
     }
@@ -51,8 +51,6 @@ public class Lidar {
     }
     sensor.read(0x8f, 2, buffer);
 
-    return (int) Integer.toUnsignedLong(buffer[0] * 0x100) + Byte.toUnsignedInt(buffer[1]); // swap this if it doesn't
-                                                                                            // look
-    // right
+    return (double) Integer.toUnsignedLong(buffer[0] * 0x100) + Byte.toUnsignedInt(buffer[1]);
   }
 }

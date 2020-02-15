@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Buttons;
+import frc.robot.Constants.Joysticks;
 import frc.robot.Constants.Motors;
-import frc.robot.Constants.Sensors;
 import frc.robot.commands.Autonomous;
-import frc.robot.subsystems.IntegratedDrivetrain;
-import frc.robot.subsystems.LidarSubsystem;
+import frc.robot.commands.LidarStop;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -21,9 +21,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Autonomous autonCommands = new Autonomous();
-  public static final LidarSubsystem lidar = new LidarSubsystem(Sensors.LIDAR);
-  public static final IntegratedDrivetrain drivetrain = new IntegratedDrivetrain(lidar, Motors.DRIVE_FRONT_LEFT,
-      Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
+  public static final Drivetrain drivetrain = new Drivetrain(Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT,
+      Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -40,7 +39,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Buttons.A.whenPressed(() -> drivetrain.reverse());
+    Buttons.A.whenPressed(() -> {
+      Constants.Joysticks.LEFT_JOYSTICK.toggleDirection();
+      Constants.Joysticks.RIGHT_JOYSTICK.toggleDirection();
+    });
+    Joysticks.LEFT_JOYSTICK.TRIGGER.whenPressed(new LidarStop(drivetrain, () -> Joysticks.LEFT_JOYSTICK.getY() <= 0));
   }
 
   /**

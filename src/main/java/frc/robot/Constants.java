@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import static edu.wpi.first.wpilibj.I2C.Port.*;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -43,6 +42,7 @@ public final class Constants {
   }
 
   public static final class ConversionFactors {
+    private static final double CENTIMETERS_PER_ENCODER_VALUE = 2.54 * 89.0 / 50.0;
     public static final double INCHES_PER_SECOND_PER_ENCODER_RPM = 48 / 1620;
     public static final double CENTIMETERS_PER_SECOND_PER_ENCODER_RPM = 122.0 / 1620.0;
     public static final double convert = .0125; // ill rename it later
@@ -61,31 +61,5 @@ public final class Constants {
     public static final Button RB = new JoystickButton(Joysticks.XBOX, 6);
     public static final Button START = new JoystickButton(Joysticks.XBOX, 7);
     public static final Button BACK = new JoystickButton(Joysticks.XBOX, 8);
-
-    public static final Button LEFT_TRIGGER = new JoystickButton(Joysticks.LEFT_JOYSTICK, 1);
-    public static final Button LEFT_THUMB = new JoystickButton(Joysticks.LEFT_JOYSTICK, 2);
-    public static final Button LEFT_UPPER_THREE = new JoystickButton(Joysticks.LEFT_JOYSTICK, 3);
-    public static final Button LEFT_UPPER_FOUR = new JoystickButton(Joysticks.LEFT_JOYSTICK, 4);
-    public static final Button LEFT_UPPER_FIVE = new JoystickButton(Joysticks.LEFT_JOYSTICK, 5);
-    public static final Button LEFT_UPPER_SIX = new JoystickButton(Joysticks.LEFT_JOYSTICK, 6);
-    public static final Button LEFT_LOWER_SEVEN = new JoystickButton(Joysticks.LEFT_JOYSTICK, 7);
-    public static final Button LEFT_LOWER_EIGHT = new JoystickButton(Joysticks.LEFT_JOYSTICK, 8);
-    public static final Button LEFT_LOWER_NINE = new JoystickButton(Joysticks.LEFT_JOYSTICK, 9);
-    public static final Button LEFT_LOWER_TEN = new JoystickButton(Joysticks.LEFT_JOYSTICK, 10);
-    public static final Button LEFT_LOWER_ELEVEN = new JoystickButton(Joysticks.LEFT_JOYSTICK, 11);
-    public static final Button LEFT_LOWER_TWELVE = new JoystickButton(Joysticks.LEFT_JOYSTICK, 12);
-
-    public static final Button RIGHT_TRIGGER = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 1);
-    public static final Button RIGHT_THUMB = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 2);
-    public static final Button RIGHT_UPPER_THREE = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 3);
-    public static final Button RIGHT_UPPER_FOUR = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 4);
-    public static final Button RIGHT_UPPER_FIVE = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 5);
-    public static final Button RIGHT_UPPER_SIX = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 6);
-    public static final Button RIGHT_LOWER_SEVEN = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 7);
-    public static final Button RIGHT_LOWER_EIGHT = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 8);
-    public static final Button RIGHT_LOWER_NINE = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 9);
-    public static final Button RIGHT_LOWER_TEN = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 10);
-    public static final Button RIGHT_LOWER_ELEVEN = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 11);
-    public static final Button RIGHT_LOWER_TWELVE = new JoystickButton(Joysticks.RIGHT_JOYSTICK, 12);
   }
 }
