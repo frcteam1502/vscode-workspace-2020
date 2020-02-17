@@ -7,6 +7,7 @@ import frc.robot.Constants.Motors;
 import frc.robot.Constants.Sensors;
 import frc.robot.commands.Autonomous;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.GyroTest;
 import frc.robot.subsystems.LidarSubsystem;
 
 /**
@@ -23,7 +24,12 @@ public class RobotContainer {
 
   public static final Drivetrain drivetrain = new Drivetrain(Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT,
       Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
+<<<<<<< HEAD
   // public static final LidarSubsystem lidar = new LidarSubsystem(Sensors.lidar);
+=======
+  public static final LidarSubsystem lidarb = new LidarSubsystem(Sensors.BACK_LIDAR);
+  public static final LidarSubsystem lidarf = new LidarSubsystem(Sensors.FRONT_LIDAR);
+>>>>>>> 512ae34df71bff7b0cdeca8dec8183acaafed53c
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -40,6 +46,8 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // Constants.Buttons.LB.whenHeld(new SpinnerGo(null).andThen(new
+    // SpinnerLiftDown()).andThen(new SpinnerLiftUp()));
   }
 
   /**
