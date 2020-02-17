@@ -7,16 +7,15 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.Random;
+import frc.robot.subsystems.SpinnerLift;
 
-public class RandomCommand extends CommandBase {
-  
-  private Random subsystem;
+public class SpinnerLiftUp extends CommandBase {
 
-  public RandomCommand(Random subsystem) {
+  SpinnerLift subsystem;
+
+  public SpinnerLiftUp(SpinnerLift subsystem) {
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     this.subsystem = subsystem;
   }
@@ -24,24 +23,23 @@ public class RandomCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    subsystem.setEncByGet();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subsystem.setSpeed(Constants.Joysticks.LEFT_JOYSTICK.getY());
-    SmartDashboard.putString("Old way", " Is the way to go");
+    subsystem.setLift(1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    subsystem.setLift(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return subsystem.getUpperLimit();
   }
 }
