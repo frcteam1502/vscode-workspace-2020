@@ -2,13 +2,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.util.Color;
 
-public class ColorKeystone extends Color{
+public class ColorKeystone extends Color {
 
   private final double[] rgb;
-  private final static ColorKeystone RED = new ColorKeystone(.5, .35, .14);
-  private final static ColorKeystone YELLOW = new ColorKeystone(.32, .55, .13);
-  private final static ColorKeystone GREEN = new ColorKeystone(.173, .563, .264);
-  private final static ColorKeystone BLUE = new ColorKeystone(.128, .41, .46);
+  private final static ColorKeystone RED = new ColorKeystone(.4, .4, .2);
+  private final static ColorKeystone YELLOW = new ColorKeystone(.31, .51, .16);
+  private final static ColorKeystone GREEN = new ColorKeystone(.22, .51, .26);
+  private final static ColorKeystone BLUE = new ColorKeystone(.18, .43, .38);
   private final static ColorKeystone[] COLOR_MAP = { YELLOW, RED, GREEN, BLUE };
 
   private ColorKeystone(double... rgb) {
@@ -27,6 +27,8 @@ public class ColorKeystone extends Color{
   }
 
   private double getDifference(ColorKeystone compare) {
-    return compare == null ? 3 : Math.pow(rgb[0] - compare.rgb[0], 2) + Math.pow(rgb[1] - compare.rgb[1], 2) + Math.pow(rgb[2] - compare.rgb[2], 2);
+    return compare == null ? 3
+        : Math.pow(rgb[0] - compare.rgb[0], 2) + Math.pow(rgb[1] - compare.rgb[1], 2)
+            + Math.pow(rgb[2] - compare.rgb[2], 2);
   }
 }
