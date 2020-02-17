@@ -26,6 +26,9 @@ public class RobotContainer {
    * CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed), new
    * CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
    */
+  // public static final IntakeBelt belt = new IntakeBelt(Sensors.INFRARED,
+  // Motors.INTAKE_BELT_LEFT,
+  // Motors.INTAKE_BELT_RIGHT);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
