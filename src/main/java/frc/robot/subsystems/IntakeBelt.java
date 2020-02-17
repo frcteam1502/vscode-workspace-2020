@@ -9,28 +9,32 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.RunBelt;
 
-public class Intake extends SubsystemBase {
-  
-  private CANSparkMax top, bottom, intakeWheel;
-  private boolean beltOn = true;
-  
-  public Intake(CANSparkMax top, CANSparkMax bottom, CANSparkMax intakeWheel) {
-    this.top = top;
-    this.bottom = bottom;
-    this.intakeWheel = intakeWheel;
+public class IntakeBelt extends SubsystemBase {
+
+  private DigitalInput infrared;
+  private CANSparkMax left, right;
+
+  /**
+   * Creates a new Intake.
+   */
+  public IntakeBelt(DigitalInput infrared, CANSparkMax left, CANSparkMax right) {
+    setDefaultCommand(new RunBelt(this));
+    this.infrared = infrared;
+    this.left = left;
+    this.right = right;
   }
 
-  public void run() {
-    int beltSpeed = beltOn ? 1 : 0;
-    top.set(beltSpeed);
-    bottom.set(-beltSpeed);
-    intakeWheel.set(1);
+  public boolean isBroken() {
+    return !infrared.get();
   }
 
-  public void toggleBelt() {
-    beltOn = !beltOn;
+  public void runBelt(int speed) {
+    left.set(speed);
+    right.set(speed);
   }
 
   @Override

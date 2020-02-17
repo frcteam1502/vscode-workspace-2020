@@ -8,13 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.SpinnerLift;
 
 public class SpinnerLiftDown extends CommandBase {
   /**
-   * Creates a new SpinnerLiftGo.
+   * Creates a new SpinnerDownCommands.
    */
-  public SpinnerLiftDown() {
+  SpinnerLift subsystem;
+
+  public SpinnerLiftDown(SpinnerLift subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(subsystem);
+    this.subsystem = subsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -25,16 +30,18 @@ public class SpinnerLiftDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    subsystem.setLift(1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    subsystem.setLift(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return subsystem.getLowerLimit();
   }
 }
