@@ -24,8 +24,6 @@ public class DriveByJoysticks extends CommandBase {
     double rotateSpeed = Constants.Joysticks.LEFT_JOYSTICK.getX();
     double leftPower = moveSpeed + rotateSpeed;
     double rightPower = moveSpeed - rotateSpeed;
-    SmartDashboard.putNumber("Left pwr", leftPower);
-    SmartDashboard.putNumber("right pwr", rightPower);
     if ((leftPower > 1 || leftPower < -1) || (rightPower > 1 || rightPower < -1)) {
       double max = Math.abs(Math.abs(leftPower) > Math.abs(rightPower) ? leftPower : rightPower);
       leftPower = leftPower / max;

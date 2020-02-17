@@ -1,15 +1,15 @@
 package frc.robot;
 
+import static frc.robot.Constants.Sensors.BACK_LIDAR;
+import static frc.robot.Constants.Sensors.FRONT_LIDAR;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.Joysticks;
 import frc.robot.Constants.Motors;
 import frc.robot.Constants.Sensors;
-
-import static frc.robot.Constants.Sensors.*;
 import frc.robot.commands.Autonomous;
 import frc.robot.commands.LidarStop;
 import frc.robot.subsystems.Drivetrain;
@@ -55,10 +55,8 @@ public class RobotContainer {
       SmartDashboard.putNumber("Back Address", BACK_LIDAR.readAddress());
       SmartDashboard.putNumber("Front Address", FRONT_LIDAR.readAddress());
     });
-    Joysticks.LEFT_JOYSTICK.TRIGGER.whenPressed(new InstantCommand(() -> {
-      SmartDashboard.putNumber("trigger press", Math.random());
-    }).andThen(
-        new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() <= 0, () -> Joysticks.RIGHT_JOYSTICK.getY())));
+    Joysticks.LEFT_JOYSTICK.TRIGGER.whenHeld(
+        new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() <= 0, () -> Joysticks.RIGHT_JOYSTICK.getY()));
   }
 
   /**

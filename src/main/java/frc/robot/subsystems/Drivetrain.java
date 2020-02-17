@@ -11,7 +11,6 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Lidar;
 import frc.robot.commands.DriveByJoysticks;
 
