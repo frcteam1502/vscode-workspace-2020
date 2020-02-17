@@ -16,20 +16,25 @@ import frc.robot.Constants.Buttons;
 import frc.robot.Constants.Joysticks;
 import frc.robot.Constants.Sensors;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.TempDrive;
 
 public class Drivetrain extends SubsystemBase {
 
-  CANSparkMax frontLeft, backLeft, frontRight, backRight;
+  public CANSparkMax frontLeft, backLeft, frontRight, backRight;
   Joystick left, right;
   LidarSubsystem lidar;
 
   public Drivetrain(CANSparkMax frontLeft, CANSparkMax backLeft, CANSparkMax frontRight, CANSparkMax backRight) {
-    setDefaultCommand(new DriveCommand(this));
+    setDefaultCommand(new TempDrive(this));
     this.frontLeft = frontLeft;
     this.backLeft = backLeft;
     this.frontRight = frontRight;
     this.backRight = backRight;
     this.lidar = new LidarSubsystem(Sensors.lidar);
+  }
+
+  public double getEncoder() {
+    return frontLeft.getEncoder().getPosition();
   }
 
   public void move() {
