@@ -31,6 +31,7 @@ public final class Constants {
   }
 
   public static class Sensors {
+    // TODO: sync with master
     public static final DigitalInput SPINNER_UPPER_LIFT_LIMIT = new DigitalInput(0);
     public static final DigitalInput SPINNER_LOWER_LIFT_LIMIT = new DigitalInput(1);
     public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
