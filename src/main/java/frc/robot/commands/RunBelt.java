@@ -7,19 +7,19 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.NavX;
+import frc.robot.subsystems.IntakeBelt;
 
-public class DisplayNavX extends CommandBase {
+public class RunBelt extends CommandBase {
+  private IntakeBelt subsystem;
+
   /**
-   * Creates a new DisplayNavX.
+   * Creates a new RunBelt.
    */
-  NavX NAVX;
-
-  public DisplayNavX(NavX NAVX) {
+  public RunBelt(IntakeBelt subsystem) {
+    addRequirements(subsystem);
+    this.subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    this.NAVX = NAVX;
   }
 
   // Called when the command is initially scheduled.
@@ -30,9 +30,10 @@ public class DisplayNavX extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    SmartDashboard.putNumber("angle", NAVX.getAngle());
-
+    if (subsystem.isBroken())
+      subsystem.runBelt(1);
+    else
+      subsystem.runBelt(0);
   }
 
   // Called once the command ends or is interrupted.

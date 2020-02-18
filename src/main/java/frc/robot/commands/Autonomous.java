@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.Sensors;
 import frc.robot.subsystems.Drivetrain;
 
 public class Autonomous extends SequentialCommandGroup {
@@ -30,7 +31,7 @@ public class Autonomous extends SequentialCommandGroup {
       addCommands(new DriveByDistance(drivetrain, 8 * 12));
       addCommands(new TurnByGyro(drivetrain, 90));
     }
-    addCommands(new DriveToWall(drivetrain));
+    addCommands(new DriveToWall(drivetrain, Sensors.FRONT_LIDAR));
 
     // (at 0.1 power)
     // 50 ticks = 89in

@@ -15,7 +15,7 @@ public class PIDController {
   public double D;
   ArrayList<Point> points = new ArrayList<Point>();
 
-  public class Point {
+  private class Point {
     double millis;
     double err;
 
@@ -42,17 +42,24 @@ public class PIDController {
     points.add(new Point(System.currentTimeMillis(), err));
   }
 
+  @Deprecated
   public double getCorrection() {
     return getP() + getI() + getD();
   }
 
-  public double getP() {
-    if (points.size() == 0)
-      return 0;
+  /**
+   * Inputs the error and then returns the correction.
+   */
+  public double getCorrection(double err) {
+    input(err);
+    return getCorrection();
+  }
+
+  private double getP() {
     return P * latest().err;
   }
 
-  public double getI() {
+  private double getI() {
     if (points.size() < 2) {
       return 0;
     }
@@ -95,7 +102,7 @@ public class PIDController {
     return Math.abs(latest().err) < threshold && Math.abs(predictedErrorValue) < threshold;
   }
 
-  public Point previous() {
+  private Point previous() {
     try {
       return points.get(points.size() - 2);
     } catch (ArrayIndexOutOfBoundsException e) {
@@ -103,7 +110,7 @@ public class PIDController {
     }
   }
 
-  public Point latest() {
+  private Point latest() {
     try {
       return points.get(points.size() - 1);
     } catch (IndexOutOfBoundsException e) {

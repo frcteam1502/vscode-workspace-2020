@@ -1,14 +1,19 @@
 package frc.robot;
 
-import com.revrobotics.CANSparkMax;
+import static frc.robot.Constants.Sensors.BACK_LIDAR;
+import static frc.robot.Constants.Sensors.FRONT_LIDAR;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.Joysticks;
+import frc.robot.Constants.Motors;
+import frc.robot.Constants.Sensors;
 import frc.robot.commands.Autonomous;
+import frc.robot.commands.LidarStop;
 import frc.robot.subsystems.Drivetrain;
 
 /**
@@ -21,8 +26,8 @@ import frc.robot.subsystems.Drivetrain;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  private final Drivetrain drivetrain = new Drivetrain(Constants.Motors.DRIVE_FRONT_LEFT,
-      Constants.Motors.DRIVE_BACK_LEFT, Constants.Motors.DRIVE_FRONT_RIGHT, Constants.Motors.DRIVE_BACK_RIGHT);
+  final Drivetrain drivetrain = new Drivetrain(Sensors.BACK_LIDAR, Sensors.FRONT_LIDAR, Motors.DRIVE_FRONT_LEFT,
+      Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
   SendableChooser<Autonomous.StartPosition> startPositionChooser = new SendableChooser<>();
 
   /**
@@ -30,6 +35,11 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
+    // BACK_LIDAR.changeAddress();
+    // FRONT_LIDAR.changeAddress();
+    // drivetrain = new Drivetrain(BACK_LIDAR, FRONT_LIDAR, Motors.DRIVE_FRONT_LEFT,
+    // Motors.DRIVE_BACK_LEFT,
+    // Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
     configureButtonBindings();
     Constants.Sensors.LIFT_GYRO.calibrate();
     startPositionChooser.setDefaultOption("Left", Autonomous.StartPosition.LEFT);
@@ -44,11 +54,17 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Constants.Buttons.LB.whenHeld(new SpinnerGo(null).andThen(new
-    // SpinnerLiftDown()).andThen(new SpinnerLiftUp()));
+    SmartDashboard.putBoolean("Back Only", BACK_LIDAR.addressOnly());
+    SmartDashboard.putBoolean("Front Only", FRONT_LIDAR.addressOnly());
+    SmartDashboard.putNumber("Back Address", BACK_LIDAR.readAddress());
+    SmartDashboard.putNumber("Front Address", FRONT_LIDAR.readAddress());
+    Joysticks.LEFT_JOYSTICK.TRIGGER.whenPressed(new InstantCommand(() -> {
+      SmartDashboard.putNumber("trigger press", Math.random());
+    }).andThen(
+        new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() <= 0, () -> Joysticks.RIGHT_JOYSTICK.getY())));
   }
 
-  /**
+  /*
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous

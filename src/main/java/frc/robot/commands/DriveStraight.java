@@ -32,9 +32,8 @@ public abstract class DriveStraight extends CommandBase {
 
   @Override
   public void execute() {
-    double offset = rotationController.getCorrection();
     double error = Constants.Sensors.LIFT_GYRO.getAngle() - initialHeading;
-    rotationController.input(error);
+    double offset = rotationController.getCorrection(error);
     drivetrain.move(SPEED - offset, SPEED + offset);
   }
 

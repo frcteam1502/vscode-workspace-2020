@@ -8,25 +8,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
+import frc.robot.Lidar;
 import frc.robot.subsystems.Drivetrain;
 
 public class DriveToWall extends DriveStraight {
 
   static final double STOPPING_DISTANCE_CM = 20;
+  Lidar lidar;
 
-  public DriveToWall(Drivetrain drivetrain) {
+  public DriveToWall(Drivetrain drivetrain, Lidar lidar) {
     super(drivetrain);
+    this.lidar = lidar;
   }
 
   @Override
   public void execute() {
     super.execute();
-    SmartDashboard.putNumber("lidar distance", Constants.Sensors.LIDAR.getDistance());
+    SmartDashboard.putNumber("lidar distance", lidar.getDistance());
   }
 
   @Override
   public boolean isFinished() {
-    return Constants.Sensors.LIDAR.getDistance() <= STOPPING_DISTANCE_CM;
+    return lidar.getDistance() <= STOPPING_DISTANCE_CM;
   }
 }

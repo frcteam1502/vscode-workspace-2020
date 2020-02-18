@@ -66,13 +66,11 @@ public class TurnByGyro extends CommandBase {
     }
     double offset;
     if (isUsingRotationPid) {
-      rotationController.input(angle - targetAngle);
-      offset = -rotationController.getCorrection();
+      offset = -rotationController.getCorrection(angle - targetAngle);
     } else {
       offset = turnAngle > 0 ? SPEED : -SPEED;
     }
-    movementController.input(drivetrain.getAverageEncoderPosition());
-    double movement = -movementController.getCorrection();
+    double movement = -movementController.getCorrection(drivetrain.getAverageEncoderPosition());
     drivetrain.move(movement + offset, movement - offset);
   }
 
