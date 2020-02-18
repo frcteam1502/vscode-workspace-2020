@@ -13,6 +13,7 @@ import frc.robot.Constants.Sensors;
 import frc.robot.commands.Autonomous;
 import frc.robot.commands.LidarStop;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.SpinnerTest;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -27,6 +28,7 @@ public class RobotContainer {
   private final Autonomous autonCommands = new Autonomous();
   public final Drivetrain drivetrain = new Drivetrain(Sensors.BACK_LIDAR, Sensors.FRONT_LIDAR, Motors.DRIVE_FRONT_LEFT,
       Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
+  public final SpinnerTest test = new SpinnerTest(Constants.Sensors.COLOR_SENSOR);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
