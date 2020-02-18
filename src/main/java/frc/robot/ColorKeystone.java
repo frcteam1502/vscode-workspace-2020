@@ -26,6 +26,10 @@ public class ColorKeystone extends Color {
     return min;
   }
 
+  public double[] getRGB() {
+    return rgb;
+  }
+
   private double getDifference(ColorKeystone compare) {
     return compare == null ? 3
         : Math.pow(rgb[0] - compare.rgb[0], 2) + Math.pow(rgb[1] - compare.rgb[1], 2)
