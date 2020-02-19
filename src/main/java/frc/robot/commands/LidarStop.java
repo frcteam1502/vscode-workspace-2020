@@ -20,13 +20,14 @@ public class LidarStop extends CommandBase {
   static final double TARGET_DISTANCE = 20; // cm
   private static final double STOPPING_TIME = 0.5;
   Drivetrain drivetrain;
-  private PIDController lidarStopController = new PIDController(2e-8, 0, 0);
+  PIDController lidarStopController = new PIDController(4e-3, 0, 0);
   boolean hasReachedStoppingDistance;
   Supplier<Boolean> shouldFinish;
   Supplier<Double> getSpeed;
 
   public LidarStop(Drivetrain drivetrain, Supplier<Boolean> shouldFinish, Supplier<Double> getSpeed) {
     addRequirements(drivetrain);
+    this.drivetrain = drivetrain;
     this.shouldFinish = shouldFinish;
     this.getSpeed = getSpeed;
   }
@@ -65,7 +66,6 @@ public class LidarStop extends CommandBase {
     double speedInCmPerSecond = averageVel * Constants.ConversionFactors.CENTIMETERS_PER_SECOND_PER_ENCODER_RPM;
     double distanceFromTarget = Constants.Sensors.BACK_LIDAR.getDistance() - TARGET_DISTANCE;
     double timeToReachDestination = distanceFromTarget / speedInCmPerSecond;
-    SmartDashboard.putNumber("Time to reach destination", timeToReachDestination);
     return timeToReachDestination < STOPPING_TIME;
   }
 
