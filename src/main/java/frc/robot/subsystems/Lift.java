@@ -36,8 +36,7 @@ public class Lift extends SubsystemBase {
   }
 
   public void adjust() {
-    pid.input(getAngle());
-    LIFT_ADJUSTMENT.set(pid.getCorrection());
+    LIFT_ADJUSTMENT.set(pid.getCorrection(getAngle()));
   }
 
   public void setSpeed(double speed) {
