@@ -1,14 +1,10 @@
 package frc.robot;
 
-import static frc.robot.Constants.Sensors.BACK_LIDAR;
-import static frc.robot.Constants.Sensors.FRONT_LIDAR;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.Joysticks;
 import frc.robot.Constants.Motors;
 import frc.robot.Constants.Sensors;
@@ -41,10 +37,10 @@ public class RobotContainer {
     // Motors.DRIVE_BACK_LEFT,
     // Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
     configureButtonBindings();
-    Constants.Sensors.LIFT_GYRO.calibrate();
     startPositionChooser.setDefaultOption("Left", Autonomous.StartPosition.LEFT);
     startPositionChooser.addOption("Center", Autonomous.StartPosition.CENTER);
     startPositionChooser.addOption("Right", Autonomous.StartPosition.RIGHT);
+    SmartDashboard.putData("Autonomous program", startPositionChooser);
   }
 
   /**
@@ -54,14 +50,8 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    SmartDashboard.putBoolean("Back Only", BACK_LIDAR.addressOnly());
-    SmartDashboard.putBoolean("Front Only", FRONT_LIDAR.addressOnly());
-    SmartDashboard.putNumber("Back Address", BACK_LIDAR.readAddress());
-    SmartDashboard.putNumber("Front Address", FRONT_LIDAR.readAddress());
-    Joysticks.LEFT_JOYSTICK.TRIGGER.whenPressed(new InstantCommand(() -> {
-      SmartDashboard.putNumber("trigger press", Math.random());
-    }).andThen(
-        new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() <= 0, () -> Joysticks.RIGHT_JOYSTICK.getY())));
+    Joysticks.LEFT_JOYSTICK.TRIGGER.whenPressed(
+        new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() <= 0, () -> Joysticks.RIGHT_JOYSTICK.getY()));
   }
 
   /*

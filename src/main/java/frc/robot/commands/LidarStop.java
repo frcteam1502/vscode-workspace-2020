@@ -27,6 +27,7 @@ public class LidarStop extends CommandBase {
 
   public LidarStop(Drivetrain drivetrain, Supplier<Boolean> shouldFinish, Supplier<Double> getSpeed) {
     addRequirements(drivetrain);
+    this.drivetrain = drivetrain;
     this.shouldFinish = shouldFinish;
     this.getSpeed = getSpeed;
   }

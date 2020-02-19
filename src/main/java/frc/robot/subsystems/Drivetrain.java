@@ -9,10 +9,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Lidar;
 import frc.robot.Constants.Joysticks;
+import frc.robot.Lidar;
 import frc.robot.commands.DriveByJoysticks;
 
 public class Drivetrain extends SubsystemBase {
@@ -37,8 +36,6 @@ public class Drivetrain extends SubsystemBase {
     backLeft.set(leftPower);
     frontRight.set(-rightPower);
     backRight.set(-rightPower);
-    SmartDashboard.putNumber("Back distance", back.getDistance());
-    SmartDashboard.putNumber("Front distace", front.getDistance());
   }
 
   public void moveByJoysticks() {
@@ -51,10 +48,6 @@ public class Drivetrain extends SubsystemBase {
       leftPwr /= max;
       rightPwr /= max;
     }
-    SmartDashboard.putNumber("Left power", leftPwr);
-    SmartDashboard.putNumber("Right power", rightPwr);
-    SmartDashboard.putNumber("Move speed", moveSpeed);
-    SmartDashboard.putNumber("Rotate speed", rotateSpeed);
     move(leftPwr, rightPwr);
   }
 

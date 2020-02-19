@@ -16,7 +16,7 @@ import frc.robot.subsystems.Drivetrain;
 public class TurnByGyro extends CommandBase {
 
   static final double SPEED = 0.1;
-  static final double DEGREE_TOLERANCE = 0.1;
+  static final double DEGREE_TOLERANCE = 1;
   static final double ROTATION_PID_ACTIVATION_THRESHOLD = 10;
   Drivetrain drivetrain;
   double startAngle;
@@ -39,7 +39,7 @@ public class TurnByGyro extends CommandBase {
   @Override
   public void initialize() {
     // lag alert getAngle() 5s lag
-    startAngle = Constants.Sensors.LIFT_GYRO.getAngle();
+    startAngle = Constants.Sensors.GYRO.getAngle();
     targetAngle = startAngle + turnAngle;
     isUsingRotationPid = false;
     rotationController.reset();
@@ -56,7 +56,7 @@ public class TurnByGyro extends CommandBase {
     // rotationController.P = SmartDashboard.getNumber("P", rotationController.P);
     // rotationController.I = SmartDashboard.getNumber("I", rotationController.I);
     // rotationController.D = SmartDashboard.getNumber("D", rotationController.D);
-    double angle = Constants.Sensors.LIFT_GYRO.getAngle();
+    double angle = Constants.Sensors.GYRO.getAngle();
     SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderPosition());
     SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderPosition());
     // if the target angle has been passed, start using PID

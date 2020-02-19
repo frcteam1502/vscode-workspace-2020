@@ -23,18 +23,14 @@ public class Autonomous extends SequentialCommandGroup {
     if (startPosition == StartPosition.LEFT) {
       addCommands(new DriveByDistance(drivetrain, 4 * 12));
       addCommands(new TurnByGyro(drivetrain, 90));
-      addCommands(new DriveByDistance(drivetrain, 8 * 12));
+      addCommands(new DriveByDistance(drivetrain, 11 * 12));
       addCommands(new TurnByGyro(drivetrain, -90));
     } else if (startPosition == StartPosition.RIGHT) {
       addCommands(new DriveByDistance(drivetrain, 4 * 12));
       addCommands(new TurnByGyro(drivetrain, -90));
-      addCommands(new DriveByDistance(drivetrain, 8 * 12));
+      addCommands(new DriveByDistance(drivetrain, 6 * 12));
       addCommands(new TurnByGyro(drivetrain, 90));
     }
     addCommands(new DriveToWall(drivetrain, Sensors.FRONT_LIDAR));
-
-    // (at 0.1 power)
-    // 50 ticks = 89in
-    // 100 ticks = 177in, 177.5in
   }
 }

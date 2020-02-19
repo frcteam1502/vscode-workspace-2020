@@ -7,16 +7,23 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.ConversionFactors;
 import frc.robot.subsystems.Drivetrain;
 
 public class DriveByDistance extends DriveStraight {
 
-  static final double INCHES_PER_ENCODER_TICK = 89.0 / 50.0;
   double targetEncoderPosition;
 
   public DriveByDistance(Drivetrain drivetrain, double inchesToGo) {
     super(drivetrain);
-    targetEncoderPosition = inchesToGo / INCHES_PER_ENCODER_TICK;
+    targetEncoderPosition = inchesToGo / ConversionFactors.INCHES_PER_ENCODER_VALUE;
+  }
+
+  public void execute() {
+    super.execute();
+    SmartDashboard.putNumber("Encoder position", drivetrain.getAverageEncoderPosition());
+    SmartDashboard.putNumber("Encoder target", targetEncoderPosition);
   }
 
   @Override
