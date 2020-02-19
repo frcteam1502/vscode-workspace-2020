@@ -3,6 +3,8 @@ package frc.robot;
 import static frc.robot.Constants.Sensors.BACK_LIDAR;
 import static frc.robot.Constants.Sensors.FRONT_LIDAR;
 
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,9 +13,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.Joysticks;
 import frc.robot.Constants.Motors;
 import frc.robot.Constants.Sensors;
-import frc.robot.commands.Autonomous;
-import frc.robot.commands.LidarStop;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -26,8 +27,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Autonomous autonCommands = new Autonomous();
-  public final Drivetrain drivetrain = new Drivetrain(Sensors.BACK_LIDAR, Sensors.FRONT_LIDAR, Motors.DRIVE_FRONT_LEFT,
-      Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
+  // public final Drivetrain drivetrain = new Drivetrain(Sensors.BACK_LIDAR,
+  // Sensors.FRONT_LIDAR, Motors.DRIVE_FRONT_LEFT,
+  // Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
+  public final IntakeWheel wheel = new IntakeWheel(Motors.INTAKE_WHEEL);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -53,10 +56,13 @@ public class RobotContainer {
     SmartDashboard.putBoolean("Front Only", FRONT_LIDAR.addressOnly());
     SmartDashboard.putNumber("Back Address", BACK_LIDAR.readAddress());
     SmartDashboard.putNumber("Front Address", FRONT_LIDAR.readAddress());
-    Joysticks.LEFT_JOYSTICK.TRIGGER.whenPressed(new InstantCommand(() -> {
-      SmartDashboard.putNumber("trigger press", Math.random());
-    }).andThen(
-        new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() <= 0, () -> Joysticks.RIGHT_JOYSTICK.getY())));
+    // Joysticks.LEFT_JOYSTICK.TRIGGER.whenPressed(new InstantCommand(() -> {
+    // SmartDashboard.putNumber("trigger press", Math.random());
+    // }).andThen(
+    // new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() <= 0, () ->
+    // Joysticks.RIGHT_JOYSTICK.getY())));
+    Joysticks.XBOX.LB.toggleWhenPressed(new IntakeWheelIn(wheel));
+    Joysticks.XBOX.L3.toggleWhenPressed(new IntakeWheelOut(wheel));
   }
 
   /*

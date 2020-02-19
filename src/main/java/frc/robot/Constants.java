@@ -13,21 +13,22 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.Button;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.DPadButton.Direction;
 
 public final class Constants {
 
   public static final class Motors {
-    public static final CANSparkMax DRIVE_FRONT_LEFT = new CANSparkMax(1, kBrushless);
-    public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(2, kBrushless);
-    public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3, kBrushless);
-    public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(4, kBrushless);
+    // public static final CANSparkMax DRIVE_FRONT_LEFT = new CANSparkMax(1,
+    // kBrushless);
+    // public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(2,
+    // kBrushless);
+    // public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3,
+    // kBrushless);
+    // public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(4,
+    // kBrushless);
     // TODO: these should be Victor SPXs
     public static final CANSparkMax INTAKE_BELT_LEFT = new CANSparkMax(11, kBrushed);
     public static final CANSparkMax INTAKE_BELT_RIGHT = new CANSparkMax(5, kBrushed);
+    public static final CANSparkMax INTAKE_WHEEL = new CANSparkMax(3, kBrushless);
   }
 
   public static class Sensors {
@@ -42,7 +43,7 @@ public final class Constants {
   }
 
   public static final class Joysticks {
-    public static final XboxController XBOX = new XboxController(2);
+    public static final XBox XBOX = new XBox(2);
     public static final Joystick LEFT_JOYSTICK = new Joystick(1);
     public static final Joystick RIGHT_JOYSTICK = new Joystick(0);
   }
@@ -57,17 +58,5 @@ public final class Constants {
    * I have no words.
    */
   public static final class Buttons {
-    public static final Button DP_UP = new DPadButton(Joysticks.XBOX, Direction.Up);
-    public static final Button DP_LEFT = new DPadButton(Joysticks.XBOX, Direction.Left);
-    public static final Button DP_DOWN = new DPadButton(Joysticks.XBOX, Direction.Down);
-    public static final Button DP_RIGHT = new DPadButton(Joysticks.XBOX, Direction.Right);
-    public static final Button A = new JoystickButton(Joysticks.XBOX, 1);
-    public static final Button B = new JoystickButton(Joysticks.XBOX, 2);
-    public static final Button X = new JoystickButton(Joysticks.XBOX, 3);
-    public static final Button Y = new JoystickButton(Joysticks.XBOX, 4);
-    public static final Button LB = new JoystickButton(Joysticks.XBOX, 5);
-    public static final Button RB = new JoystickButton(Joysticks.XBOX, 6);
-    public static final Button START = new JoystickButton(Joysticks.XBOX, 7);
-    public static final Button BACK = new JoystickButton(Joysticks.XBOX, 8);
   }
 }
