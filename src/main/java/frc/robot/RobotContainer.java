@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LiftGyro;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -16,14 +17,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  private final DisplayGyroPosition m_displayGyroPosition = new DisplayGyroPosition();
+  // private final DisplayGyroPosition m_displayGyroPosition = new
+  // DisplayGyroPosition();
 
-  private final Intake intake = new Intake(Constants.Motors.INTAKE_TOP, Constants.Motors.INTAKE_BOTTOM,
-      Constants.Motors.INTAKE_WHEEL, Constants.Sensors.INFRARED_ONE, Constants.Sensors.INFRARED_TWO);
+  // private final Intake intake = new Intake(Constants.Motors.INTAKE_TOP,
+  // Constants.Motors.INTAKE_BOTTOM,
+  // Constants.Motors.INTAKE_WHEEL, Constants.Sensors.INFRARED_ONE,
+  // Constants.Sensors.INFRARED_TWO);
 
-  private final RunIntakeCommand runIntakeCommand = new RunIntakeCommand(intake);
+  // private final RunIntakeCommand runIntakeCommand = new
+  // RunIntakeCommand(intake);
 
-  private final ToggleIntakeCommand toggleIntakeCommand = new ToggleIntakeCommand(intake);
+  // private final ToggleIntakeCommand toggleIntakeCommand = new
+  // ToggleIntakeCommand(intake);
 
   private final Autonomous autonCommands = new Autonomous();
   // private final Drivetrain driveTrain = new Drivetrain(Joysticks.leftJoystick,
@@ -32,6 +38,7 @@ public class RobotContainer {
   // new CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed),
   // new CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
+  public static LiftGyro lift = new LiftGyro(Constants.Motors.GYRO_MOTOR, Constants.Sensors.LIFT_GYRO);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -48,9 +55,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Constants.Buttons.B.whenHeld(m_displayGyroPosition);
-    Constants.Buttons.A.whenPressed(runIntakeCommand);
-    Constants.Buttons.RB.whenPressed(toggleIntakeCommand);
+
   }
 
   /**

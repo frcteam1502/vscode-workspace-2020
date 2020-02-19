@@ -3,14 +3,12 @@ package frc.robot;
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ColorSensorV3;
 
-import edu.wpi.first.wpilibj.ADXL345_I2C;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DPadButton.Direction;
@@ -28,22 +26,29 @@ import frc.robot.DPadButton.Direction;
 public final class Constants {
 
   public static final class Motors {
-    public static final CANSparkMax RANDOM_MOTOR = new CANSparkMax(1, kBrushless);
-    public static final CANSparkMax DRIVE_FRONT_LEFT = new CANSparkMax(2, kBrushless);
-    public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(4, kBrushless);
-    public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3, kBrushless);
-    public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(5, kBrushless);
-    public static final CANSparkMax INTAKE_TOP = new CANSparkMax(6, kBrushless);
-    public static final CANSparkMax INTAKE_BOTTOM = new CANSparkMax(7, kBrushless);
-    public static final CANSparkMax INTAKE_WHEEL = new CANSparkMax(8, kBrushless);
+    // public static final CANSparkMax RANDOM_MOTOR = new CANSparkMax(1,
+    // kBrushless);
+    // public static final CANSparkMax DRIVE_FRONT_LEFT = new CANSparkMax(2,
+    // kBrushless);
+    // public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(4,
+    // kBrushless);
+    // public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3,
+    // kBrushless);
+    // public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(5,
+    // kBrushless);
+    // public static final CANSparkMax INTAKE_TOP = new CANSparkMax(6, kBrushless);
+    // public static final CANSparkMax INTAKE_BOTTOM = new CANSparkMax(7,
+    // kBrushless);
+    // public static final CANSparkMax INTAKE_WHEEL = new CANSparkMax(8,
+    // kBrushless);
+    public static final CANSparkMax GYRO_MOTOR = new CANSparkMax(15, kBrushless);
   }
 
   public static class Sensors {
     public static final DigitalInput SPINNER_LIFT_LIMIT = new DigitalInput(0);
-    public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(Port.kOnboard);
-    public static final ADXL345_I2C GYRO = new ADXL345_I2C(Port.kOnboard, Range.k4G);
     public static final DigitalInput INFRARED_ONE = new DigitalInput(1);
     public static final DigitalInput INFRARED_TWO = new DigitalInput(2);
+    public static final ADXRS450_Gyro LIFT_GYRO = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 
     // public static final I2C COLOR_SENSOR = new I2C(kOnboard, 0x39); //port, I2c
     // address
