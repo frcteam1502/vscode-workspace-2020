@@ -47,5 +47,6 @@ public final class Constants {
     public static final double CENTIMETERS_PER_ENCODER_VALUE = 2.54 * 89.0 / 50.0;
     public static final double INCHES_PER_SECOND_PER_ENCODER_RPM = 48 / 1620;
     public static final double CENTIMETERS_PER_SECOND_PER_ENCODER_RPM = 122.0 / 1620.0;
+    public static final double ENCODER_VALUES_PER_SPINNER = 0;
   }
 }
