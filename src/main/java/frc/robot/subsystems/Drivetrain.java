@@ -76,7 +76,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getLeftEncoderVelocity() {
-    return -(frontLeft.getEncoder().getVelocity() + backLeft.getEncoder().getVelocity()) / 2;
+    return (frontLeft.getEncoder().getVelocity() + backLeft.getEncoder().getVelocity()) / 2;
   }
 
   public double getRightEncoderVelocity() {

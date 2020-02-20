@@ -44,9 +44,9 @@ public class TurnByGyro extends CommandBase {
     isUsingRotationPid = false;
     rotationController.reset();
     movementController.reset();
-    SmartDashboard.putNumber("P", rotationController.P);
-    SmartDashboard.putNumber("I", rotationController.I);
-    SmartDashboard.putNumber("D", rotationController.D);
+    // SmartDashboard.putNumber("P", rotationController.P);
+    // SmartDashboard.putNumber("I", rotationController.I);
+    // SmartDashboard.putNumber("D", rotationController.D);
     drivetrain.resetEncoders();
   }
 

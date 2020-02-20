@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.PIDController;
@@ -20,7 +19,7 @@ public class LidarStop extends CommandBase {
   static final double TARGET_DISTANCE = 20; // cm
   private static final double STOPPING_TIME = 0.5;
   Drivetrain drivetrain;
-  private PIDController lidarStopController = new PIDController(2e-8, 0, 0);
+  private PIDController lidarStopController = new PIDController(4e-3, 0, 0);
   boolean hasReachedStoppingDistance;
   Supplier<Boolean> shouldFinish;
   Supplier<Double> getSpeed;
@@ -46,7 +45,7 @@ public class LidarStop extends CommandBase {
       hasReachedStoppingDistance = true;
     }
     if (hasReachedStoppingDistance) {
-      double error = Constants.Sensors.BACK_LIDAR.getDistance() - TARGET_DISTANCE;
+      double error = Constants.Sensors.FRONT_LIDAR.getDistance() - TARGET_DISTANCE;
       double correction = lidarStopController.getCorrection(error);
       drivetrain.move(correction, correction);
     } else {
@@ -64,15 +63,13 @@ public class LidarStop extends CommandBase {
   boolean isBeyondStoppingDistance() {
     double averageVel = (drivetrain.getLeftEncoderVelocity() + drivetrain.getRightEncoderVelocity()) / 2;
     double speedInCmPerSecond = averageVel * Constants.ConversionFactors.CENTIMETERS_PER_SECOND_PER_ENCODER_RPM;
-    double distanceFromTarget = Constants.Sensors.BACK_LIDAR.getDistance() - TARGET_DISTANCE;
+    double distanceFromTarget = Constants.Sensors.FRONT_LIDAR.getDistance() - TARGET_DISTANCE;
     double timeToReachDestination = distanceFromTarget / speedInCmPerSecond;
-    SmartDashboard.putNumber("Time to reach destination", timeToReachDestination);
     return timeToReachDestination < STOPPING_TIME;
   }
 
   @Override
   public boolean isFinished() {
-    // return lidarStopController.isStable(2, 2000) || shouldFinish.get();
-    return false;
+    return lidarStopController.isStable(2, 2000) || shouldFinish.get();
   }
 }
