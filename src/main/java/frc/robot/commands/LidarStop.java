@@ -62,7 +62,6 @@ public class LidarStop extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    // return lidarStopController.isStable(2, 2000) || shouldFinish.get();
-    return false;
+    return lidarStopController.isStable(2, 2000) || shouldFinish.get();
   }
 }
