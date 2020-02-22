@@ -19,52 +19,38 @@ public class Lift extends SubsystemBase {
   private final CANSparkMax LIFT_RIGHT;
   private final CANSparkMax LIFT_LEFT;
   private final CANSparkMax LIFT_ADJUSTMENT;
-  private final DigitalInput LIFT_TOP_LIMITS;
-  private final DigitalInput LIFT_BOTTOM_LIMITS;
-  PIDController pid;
-  ADXRS450_Gyro LIFT_GYRO;
+  private final DigitalInput UPPER_LIMIT;
+  private final DigitalInput LOWER_LIMIT;
+  private ADXRS450_Gyro LIFT_GYRO;
 
-  public Lift(CANSparkMax LIFT_RIGHT, CANSparkMax LIFT_LEFT, CANSparkMax LIFT_ADJUSTMENT, DigitalInput LIFT_TOP_LIMITS,
-      DigitalInput LIFT_BOTTOM_LIMITS, ADXRS450_Gyro LIFT_GYRO) {
-    pid = new PIDController(0, 0, 0);
+  public Lift(CANSparkMax LIFT_RIGHT, CANSparkMax LIFT_LEFT, CANSparkMax LIFT_ADJUSTMENT, DigitalInput UPPER_LIMIT,
+      DigitalInput LOWER_LIMIT, ADXRS450_Gyro LIFT_GYRO) {
     this.LIFT_RIGHT = LIFT_RIGHT;
     this.LIFT_LEFT = LIFT_LEFT;
     this.LIFT_ADJUSTMENT = LIFT_ADJUSTMENT;
-    this.LIFT_TOP_LIMITS = LIFT_TOP_LIMITS;
-    this.LIFT_BOTTOM_LIMITS = LIFT_BOTTOM_LIMITS;
+    this.UPPER_LIMIT = UPPER_LIMIT;
+    this.LOWER_LIMIT = LOWER_LIMIT;
     this.LIFT_GYRO = LIFT_GYRO;
   }
 
-  public void adjust() {
-    LIFT_ADJUSTMENT.set(pid.getCorrection(getAngle()));
+  public void adjust(double correction) {
+    LIFT_ADJUSTMENT.set(correction);
   }
 
-  public void setSpeed(double speed) {
+  public void setLift(double speed) {
     LIFT_RIGHT.set(speed);
     LIFT_LEFT.set(speed);
-    LIFT_ADJUSTMENT.set(speed);
   }
 
-  public void runUp() {
-    if (!LIFT_TOP_LIMITS.get()) {
-      LIFT_RIGHT.set(1);
-      LIFT_LEFT.set(1);
-    } else {
-      runDown();
-    }
+  public boolean getLowerLimit() {
+    return LOWER_LIMIT.get();
   }
 
-  public void runDown() {
-    if (!LIFT_BOTTOM_LIMITS.get()) {
-      LIFT_LEFT.set(-1);
-      LIFT_RIGHT.set(-1);
-    } else {
-      LIFT_LEFT.set(0);
-      LIFT_RIGHT.set(0);
-    }
+  public boolean getUpperLimit() {
+    return UPPER_LIMIT.get();
   }
 
-  private double getAngle() {
+  public double getAngle() {
     return LIFT_GYRO.getAngle();
   }
 
