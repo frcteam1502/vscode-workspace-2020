@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ColorKeystone;
 
 public class Spinner extends SubsystemBase {
-
   private final ColorSensorV3 colorSensor;
   private final CANSparkMax wheel;
 

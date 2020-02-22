@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
 
 import java.util.function.Supplier;
@@ -15,14 +8,13 @@ import frc.robot.PIDController;
 import frc.robot.subsystems.Drivetrain;
 
 public class LidarStop extends CommandBase {
-
   static final double TARGET_DISTANCE = 20; // cm
   private static final double STOPPING_TIME = 0.5;
-  Drivetrain drivetrain;
-  PIDController lidarStopController = new PIDController(4e-3, 0, 0);
-  boolean hasReachedStoppingDistance;
-  Supplier<Boolean> shouldFinish;
-  Supplier<Double> getSpeed;
+  private Drivetrain drivetrain;
+  private PIDController lidarStopController = new PIDController(4e-3, 0, 0);
+  private boolean hasReachedStoppingDistance;
+  private Supplier<Boolean> shouldFinish;
+  private Supplier<Double> getSpeed;
 
   public LidarStop(Drivetrain drivetrain, Supplier<Boolean> shouldFinish, Supplier<Double> getSpeed) {
     addRequirements(drivetrain);

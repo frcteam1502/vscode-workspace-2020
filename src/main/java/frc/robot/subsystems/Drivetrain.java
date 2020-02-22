@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
@@ -15,10 +8,9 @@ import frc.robot.Lidar;
 import frc.robot.commands.DriveByJoysticks;
 
 public class Drivetrain extends SubsystemBase {
-
-  final CANSparkMax frontLeft, backLeft, frontRight, backRight;
-  private Lidar back;
-  private Lidar front;
+  private final CANSparkMax frontLeft, backLeft, frontRight, backRight;
+  private final Lidar back;
+  private final Lidar front;
 
   public Drivetrain(Lidar back, Lidar front, CANSparkMax frontLeft, CANSparkMax backLeft, CANSparkMax frontRight,
       CANSparkMax backRight) {

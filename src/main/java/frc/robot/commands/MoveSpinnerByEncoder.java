@@ -5,7 +5,6 @@ import frc.robot.Constants.ConversionFactors;
 import frc.robot.subsystems.Spinner;
 
 public class MoveSpinnerByEncoder extends CommandBase {
-
   private Spinner subsystem;
 
   public MoveSpinnerByEncoder(Spinner subsystem) {

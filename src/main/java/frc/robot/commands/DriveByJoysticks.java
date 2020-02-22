@@ -5,7 +5,6 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
 public class DriveByJoysticks extends CommandBase {
-
   private final Drivetrain drivetrain;
 
   public DriveByJoysticks(Drivetrain subsystem) {

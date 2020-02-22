@@ -16,11 +16,11 @@ import frc.robot.PIDController;
 
 public class Lift extends SubsystemBase {
 
-  CANSparkMax LIFT_RIGHT;
-  CANSparkMax LIFT_LEFT;
-  CANSparkMax LIFT_ADJUSTMENT;
-  DigitalInput LIFT_TOP_LIMITS;
-  DigitalInput LIFT_BOTTOM_LIMITS;
+  private final CANSparkMax LIFT_RIGHT;
+  private final CANSparkMax LIFT_LEFT;
+  private final CANSparkMax LIFT_ADJUSTMENT;
+  private final DigitalInput LIFT_TOP_LIMITS;
+  private final DigitalInput LIFT_BOTTOM_LIMITS;
   PIDController pid;
   ADXRS450_Gyro LIFT_GYRO;
 
