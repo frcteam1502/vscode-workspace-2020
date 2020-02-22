@@ -34,11 +34,7 @@ public class IntakeBelt extends SubsystemBase {
   public boolean isBroken() {
     return !infrared.get();
   }
-
-  public boolean hasChanged() {
-    return isBroken == infrared.get();
-  }
-
+  
   public void runBelt(int speed) {
     left.set(speed);
     right.set(speed);
@@ -46,7 +42,7 @@ public class IntakeBelt extends SubsystemBase {
 
   public void adjustToBallIndex() {
     double speed = 0;
-    if (hasChanged() && !infrared.get())
+    if (isBroken == infrared.get() && !infrared.get())
       amountOfBalls++;
     if (left.getEncoder().getPosition() < amountOfBalls * encodersPerBall && right.getEncoder().getPosition() > amountOfBalls * encodersPerBall) speed = 1;
     else if (left.getEncoder().getPosition() > amountOfBalls * encodersPerBall && right.getEncoder().getPosition() < amountOfBalls * encodersPerBall) speed = -1;

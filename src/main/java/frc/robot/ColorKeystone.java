@@ -1,7 +1,6 @@
 package frc.robot;
 
 public class ColorKeystone {
-
   private final String identifier;
   private final double[] rgb;
 
@@ -18,7 +17,6 @@ public class ColorKeystone {
   private final static ColorEntry[] COLOR_MAP = { RED_MAPPED, YELLOW_MAPPED,  GREEN_MAPPED, BLUE_MAPPED };
 
   public static class ColorEntry {
-
     public final ColorKeystone robotColor, actualColor;
 
     public ColorEntry(ColorKeystone robotColor, ColorKeystone actualColor) {
