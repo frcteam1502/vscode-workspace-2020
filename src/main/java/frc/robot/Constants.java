@@ -17,22 +17,15 @@ import edu.wpi.first.wpilibj.SPI.Port;
 public final class Constants {
 
   public static final class Motors {
-    public static final CANSparkMax INTAKE = new CANSparkMax(15, kBrushless);
-    // public static final CANSparkMax DRIVE_FRONT_LEFT = new CANSparkMax(1,
-    // kBrushless);
-    // public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(2,
-    // kBrushless);
-    // public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3,
-    // kBrushless);
-    // public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(4,
-    // kBrushless);
-    // // TODO: these should be Victor SPXs
-    // public static final CANSparkMax INTAKE_BELT_LEFT = new CANSparkMax(11,
-    // kBrushed);
-    // public static final CANSparkMax INTAKE_BELT_RIGHT = new CANSparkMax(5,
-    // kBrushed);
-    // public static final CANSparkMax SPINNER_WHEEL = new CANSparkMax(15,
-    // kBrushless);
+    public static final CANSparkMax INTAKE = new CANSparkMax(1, kBrushless);
+    public static final CANSparkMax DRIVE_FRONT_LEFT = new CANSparkMax(1, kBrushless);
+    public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(2, kBrushless);
+    public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3, kBrushless);
+    public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(4, kBrushless);
+    // TODO: these should be Victor SPXs
+    public static final CANSparkMax INTAKE_BELT_LEFT = new CANSparkMax(11,  kBrushed);
+    public static final CANSparkMax INTAKE_BELT_RIGHT = new CANSparkMax(5, kBrushed);
+    public static final CANSparkMax SPINNER_WHEEL = new CANSparkMax(15, kBrushless);
   }
 
   public static class Sensors {

@@ -1,13 +1,8 @@
 package frc.robot;
 
-import static frc.robot.Constants.Sensors.BACK_LIDAR;
-import static frc.robot.Constants.Sensors.FRONT_LIDAR;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.Joysticks;
 import frc.robot.Constants.Motors;
 import frc.robot.Constants.Sensors;
@@ -16,11 +11,9 @@ import frc.robot.commands.LidarStop;
 import frc.robot.commands.MoveSpinnerByEncoder;
 import frc.robot.commands.MoveTo;
 import frc.robot.commands.RunIntake;
-import frc.robot.commands.SpinnerTestCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Spinner;
-import frc.robot.subsystems.SpinnerTest;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -33,24 +26,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Autonomous autonCommands = new Autonomous();
-  // public final Drivetrain drivetrain = new Drivetrain(Sensors.BACK_LIDAR,
-  // Sensors.FRONT_LIDAR, Motors.DRIVE_FRONT_LEFT,
-  // Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
+  public final Drivetrain drivetrain = new Drivetrain(Sensors.BACK_LIDAR, Sensors.FRONT_LIDAR, Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
 
-  // public final Spinner spinner = new Spinner(Sensors.COLOR_SENSOR,
-  // Motors.SPINNER_WHEEL);
+  public final Spinner spinner = new Spinner(Sensors.COLOR_SENSOR,  Motors.SPINNER_WHEEL);
   public final Intake intake = new Intake(Motors.INTAKE);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
-    // BACK_LIDAR.changeAddress();
-    // FRONT_LIDAR.changeAddress();
-    // drivetrain = new Drivetrain(BACK_LIDAR, FRONT_LIDAR, Motors.DRIVE_FRONT_LEFT,
-    // Motors.DRIVE_BACK_LEFT,
-    // Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
     configureButtonBindings();
   }
 

@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ColorKeystone;
 
@@ -26,7 +25,7 @@ public class Spinner extends SubsystemBase {
   }
 
   public boolean checkSpinner(String gameData) {
-    return gameData == ColorKeystone.getClosestColor(colorSensor.getColor()).getActualColor().getIdentifier();
+    return gameData == ColorKeystone.getClosestColor(colorSensor.getColor()).actualColor.getIdentifier();
   }
 
   public void setSpeed(double speed) {
