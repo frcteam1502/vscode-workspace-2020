@@ -24,6 +24,7 @@ public final class Constants {
     // TODO: these should be Victor SPXs
     public static final CANSparkMax INTAKE_BELT_LEFT = new CANSparkMax(11, kBrushed);
     public static final CANSparkMax INTAKE_BELT_RIGHT = new CANSparkMax(5, kBrushed);
+    public static final CANSparkMax SPINNER_WHEEL = new CANSparkMax(15, kBrushless);
   }
 
   public static class Sensors {
@@ -32,9 +33,12 @@ public final class Constants {
     public static final AHRS GYRO = new AHRS(SPI.Port.kMXP);
     public static final Lidar BACK_LIDAR = new Lidar(new I2C(kOnboard, 0x62), 0x60); // Do changed address first
     public static final Lidar FRONT_LIDAR = new Lidar(new I2C(kOnboard, 0x62), 0x62);
-    public static final DigitalInput SPINNER_UPPER_LIFT_LIMIT = new DigitalInput(0);
-    public static final DigitalInput SPINNER_LOWER_LIFT_LIMIT = new DigitalInput(1);
-    public static final ADXRS450_Gyro LIFT_GYRO = new ADXRS450_Gyro(Port.kOnboardCS0);
+    // public static final DigitalInput SPINNER_UPPER_LIFT_LIMIT = new
+    // DigitalInput(0);
+    // public static final DigitalInput SPINNER_LOWER_LIFT_LIMIT = new
+    // DigitalInput(1);
+    // public static final ADXRS450_Gyro LIFT_GYRO = new
+    // ADXRS450_Gyro(Port.kOnboardCS0);
   }
 
   public static final class Joysticks {
@@ -47,6 +51,6 @@ public final class Constants {
     public static final double CENTIMETERS_PER_ENCODER_VALUE = 2.54 * 89.0 / 50.0;
     public static final double INCHES_PER_SECOND_PER_ENCODER_RPM = 48 / 1620;
     public static final double CENTIMETERS_PER_SECOND_PER_ENCODER_RPM = 122.0 / 1620.0;
-    public static final double ENCODER_VALUES_PER_SPINNER = 0;
+    public static final double ENCODERS_PER_SPINNER_ROTATION = 97.3893722613 / 25.132741;
   }
 }

@@ -7,6 +7,7 @@ import frc.robot.subsystems.Spinner;
 public class MoveTo extends CommandBase {
 
   private final Spinner subsystem;
+  private String gameData = "R";
 
   public MoveTo(Spinner subsystem) {
     this.subsystem = subsystem;
@@ -18,7 +19,10 @@ public class MoveTo extends CommandBase {
 
   @Override
   public void execute() {
-    subsystem.setSpeed(1);
+    if (isFinished())
+      end(false);
+    else
+      subsystem.setSpeed(.05);
   }
 
   @Override
@@ -28,7 +32,7 @@ public class MoveTo extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    String gameData = DriverStation.getInstance().getGameSpecificMessage();
-    return gameData != null && !subsystem.checkSpinner(gameData);
+    // String gameData = DriverStation.getInstance().getGameSpecificMessage();
+    return gameData != null && subsystem.checkSpinner(gameData);
   }
 }

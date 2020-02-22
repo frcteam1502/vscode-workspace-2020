@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ConversionFactors;
 import frc.robot.subsystems.Spinner;
 
 public class MoveSpinnerByEncoder extends CommandBase {
@@ -20,7 +22,7 @@ public class MoveSpinnerByEncoder extends CommandBase {
 
   @Override
   public void execute() {
-    subsystem.setSpeed(1);
+    subsystem.setSpeed(.1);
   }
 
   @Override
@@ -30,6 +32,6 @@ public class MoveSpinnerByEncoder extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return Constants.ConversionFactors.ENCODER_VALUES_PER_SPINNER * 4 < subsystem.getPosition();
+    return ConversionFactors.ENCODERS_PER_SPINNER_ROTATION * 8 < subsystem.getPosition();
   }
 }
