@@ -19,19 +19,19 @@ public class Lift extends SubsystemBase {
   CANSparkMax LIFT_RIGHT;
   CANSparkMax LIFT_LEFT;
   CANSparkMax LIFT_ADJUSTMENT;
-  DigitalInput LIFT_TOP_LIMITS;
-  DigitalInput LIFT_BOTTOM_LIMITS;
+  DigitalInput LIFT_TOP_LIMIT;
+  DigitalInput LIFT_BOTTOM_LIMIT;
   PIDController pid;
   ADXRS450_Gyro LIFT_GYRO;
 
-  public Lift(CANSparkMax LIFT_RIGHT, CANSparkMax LIFT_LEFT, CANSparkMax LIFT_ADJUSTMENT, DigitalInput LIFT_TOP_LIMITS,
-      DigitalInput LIFT_BOTTOM_LIMITS, ADXRS450_Gyro LIFT_GYRO) {
+  public Lift(CANSparkMax LIFT_RIGHT, CANSparkMax LIFT_LEFT, CANSparkMax LIFT_ADJUSTMENT, DigitalInput LIFT_TOP_LIMIT,
+      DigitalInput LIFT_BOTTOM_LIMIT, ADXRS450_Gyro LIFT_GYRO) {
     pid = new PIDController(0, 0, 0);
     this.LIFT_RIGHT = LIFT_RIGHT;
     this.LIFT_LEFT = LIFT_LEFT;
     this.LIFT_ADJUSTMENT = LIFT_ADJUSTMENT;
-    this.LIFT_TOP_LIMITS = LIFT_TOP_LIMITS;
-    this.LIFT_BOTTOM_LIMITS = LIFT_BOTTOM_LIMITS;
+    this.LIFT_TOP_LIMIT = LIFT_TOP_LIMIT;
+    this.LIFT_BOTTOM_LIMIT = LIFT_BOTTOM_LIMIT;
     this.LIFT_GYRO = LIFT_GYRO;
   }
 
@@ -40,29 +40,24 @@ public class Lift extends SubsystemBase {
     LIFT_ADJUSTMENT.set(pid.getCorrection());
   }
 
+  public void setLift(double speed) {
+    LIFT_RIGHT.set(speed);
+    LIFT_LEFT.set(speed);
+
+  }
+
   public void setSpeed(double speed) {
     LIFT_RIGHT.set(speed);
     LIFT_LEFT.set(speed);
     LIFT_ADJUSTMENT.set(speed);
   }
 
-  public void runUp() {
-    if (!LIFT_TOP_LIMITS.get()) {
-      LIFT_RIGHT.set(1);
-      LIFT_LEFT.set(1);
-    } else {
-      runDown();
-    }
+  public boolean getUpperLimit() {
+    return LIFT_TOP_LIMIT.get();
   }
 
-  public void runDown() {
-    if (!LIFT_BOTTOM_LIMITS.get()) {
-      LIFT_LEFT.set(-1);
-      LIFT_RIGHT.set(-1);
-    } else {
-      LIFT_LEFT.set(0);
-      LIFT_RIGHT.set(0);
-    }
+  public boolean getLowerLimit() {
+    return LIFT_BOTTOM_LIMIT.get();
   }
 
   private double getAngle() {

@@ -8,23 +8,30 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Lift;
 
-public class SpinnerLiftUp extends CommandBase {
+public class LiftAdjust extends CommandBase {
   /**
-   * Creates a new SpinnerLiftGo.
+   * Creates a new LiftAdjust.
    */
-  public SpinnerLiftUp() {
+  private Lift subsystem;
+
+  public LiftAdjust(Lift subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(subsystem);
+    this.subsystem = subsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    subsystem.adjust();
   }
 
   // Called once the command ends or is interrupted.
