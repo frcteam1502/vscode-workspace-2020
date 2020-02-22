@@ -17,6 +17,9 @@ public class IntakeBelt extends SubsystemBase {
 
   private DigitalInput infrared;
   private CANSparkMax left, right;
+  private int amountOfBalls = 0;
+  private int encodersPerBall = 0;
+  private boolean isBroken = false;
 
   /**
    * Creates a new Intake.
@@ -32,9 +35,23 @@ public class IntakeBelt extends SubsystemBase {
     return !infrared.get();
   }
 
+  public boolean hasChanged() {
+    return isBroken == infrared.get();
+  }
+
   public void runBelt(int speed) {
     left.set(speed);
     right.set(speed);
+  }
+
+  public void adjustToBallIndex() {
+    double speed = 0;
+    if (hasChanged() && !infrared.get())
+      amountOfBalls++;
+    if (left.getEncoder().getPosition() < amountOfBalls * encodersPerBall && right.getEncoder().getPosition() > amountOfBalls * encodersPerBall) speed = 1;
+    else if (left.getEncoder().getPosition() > amountOfBalls * encodersPerBall && right.getEncoder().getPosition() < amountOfBalls * encodersPerBall) speed = -1;
+    left.set(speed);
+    right.set(-speed);
   }
 
   @Override
