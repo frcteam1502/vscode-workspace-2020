@@ -81,6 +81,14 @@ public class Spinner extends SubsystemBase {
     }
   }
 
+  public void spin() {
+    if (getColorDifference(gameInfo(), lastColor) != getColorDifference(gameInfo(), startColor))
+      spinWheel.set(1);
+    else
+      spinWheel.set(0);
+
+  }
+
   public void periodic() {
   }
 }

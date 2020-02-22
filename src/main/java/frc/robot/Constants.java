@@ -25,6 +25,7 @@ public final class Constants {
     public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(2, kBrushless);
     public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3, kBrushless);
     public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(4, kBrushless);
+    public static final CANSparkMax SPIN_WHEEL = new CANSparkMax(5, kBrushless);
     // TODO: these should be Victor SPXs
     public static final CANSparkMax INTAKE_BELT_LEFT = new CANSparkMax(11, kBrushed);
     public static final CANSparkMax INTAKE_BELT_RIGHT = new CANSparkMax(5, kBrushed);
