@@ -9,7 +9,13 @@ public class ColorKeystone extends Color {
   private final static ColorKeystone YELLOW = new ColorKeystone("Y", .31, .51, .16);
   private final static ColorKeystone GREEN = new ColorKeystone("G", .22, .51, .26);
   private final static ColorKeystone BLUE = new ColorKeystone("B", .18, .43, .38);
-  private final static ColorKeystone[] COLOR_MAP = { YELLOW, RED, GREEN, BLUE };
+  // private final static ColorKeystone[] COLOR_MAP = { YELLOW, RED, GREEN, BLUE
+  // };
+  // private final static ColorKeystone[] SENSOR_COLOR_MAP = { GREEN, BLUE,
+  // YELLOW, RED };
+
+  private final static ColorEntry[] COLOR_MAP = { new ColorEntry(YELLOW, GREEN), new ColorEntry(RED, BLUE),
+      new ColorEntry(GREEN, YELLOW), new ColorEntry(BLUE, RED) };
 
   private final String identifier;
 
@@ -19,12 +25,31 @@ public class ColorKeystone extends Color {
     this.identifier = identifier;
   }
 
-  public static ColorKeystone getClosestColor(Color currentColor) {
+  public static class ColorEntry {
+
+    private final ColorKeystone robot, actual;
+
+    public ColorEntry(ColorKeystone robot, ColorKeystone actual) {
+      this.robot = robot;
+      this.actual = actual;
+    }
+
+    public ColorKeystone getRobotColor() {
+      return robot;
+    }
+
+    public ColorKeystone getActualColor() {
+      return actual;
+    }
+  }
+
+  public static ColorEntry getClosestColor(Color currentColor) {
     ColorKeystone current = new ColorKeystone("n", currentColor.red, currentColor.green, currentColor.blue);
-    ColorKeystone min = null;
-    for (ColorKeystone constant : COLOR_MAP) {
-      if (current.getDifference(constant) < .1 && current.getDifference(constant) < current.getDifference(min))
-        min = constant;
+    ColorEntry min = null;
+    for (ColorEntry entry : COLOR_MAP) {
+      if (current.getDifference(entry.getRobotColor()) < .1
+          && current.getDifference(entry.getRobotColor()) < current.getDifference(min.getRobotColor()))
+        min = entry;
     }
     return min;
   }
@@ -37,14 +62,5 @@ public class ColorKeystone extends Color {
 
   public String getIdentifier() {
     return identifier;
-  }
-
-  public static ColorKeystone getByIndetifier(String identifier) {
-    ColorKeystone result = null;
-    for (ColorKeystone constant : COLOR_MAP) {
-      if (constant.getIdentifier() == identifier)
-        result = constant;
-    }
-    return result;
   }
 }
