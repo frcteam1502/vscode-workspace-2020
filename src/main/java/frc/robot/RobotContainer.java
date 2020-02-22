@@ -1,11 +1,20 @@
 package frc.robot;
 
+import static frc.robot.Constants.Sensors.BACK_LIDAR;
+import static frc.robot.Constants.Sensors.FRONT_LIDAR;
+
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants.Joysticks;
+import frc.robot.Constants.Motors;
+import frc.robot.Constants.Sensors;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -18,20 +27,21 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Autonomous autonCommands = new Autonomous();
-
-  /**
-   * private final Drivetrain driveTrain = new Drivetrain(leftJoystick,
-   * rightJoystick, new CANSparkMax(Motors.DRIVE_FRONT_LEFT, kBrushed), new
-   * CANSparkMax(Motors.DRIVE_BACK_LEFT, kBrushed), new
-   * CANSparkMax(Motors.DRIVE_FRONT_RIGHT, kBrushed), new
-   * CANSparkMax(Motors.DRIVE_BACK_RIGHT, kBrushed));
-   */
+  // public final Drivetrain drivetrain = new Drivetrain(Sensors.BACK_LIDAR,
+  // Sensors.FRONT_LIDAR, Motors.DRIVE_FRONT_LEFT,
+  // Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
+  public final IntakeWheel wheel = new IntakeWheel(Motors.INTAKE_WHEEL);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
+    // BACK_LIDAR.changeAddress();
+    // FRONT_LIDAR.changeAddress();
+    // drivetrain = new Drivetrain(BACK_LIDAR, FRONT_LIDAR, Motors.DRIVE_FRONT_LEFT,
+    // Motors.DRIVE_BACK_LEFT,
+    // Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
     configureButtonBindings();
   }
 
@@ -42,9 +52,20 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    SmartDashboard.putBoolean("Back Only", BACK_LIDAR.addressOnly());
+    SmartDashboard.putBoolean("Front Only", FRONT_LIDAR.addressOnly());
+    SmartDashboard.putNumber("Back Address", BACK_LIDAR.readAddress());
+    SmartDashboard.putNumber("Front Address", FRONT_LIDAR.readAddress());
+    // Joysticks.LEFT_JOYSTICK.TRIGGER.whenPressed(new InstantCommand(() -> {
+    // SmartDashboard.putNumber("trigger press", Math.random());
+    // }).andThen(
+    // new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() <= 0, () ->
+    // Joysticks.RIGHT_JOYSTICK.getY())));
+    Joysticks.XBOX.LB.toggleWhenPressed(new IntakeWheelIn(wheel));
+    Joysticks.XBOX.L3.toggleWhenPressed(new IntakeWheelOut(wheel));
   }
 
-  /**
+  /*
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
