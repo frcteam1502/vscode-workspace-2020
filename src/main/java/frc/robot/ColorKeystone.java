@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class ColorKeystone {
   private final String identifier;
   private final double[] rgb;
@@ -14,7 +16,7 @@ public class ColorKeystone {
   private final static ColorEntry GREEN_MAPPED = new ColorEntry(GREEN, YELLOW);
   private final static ColorEntry BLUE_MAPPED = new ColorEntry(BLUE, RED);
 
-  private final static ColorEntry[] COLOR_MAP = { RED_MAPPED, YELLOW_MAPPED,  GREEN_MAPPED, BLUE_MAPPED };
+  private final static ColorEntry[] COLOR_MAP = { RED_MAPPED, YELLOW_MAPPED, GREEN_MAPPED, BLUE_MAPPED };
 
   public static class ColorEntry {
     public final ColorKeystone robotColor, actualColor;
@@ -41,7 +43,7 @@ public class ColorKeystone {
     ColorEntry min = null;
     for (ColorEntry entry : COLOR_MAP) {
       if (current.getDifference(entry.robotColor) < .1
-          && current.getDifference(entry.robotColor) < current.getDifference(min.robotColor))
+          && (min == null || current.getDifference(entry.robotColor) < current.getDifference(min.robotColor)))
         min = entry;
     }
     return min;
