@@ -3,7 +3,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.commands.RunBelt;
 
 public class IntakeBelt extends SubsystemBase {
@@ -15,6 +17,7 @@ public class IntakeBelt extends SubsystemBase {
 
   public IntakeBelt(DigitalInput infrared, CANSparkMax left, CANSparkMax right) {
     setDefaultCommand(new RunBelt(this));
+    Constants.Joysticks.XBOX.setRumble(RumbleType.kRightRumble);
     this.infrared = infrared;
     this.left = left;
     this.right = right;

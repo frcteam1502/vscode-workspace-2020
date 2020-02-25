@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -15,13 +16,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * Add your docs here.
  */
 public class XBox {
-
   private final XboxController controller;
 
   public final Button DP_UP, DP_LEFT, DP_DOWN, DP_RIGHT;
   public final Button A, B, X, Y;
   public final Button LB, RB;
   public final Button START, BACK;
+  public final Button L3; // TODO make sure this is right
 
   enum Direction {
     Up(0), Right(90), Down(180), Left(270);
@@ -47,6 +48,7 @@ public class XBox {
     RB = new JoystickButton(controller, 6);
     START = new JoystickButton(controller, 7);
     BACK = new JoystickButton(controller, 8);
+    L3 = new JoystickButton(controller, 11);
   }
 
   class DPad extends Button {
@@ -63,5 +65,9 @@ public class XBox {
       return degree == direction.degree;
     }
 
+  }
+
+  public void setRumble(RumbleType type) {
+    controller.setRumble(type, 1);
   }
 }

@@ -23,9 +23,13 @@ public final class Constants {
     public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(3, kBrushless);
     public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(4, kBrushless);
     // TODO: these should be Victor SPXs
-    public static final CANSparkMax INTAKE_BELT_LEFT = new CANSparkMax(11,  kBrushed);
+    public static final CANSparkMax INTAKE_BELT_LEFT = new CANSparkMax(11, kBrushed);
     public static final CANSparkMax INTAKE_BELT_RIGHT = new CANSparkMax(5, kBrushed);
     public static final CANSparkMax SPINNER_WHEEL = new CANSparkMax(15, kBrushless);
+    public static final CANSparkMax SPINNER_LIFT = new CANSparkMax(11, kBrushless);
+    public static final CANSparkMax LIFT_RIGHT = new CANSparkMax(2, kBrushless);
+    public static final CANSparkMax LIFT_LEFT = new CANSparkMax(13, kBrushless);
+    public static final CANSparkMax LIFT_ADJUSTER = new CANSparkMax(7, kBrushless);
   }
 
   public static class Sensors {
@@ -34,12 +38,12 @@ public final class Constants {
     public static final AHRS GYRO = new AHRS(SPI.Port.kMXP);
     public static final Lidar BACK_LIDAR = new Lidar(new I2C(kOnboard, 0x62), 0x60); // Do changed address first
     public static final Lidar FRONT_LIDAR = new Lidar(new I2C(kOnboard, 0x62), 0x62);
-    // public static final DigitalInput SPINNER_UPPER_LIFT_LIMIT = new
-    // DigitalInput(0);
-    // public static final DigitalInput SPINNER_LOWER_LIFT_LIMIT = new
-    // DigitalInput(1);
-    // public static final ADXRS450_Gyro LIFT_GYRO = new
-    // ADXRS450_Gyro(Port.kOnboardCS0);
+    public static final DigitalInput LIFT_UPPER_LIMIT = new DigitalInput(0);
+    public static final DigitalInput LIFT_LOWER_LIMIT = new DigitalInput(1);
+    public static final DigitalInput INTAKE_INFRARED = new DigitalInput(2);
+    public static final DigitalInput SPINNER_UPPER_LIFT_LIMIT = new DigitalInput(0);
+    public static final DigitalInput SPINNER_LOWER_LIFT_LIMIT = new DigitalInput(1);
+    public static final ADXRS450_Gyro LIFT_GYRO = new ADXRS450_Gyro(Port.kOnboardCS0);
   }
 
   public static final class Joysticks {

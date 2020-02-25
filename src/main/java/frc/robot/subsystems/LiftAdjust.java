@@ -9,31 +9,24 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Lift extends SubsystemBase {
-  private final CANSparkMax right, left;
-  private final DigitalInput upper, lower;
+public class LiftAdjust extends SubsystemBase {
+  private final CANSparkMax adjuster;
+  private final ADXRS450_Gyro gyro;
 
-  public Lift(CANSparkMax right, CANSparkMax left, DigitalInput upper, DigitalInput lower) {
-    this.right = right;
-    this.left = left;
-    this.upper = upper;
-    this.lower = lower;
+  public LiftAdjust(CANSparkMax adjuster, ADXRS450_Gyro gyro) {
+    this.adjuster = adjuster;
+    this.gyro = gyro;
   }
 
-  public void setLift(double speed) {
-    right.set(speed);
-    left.set(speed);
+  public void adjust(double correction) {
+    adjuster.set(correction);
   }
 
-  public boolean getLowerLimit() {
-    return lower.get();
-  }
-
-  public boolean getUpperLimit() {
-    return upper.get();
+  public double getAngle() {
+    return gyro.getAngle();
   }
 
   @Override
