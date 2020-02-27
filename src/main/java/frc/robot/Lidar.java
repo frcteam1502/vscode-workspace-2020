@@ -9,7 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.I2C;
 import static edu.wpi.first.wpilibj.I2C.Port.*;
+
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lidar {
 
@@ -60,7 +64,7 @@ public class Lidar {
       Timer.delay(.001);
     }
     sensor.read(0x8f, 2, buffer);
-
+    SmartDashboard.putBoolean("Made it", true);
     return (int) Integer.toUnsignedLong(buffer[0] * 0x100) + Byte.toUnsignedInt(buffer[1]);
   }
 

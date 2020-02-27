@@ -25,6 +25,8 @@ public class Spinner extends SubsystemBase {
   }
 
   public boolean checkSpinner(String gameData) {
+    SmartDashboard.putString("Identifier",
+        ColorKeystone.getClosestColor(colorSensor.getColor()).actualColor.getIdentifier());
     return gameData == ColorKeystone.getClosestColor(colorSensor.getColor()).actualColor.getIdentifier();
   }
 

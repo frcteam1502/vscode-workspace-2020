@@ -4,22 +4,23 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Lidar;
 import frc.robot.commands.DriveByJoysticks;
 
 public class Drivetrain extends SubsystemBase {
   private final CANSparkMax frontLeft, backLeft, frontRight, backRight;
-  private final Lidar back;
+  // private final Lidar back;
   private final Lidar front;
 
-  public Drivetrain(Lidar back, Lidar front, CANSparkMax frontLeft, CANSparkMax backLeft, CANSparkMax frontRight,
+  public Drivetrain(/* Lidar back, */ Lidar front, CANSparkMax frontLeft, CANSparkMax backLeft, CANSparkMax frontRight,
       CANSparkMax backRight) {
     setDefaultCommand(new DriveByJoysticks(this));
     this.frontLeft = frontLeft;
     this.backLeft = backLeft;
     this.frontRight = frontRight;
     this.backRight = backRight;
-    this.back = back;
+    // this.back = back;
     this.front = front;
   }
 
@@ -28,8 +29,10 @@ public class Drivetrain extends SubsystemBase {
     backLeft.set(leftPower);
     frontRight.set(-rightPower);
     backRight.set(-rightPower);
-    SmartDashboard.putNumber("Back distance", back.getDistance());
-    SmartDashboard.putNumber("Front distace", front.getDistance());
+    SmartDashboard.putBoolean("it is here", true);
+    // SmartDashboard.putNumber("Back distance",
+    // Constants.Sensors.BACK_LIDAR.getDistance());
+    SmartDashboard.putNumber("Front distance", Constants.Sensors.FRONT_LIDAR.getDistance());
   }
 
   public double getLeftEncoderPosition() {
