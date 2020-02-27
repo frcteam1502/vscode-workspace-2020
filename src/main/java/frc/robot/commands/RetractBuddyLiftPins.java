@@ -20,7 +20,7 @@ public class RetractBuddyLiftPins extends CommandBase {
 
   @Override
   public void execute() {
-    subsystem.setSpeed(1);
+    subsystem.setSpeed(.2);
   }
 
   @Override

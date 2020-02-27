@@ -11,10 +11,12 @@ import frc.robot.commands.LiftManualAdjust;
 import frc.robot.commands.LiftUp;
 import frc.robot.commands.MoveSpinnerByEncoder;
 import frc.robot.commands.MoveTo;
+import frc.robot.commands.RetractBuddyLiftPins;
 import frc.robot.commands.RunBelt;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.SpinnerLiftDown;
 import frc.robot.commands.SpinnerLiftUp;
+import frc.robot.subsystems.BuddyLift;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeBelt;
@@ -39,6 +41,7 @@ public class RobotContainer {
   public final Lift lift = new Lift(Motors.LIFT_RIGHT, Motors.LIFT_LEFT, Sensors.LIFT_UPPER_LIMIT,
       Sensors.LIFT_LOWER_LIMIT);
   public final LiftAdjust liftAdjust = new LiftAdjust(Motors.LIFT_ADJUSTER, Sensors.LIFT_GYRO);
+  public final BuddyLift buddy = new BuddyLift(Motors.RIGHT_BUDDY_LIFT, Motors.LEFT_BUDDY_LIFT);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -50,8 +53,6 @@ public class RobotContainer {
     // }).andThen(
     // new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() <= 0, () ->
     // Joysticks.RIGHT_JOYSTICK.getY())));
-    Joysticks.XBOX.A.toggleWhenPressed(new MoveSpinnerByEncoder(spinner));
-    Joysticks.XBOX.B.toggleWhenPressed(new MoveTo(spinner));
     Joysticks.XBOX.DP_DOWN.whileHeld(new LiftDown(lift));
     Joysticks.XBOX.DP_UP.whileHeld(new LiftUp(lift));
     Joysticks.XBOX.DP_RIGHT.whileHeld(new LiftManualAdjust(liftAdjust, 1));
@@ -63,6 +64,8 @@ public class RobotContainer {
         new SpinnerLiftUp(spinnerLift).andThen(new MoveTo(spinner)).andThen(new SpinnerLiftDown(spinnerLift)));
     Joysticks.XBOX.B.whenPressed(new SpinnerLiftUp(spinnerLift).andThen(new MoveSpinnerByEncoder(spinner))
         .andThen(new SpinnerLiftDown(spinnerLift)));
+    Joysticks.RIGHT_JOYSTICK.LOWER_SEVEN.and(Joysticks.LEFT_JOYSTICK.LOWER_SEVEN)
+        .whenActive(new RetractBuddyLiftPins(buddy));
     // Joysticks.XBOX.RB.toggleWhenPressed(new RunIntake(intake, -1));
     // Joysticks.XBOX.LB.toggleWhenPressed(new RunIntake(intake, 1));
   }

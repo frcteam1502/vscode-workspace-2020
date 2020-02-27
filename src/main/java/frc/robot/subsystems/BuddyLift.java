@@ -13,7 +13,7 @@ public class BuddyLift extends SubsystemBase {
     this.motor2 = motor2;
   }
 
-  public void setSpeed(int speed) {
+  public void setSpeed(double speed) {
     motor1.set(speed);
     motor2.set(speed);
   }
