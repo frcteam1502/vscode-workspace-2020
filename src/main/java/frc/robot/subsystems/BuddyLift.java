@@ -2,20 +2,18 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class BuddyLift extends SubsystemBase {
-  private CANSparkMax motor1;
-  private CANSparkMax motor2;
+  private VictorSPX motor;
 
-  public BuddyLift(CANSparkMax motor1, CANSparkMax motor2) {
-    this.motor1 = motor1;
-    this.motor2 = motor2;
+  public BuddyLift(VictorSPX motor) {
+    this.motor = motor;
   }
 
   public void setSpeed(double speed) {
-    motor1.set(speed);
-    motor2.set(speed);
+    motor.set(ControlMode.PercentOutput, speed);
   }
 
   @Override

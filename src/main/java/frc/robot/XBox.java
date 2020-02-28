@@ -48,7 +48,7 @@ public class XBox {
     RB = new JoystickButton(controller, 6);
     START = new JoystickButton(controller, 7);
     BACK = new JoystickButton(controller, 8);
-    L3 = new JoystickButton(controller, 11);
+    L3 = new JoystickButton(controller, 9);
   }
 
   class DPad extends Button {
@@ -67,7 +67,11 @@ public class XBox {
 
   }
 
-  public void setRumble(RumbleType type) {
-    controller.setRumble(type, 1);
+  public void setLeftRumble(int intensity) {
+    controller.setRumble(RumbleType.kLeftRumble, intensity);
+  }
+
+  public void setRightRumble(int intensity) {
+    controller.setRumble(RumbleType.kRightRumble, intensity);
   }
 }

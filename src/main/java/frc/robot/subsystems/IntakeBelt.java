@@ -17,7 +17,6 @@ public class IntakeBelt extends SubsystemBase {
 
   public IntakeBelt(DigitalInput infrared, CANSparkMax left, CANSparkMax right) {
     setDefaultCommand(new RunBelt(this));
-    Constants.Joysticks.XBOX.setRumble(RumbleType.kRightRumble);
     this.infrared = infrared;
     this.left = left;
     this.right = right;
