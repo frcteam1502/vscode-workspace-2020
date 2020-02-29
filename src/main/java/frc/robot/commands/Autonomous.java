@@ -31,6 +31,6 @@ public class Autonomous extends SequentialCommandGroup {
       addCommands(new DriveByDistance(drivetrain, 6 * 12));
       addCommands(new TurnByGyro(drivetrain, 90));
     }
-    addCommands(new DriveToWall(drivetrain, Sensors.FRONT_LIDAR));
+    addCommands(new DriveToWall(drivetrain, Sensors.BACK_LIDAR));
   }
 }

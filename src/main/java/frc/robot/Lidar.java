@@ -7,11 +7,9 @@
 
 package frc.robot;
 
+import static edu.wpi.first.wpilibj.I2C.Port.kOnboard;
+
 import edu.wpi.first.wpilibj.I2C;
-import static edu.wpi.first.wpilibj.I2C.Port.*;
-
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
