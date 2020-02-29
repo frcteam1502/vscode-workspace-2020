@@ -1,17 +1,14 @@
 package frc.robot;
 
-import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
-import static edu.wpi.first.wpilibj.I2C.Port.*;
+import static com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushed;
+import static com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless;
+import static edu.wpi.first.wpilibj.I2C.Port.kOnboard;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ColorSensorV3;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SPI;
 
 public final class Constants {
 
@@ -35,7 +32,7 @@ public final class Constants {
   }
 
   public static class Sensors {
-    // public static final DigitalInput INFRARED = new DigitalInput(0);
+    public static final DigitalInput INFRARED = new DigitalInput(1);
     // public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
     // public static final AHRS GYRO = new AHRS(SPI.Port.kMXP);
     public static final Lidar BACK_LIDAR = new Lidar(new I2C(kOnboard, 0x62), 0x62); // Do changed address first
@@ -62,6 +59,6 @@ public final class Constants {
     public static final double INCHES_PER_SECOND_PER_ENCODER_RPM = 48 / 1620;
     public static final double CENTIMETERS_PER_SECOND_PER_ENCODER_RPM = 122.0 / 1620.0;
     public static final double ENCODERS_PER_SPINNER_ROTATION = 97.3893722613 / 25.132741;
-    public static final double ENC_VALUES_PER_BALL = 5.7;
+    public static final double ENC_VALUES_PER_BALL = 6.2;
   }
 }

@@ -7,13 +7,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.MonitorBelt;
 
 public class IntakeBelt extends SubsystemBase {
-  // private final DigitalInput infrared;
+  private final DigitalInput infrared;
   private final CANSparkMax left, right;
   private int amountOfBalls = 0;
 
-  public IntakeBelt(/* DigitalInput infrared, */ CANSparkMax left, CANSparkMax right) {
+  public IntakeBelt(DigitalInput infrared, CANSparkMax left, CANSparkMax right) {
     setDefaultCommand(new MonitorBelt(this));
-    // this.infrared = infrared;
+    this.infrared = infrared;
     this.left = left;
     this.right = right;
   }
@@ -37,8 +37,8 @@ public class IntakeBelt extends SubsystemBase {
   }
 
   public boolean isBroken() {
-    // return !infrared.get();
-    return true;
+    return !infrared.get();
+    // return true;
   }
 
   public void incrementBalls() {

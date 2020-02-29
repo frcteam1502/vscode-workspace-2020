@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.IntakeBelt;
 
 public class MonitorBelt extends CommandBase {
@@ -19,7 +20,7 @@ public class MonitorBelt extends CommandBase {
   @Override
   public void execute() {
     if (subsystem.isBroken())
-      new MoveBeltOneBall(subsystem);
+      CommandScheduler.getInstance().schedule(new MoveBeltOneBall(subsystem));
   }
 
   @Override
