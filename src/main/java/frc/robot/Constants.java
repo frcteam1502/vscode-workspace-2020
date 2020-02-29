@@ -39,7 +39,7 @@ public final class Constants {
     // public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
     // public static final AHRS GYRO = new AHRS(SPI.Port.kMXP);
     public static final Lidar BACK_LIDAR = new Lidar(new I2C(kOnboard, 0x62), 0x62); // Do changed address first
-    public static final Lidar FRONT_LIDAR = new Lidar(new I2C(kMXP, 0x62), 0x62);
+    // public static final Lidar FRONT_LIDAR = new Lidar(new I2C(kMXP, 0x62), 0x62);
     // public static final DigitalInput LIFT_UPPER_LIMIT = new DigitalInput(0);
     // public static final DigitalInput LIFT_LOWER_LIMIT = new DigitalInput(1);
     // public static final DigitalInput INTAKE_INFRARED = new DigitalInput(2);
@@ -62,5 +62,6 @@ public final class Constants {
     public static final double INCHES_PER_SECOND_PER_ENCODER_RPM = 48 / 1620;
     public static final double CENTIMETERS_PER_SECOND_PER_ENCODER_RPM = 122.0 / 1620.0;
     public static final double ENCODERS_PER_SPINNER_ROTATION = 97.3893722613 / 25.132741;
+    public static final double ENC_VALUES_PER_BALL = 5.7;
   }
 }

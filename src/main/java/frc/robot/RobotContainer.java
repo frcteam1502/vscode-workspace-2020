@@ -11,6 +11,7 @@ import frc.robot.commands.LidarStop;
 import frc.robot.commands.LiftDown;
 import frc.robot.commands.LiftManualAdjust;
 import frc.robot.commands.LiftUp;
+import frc.robot.commands.MoveBeltOneBall;
 import frc.robot.commands.MoveSpinnerByEncoder;
 import frc.robot.commands.MoveTo;
 import frc.robot.commands.RetractBuddyLiftPins;
@@ -18,7 +19,6 @@ import frc.robot.commands.RunBelt;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.SpinnerLiftDown;
 import frc.robot.commands.SpinnerLiftUp;
-import frc.robot.commands.TempComm;
 import frc.robot.subsystems.BuddyLift;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -33,7 +33,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Autonomous autonCommands = new Autonomous();
-  public final Drivetrain drivetrain = new Drivetrain(/* Sensors.BACK_LIDAR, */ Sensors.FRONT_LIDAR,
+  public final Drivetrain drivetrain = new Drivetrain(Sensors.BACK_LIDAR, /* Sensors.FRONT_LIDAR, */
       Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
 
   // public final Spinner spinner = new Spinner(Sensors.COLOR_SENSOR,
@@ -42,9 +42,10 @@ public class RobotContainer {
   // SpinnerLift(Sensors.SPINNER_UPPER_LIFT_LIMIT,
   // Sensors.SPINNER_LOWER_LIFT_LIMIT, Motors.SPINNER_LIFT);
   public final Intake intake = new Intake(Motors.INTAKE);
-  public final Temp t = new Temp(Motors.temp);
-  private final RunIntake intakeForward = new RunIntake(intake, -.5);
-  private final RunIntake intakeBackward = new RunIntake(intake, .5);
+  public final IntakeBelt belt = new IntakeBelt(/* null, */ Motors.INTAKE_BELT_LEFT, Motors.INTAKE_BELT_RIGHT);
+  public final Temp t = new Temp(Motors.INTAKE_BELT_LEFT, Motors.INTAKE_BELT_RIGHT);
+  private final RunIntake intakeForward = new RunIntake(intake, -.25);
+  private final RunIntake intakeBackward = new RunIntake(intake, .25);
   // public final IntakeBelt belt = new IntakeBelt(Sensors.INTAKE_INFRARED,
   // Motors.INTAKE_BELT_LEFT,
   // Motors.INTAKE_BELT_RIGHT);
@@ -74,8 +75,8 @@ public class RobotContainer {
     Joysticks.XBOX.L3.toggleWhenPressed(intakeBackward);
     Joysticks.XBOX.L3.cancelWhenPressed(intakeForward);
     Joysticks.XBOX.RB.cancelWhenPressed(intakeBackward);
-    Joysticks.XBOX.A.whileHeld(new TempComm(t, 1));
-    Joysticks.XBOX.B.whileHeld(new TempComm(t, -1));
+    Joysticks.XBOX.A.whenPressed(new MoveBeltOneBall(belt));
+    Joysticks.XBOX.B.whileHeld(new RunBelt(belt));
     // Joysticks.XBOX.A.whenPressed(
     // new SpinnerLiftUp(spinnerLift).andThen(new MoveTo(spinner)).andThen(new
     // SpinnerLiftDown(spinnerLift)));

@@ -3,26 +3,27 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeBelt;
 
-public class RunBelt extends CommandBase {
+public class MonitorBelt extends CommandBase {
   private IntakeBelt subsystem;
 
-  public RunBelt(IntakeBelt subsystem) {
+  public MonitorBelt(IntakeBelt subsystem) {
     addRequirements(subsystem);
     this.subsystem = subsystem;
   }
 
   @Override
   public void initialize() {
+    subsystem.init();
   }
 
   @Override
   public void execute() {
-    subsystem.runBelt(-1);
+    if (subsystem.isBroken())
+      new MoveBeltOneBall(subsystem);
   }
 
   @Override
   public void end(boolean interrupted) {
-    subsystem.runBelt(0);
   }
 
   @Override

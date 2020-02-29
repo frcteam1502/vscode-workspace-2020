@@ -32,7 +32,7 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putBoolean("it is here", true);
     // SmartDashboard.putNumber("Back distance",
     // Constants.Sensors.BACK_LIDAR.getDistance());
-    SmartDashboard.putNumber("Front distance", Constants.Sensors.FRONT_LIDAR.getDistance());
+    SmartDashboard.putNumber("Back distance", Constants.Sensors.BACK_LIDAR.getDistance());
   }
 
   public double getLeftEncoderPosition() {

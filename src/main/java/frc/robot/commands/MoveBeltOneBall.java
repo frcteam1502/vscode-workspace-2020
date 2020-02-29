@@ -7,43 +7,52 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Temp;
+import frc.robot.Constants;
+import frc.robot.subsystems.IntakeBelt;
 
-public class TempComm extends CommandBase {
+public class MoveBeltOneBall extends CommandBase {
+  private IntakeBelt subsystem;
+  private double leftPosition, rightPosition;
+
   /**
-   * Creates a new TempComm.
+   * Creates a new MoveBeltOneBall.
    */
-  Temp subsystem;
-  double speed;
-
-  public TempComm(Temp subsystem, double speed) {
+  public MoveBeltOneBall(IntakeBelt subsystem) {
     addRequirements(subsystem);
     this.subsystem = subsystem;
-    this.speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    leftPosition = subsystem.getLeftPosition();
+    rightPosition = subsystem.getRightPosition();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subsystem.run(speed);
+    if (!isFinished())
+      subsystem.runBelt(-.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.run(0);
+    subsystem.incrementBalls();
+    subsystem.runBelt(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    boolean rightIsDone = subsystem.getRightPosition()
+        - Constants.ConversionFactors.ENC_VALUES_PER_BALL >= rightPosition;
+    boolean leftIsDone = subsystem.getLeftPosition() + Constants.ConversionFactors.ENC_VALUES_PER_BALL <= leftPosition;
+
+    return rightIsDone && leftIsDone;
   }
 }
