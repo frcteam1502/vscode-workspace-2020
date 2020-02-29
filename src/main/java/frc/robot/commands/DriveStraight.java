@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.PIDController;
@@ -34,9 +33,8 @@ public abstract class DriveStraight extends CommandBase {
   @Override
   public void execute() {
     double error = Constants.Sensors.GYRO.getAngle() - initialHeading;
-    SmartDashboard.putNumber("Gyro error", error);
     double offset = rotationController.getCorrection(error);
-    drivetrain.move(SPEED - offset, SPEED + offset);
+    drivetrain.move(-SPEED - offset, -SPEED + offset);
   }
 
   @Override
