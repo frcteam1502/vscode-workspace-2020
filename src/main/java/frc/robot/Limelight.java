@@ -22,6 +22,7 @@ public class Limelight {
      * Skew or rotation (-90deg to 0deg)
      */
     public double skew;
+
     Target(double h, double v, double a, double s) {
       horizontalOffset = h;
       verticalOffset = v;
@@ -31,6 +32,9 @@ public class Limelight {
   }
 
   public static Target getTarget() {
+    double isVisible = getTableEntry("tv").getDouble(0);
+    if (isVisible == 0)
+      return null;
     double horizontalOffset = getTableEntry("tx").getDouble(0);
     double verticalOffset = getTableEntry("ty").getDouble(0);
     double area = getTableEntry("ta").getDouble(0);
@@ -39,6 +43,6 @@ public class Limelight {
   }
 
   private static NetworkTableEntry getTableEntry(String entry) {
-    return NetworkTableInstance.getDefault().getEntry(entry);
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry(entry);
   }
 }

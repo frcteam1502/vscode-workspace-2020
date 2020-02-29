@@ -7,34 +7,30 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.Sensors;
+import frc.robot.subsystems.Drivetrain;
 
-public class Autonomous extends CommandBase {
+public class Autonomous extends SequentialCommandGroup {
+  public enum StartPosition {
+    LEFT, CENTER, RIGHT
+  }
+
   /**
    * Creates a new Autonomous.
    */
-  public Autonomous() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+  public Autonomous(Drivetrain drivetrain, StartPosition startPosition) {
+    if (startPosition == StartPosition.LEFT) {
+      addCommands(new DriveByDistance(drivetrain, 4 * 12));
+      addCommands(new TurnByGyro(drivetrain, 90));
+      addCommands(new DriveByDistance(drivetrain, 11 * 12));
+      addCommands(new TurnByGyro(drivetrain, -90));
+    } else if (startPosition == StartPosition.RIGHT) {
+      addCommands(new DriveByDistance(drivetrain, 4 * 12));
+      addCommands(new TurnByGyro(drivetrain, -90));
+      addCommands(new DriveByDistance(drivetrain, 6 * 12));
+      addCommands(new TurnByGyro(drivetrain, 90));
+    }
+    addCommands(new DriveToWall(drivetrain, Sensors.FRONT_LIDAR));
   }
 }

@@ -1,10 +1,13 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Joysticks;
 import frc.robot.Constants.Motors;
 import frc.robot.Constants.Sensors;
 import frc.robot.commands.Autonomous;
+import frc.robot.commands.LidarStop;
 import frc.robot.commands.MoveBeltOneBall;
 import frc.robot.commands.RunBelt;
 import frc.robot.commands.RunIntake;
@@ -16,7 +19,7 @@ import frc.robot.subsystems.IntakeBelt;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  private final Autonomous autonCommands = new Autonomous();
+  SendableChooser<Autonomous.StartPosition> startPositionChooser = new SendableChooser<>();
   public final Drivetrain drivetrain = new Drivetrain(Sensors.BACK_LIDAR, /* Sensors.FRONT_LIDAR, */
       Motors.DRIVE_FRONT_LEFT, Motors.DRIVE_BACK_LEFT, Motors.DRIVE_FRONT_RIGHT, Motors.DRIVE_BACK_RIGHT);
 
@@ -41,6 +44,10 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
+    startPositionChooser.setDefaultOption("Left", Autonomous.StartPosition.LEFT);
+    startPositionChooser.addOption("Center", Autonomous.StartPosition.CENTER);
+    startPositionChooser.addOption("Right", Autonomous.StartPosition.RIGHT);
+    SmartDashboard.putData("Autonomous program", startPositionChooser);
   }
 
   private void configureButtonBindings() {
@@ -70,10 +77,11 @@ public class RobotContainer {
     // .whenActive(new RetractBuddyLiftPins(buddy));
     // Joysticks.XBOX.RB.toggleWhenPressed(new RunIntake(intake, -1));
     // Joysticks.XBOX.LB.toggleWhenPressed(new RunIntake(intake, 1));
+    Joysticks.LEFT_JOYSTICK.TRIGGER.whenPressed(
+        new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() <= 0, () -> Joysticks.RIGHT_JOYSTICK.getY()));
   }
 
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return autonCommands;
+    return new Autonomous(drivetrain, startPositionChooser.getSelected());
   }
 }

@@ -2,9 +2,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.Joysticks;
 import frc.robot.Lidar;
 import frc.robot.commands.DriveByJoysticks;
 
@@ -29,10 +28,26 @@ public class Drivetrain extends SubsystemBase {
     backLeft.set(leftPower);
     frontRight.set(-rightPower);
     backRight.set(-rightPower);
-    SmartDashboard.putBoolean("it is here", true);
-    // SmartDashboard.putNumber("Back distance",
-    // Constants.Sensors.BACK_LIDAR.getDistance());
-    SmartDashboard.putNumber("Back distance", Constants.Sensors.BACK_LIDAR.getDistance());
+  }
+
+  public void moveByJoysticks() {
+    double moveSpeed = Math.pow(Joysticks.RIGHT_JOYSTICK.getY(), 3);
+    double rotateSpeed = Math.pow(Joysticks.LEFT_JOYSTICK.getX(), 3);
+    double leftPwr = -moveSpeed + rotateSpeed;
+    double rightPwr = -moveSpeed - rotateSpeed;
+    if (Math.abs(leftPwr) >= 1 || Math.abs(rightPwr) >= 1) {
+      double max = Math.abs(Math.abs(moveSpeed) >= Math.abs(rotateSpeed) ? moveSpeed : rotateSpeed);
+      leftPwr /= max;
+      rightPwr /= max;
+    }
+    move(leftPwr, rightPwr);
+  }
+
+  public void resetEncoders() {
+    frontLeft.getEncoder().setPosition(0);
+    backLeft.getEncoder().setPosition(0);
+    frontLeft.getEncoder().setPosition(0);
+    backRight.getEncoder().setPosition(0);
   }
 
   public double getLeftEncoderPosition() {
@@ -40,7 +55,16 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getRightEncoderPosition() {
-    return -(frontRight.getEncoder().getPosition() + backRight.getEncoder().getPosition()) / 2;
+    return -(frontLeft.getEncoder().getPosition() + backRight.getEncoder().getPosition()) / 2;
+  }
+
+  /**
+   * Returns the average of the left and right encoder positions. Remember to
+   * reset both encoders to zero some time before using in order to make the
+   * average value relevant.
+   */
+  public double getAverageEncoderPosition() {
+    return (getLeftEncoderPosition() + getRightEncoderPosition()) / 2;
   }
 
   public double getLeftEncoderVelocity() {

@@ -2,7 +2,7 @@ package frc.robot;
 
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushed;
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless;
-import static edu.wpi.first.wpilibj.I2C.Port.kOnboard;
+import static edu.wpi.first.wpilibj.I2C.Port.*;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
@@ -55,9 +55,10 @@ public final class Constants {
   }
 
   public static final class ConversionFactors {
-    public static final double CENTIMETERS_PER_ENCODER_VALUE = 2.54 * 89.0 / 50.0;
-    public static final double INCHES_PER_SECOND_PER_ENCODER_RPM = 48 / 1620;
-    public static final double CENTIMETERS_PER_SECOND_PER_ENCODER_RPM = 122.0 / 1620.0;
+    public static final double INCHES_PER_ENCODER_VALUE = 3.67125;
+    public static final double CENTIMETERS_PER_ENCODER_VALUE = 2.54 * INCHES_PER_ENCODER_VALUE;
+    public static final double INCHES_PER_SECOND_PER_ENCODER_RPM = 0.0611;
+    public static final double CENTIMETERS_PER_SECOND_PER_ENCODER_RPM = 2.54 * INCHES_PER_SECOND_PER_ENCODER_RPM;
     public static final double ENCODERS_PER_SPINNER_ROTATION = 97.3893722613 / 25.132741;
     public static final double ENC_VALUES_PER_BALL = 6.2;
   }

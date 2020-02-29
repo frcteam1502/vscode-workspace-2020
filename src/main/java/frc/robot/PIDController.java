@@ -36,7 +36,7 @@ public class PIDController {
   }
 
   public void input(double err) {
-    if ((err > 0 && latest().err < 0) || (err < 0 && latest().err > 0)) {
+    if (points.size() > 0 && ((err > 0 && latest().err < 0) || (err < 0 && latest().err > 0))) {
       points.clear();
     }
     points.add(new Point(System.currentTimeMillis(), err));
@@ -106,7 +106,7 @@ public class PIDController {
     try {
       return points.get(points.size() - 2);
     } catch (ArrayIndexOutOfBoundsException e) {
-      return new Point(System.currentTimeMillis(), 0);
+      return null;
     }
   }
 
@@ -114,7 +114,7 @@ public class PIDController {
     try {
       return points.get(points.size() - 1);
     } catch (IndexOutOfBoundsException e) {
-      return new Point(System.currentTimeMillis(), 0);
+      return null;
     }
   }
 }
