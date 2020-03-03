@@ -2,11 +2,12 @@ package frc.robot;
 
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushed;
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless;
-import static edu.wpi.first.wpilibj.I2C.Port.kOnboard;
+import static edu.wpi.first.wpilibj.I2C.Port.*;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
@@ -20,7 +21,6 @@ public final class Constants {
     public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(1, kBrushless);
     public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(15, kBrushless);
     public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(14, kBrushless);
-    // TODO: these should be Victor SPXs
     public static final VictorSPX BUDDY_LIFT = new VictorSPX(3);
     public static final CANSparkMax INTAKE_BELT_LEFT = new CANSparkMax(5, kBrushless);
     public static final CANSparkMax INTAKE_BELT_RIGHT = new CANSparkMax(11, kBrushless);
@@ -35,10 +35,10 @@ public final class Constants {
 
   public static class Sensors {
     public static final DigitalInput INFRARED = new DigitalInput(1);
-    // public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
+    public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
     public static final AHRS GYRO = new AHRS(SPI.Port.kMXP);
-    public static final Lidar BACK_LIDAR = new Lidar(new I2C(kOnboard, 0x62), 0x62); // Do changed address first
-    // public static final Lidar FRONT_LIDAR = new Lidar(new I2C(kMXP, 0x62), 0x62);
+    public static final Lidar FRONT_LIDAR = new Lidar(new I2C(kOnboard, 0x62), 0x62); // Do changed address first
+    public static final Lidar BACK_LIDAR = new Lidar(new I2C(kMXP, 0x62), 0x62);
     // public static final DigitalInput LIFT_UPPER_LIMIT = new DigitalInput(0);
     // public static final DigitalInput LIFT_LOWER_LIMIT = new DigitalInput(1);
     // public static final DigitalInput INTAKE_INFRARED = new DigitalInput(2);

@@ -2,45 +2,29 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Joysticks;
-import frc.robot.Lidar;
+import frc.robot.Constants;
 import frc.robot.commands.DriveByJoysticks;
 
 public class Drivetrain extends SubsystemBase {
   private final CANSparkMax frontLeft, backLeft, frontRight, backRight;
-  // private final Lidar back;
-  private final Lidar front;
 
-  public Drivetrain(/* Lidar back, */ Lidar front, CANSparkMax frontLeft, CANSparkMax backLeft, CANSparkMax frontRight,
-      CANSparkMax backRight) {
+  public Drivetrain(CANSparkMax frontLeft, CANSparkMax backLeft, CANSparkMax frontRight, CANSparkMax backRight) {
     setDefaultCommand(new DriveByJoysticks(this));
     this.frontLeft = frontLeft;
     this.backLeft = backLeft;
     this.frontRight = frontRight;
     this.backRight = backRight;
-    // this.back = back;
-    this.front = front;
   }
 
   public void move(double leftPower, double rightPower) {
+    SmartDashboard.putNumber("Front", Constants.Sensors.FRONT_LIDAR.getDistance());
+    SmartDashboard.putNumber("Back", Constants.Sensors.BACK_LIDAR.getDistance());
     frontLeft.set(leftPower);
     backLeft.set(leftPower);
     frontRight.set(-rightPower);
     backRight.set(-rightPower);
-  }
-
-  public void moveByJoysticks() {
-    double moveSpeed = Math.pow(Joysticks.RIGHT_JOYSTICK.getY(), 3);
-    double rotateSpeed = Math.pow(Joysticks.LEFT_JOYSTICK.getX(), 3);
-    double leftPwr = -moveSpeed + rotateSpeed;
-    double rightPwr = -moveSpeed - rotateSpeed;
-    if (Math.abs(leftPwr) >= 1 || Math.abs(rightPwr) >= 1) {
-      double max = Math.abs(Math.abs(moveSpeed) >= Math.abs(rotateSpeed) ? moveSpeed : rotateSpeed);
-      leftPwr /= max;
-      rightPwr /= max;
-    }
-    move(leftPwr, rightPwr);
   }
 
   public void resetEncoders() {

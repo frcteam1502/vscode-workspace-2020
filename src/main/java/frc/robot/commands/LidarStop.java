@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.PIDController;
@@ -36,9 +37,12 @@ public class LidarStop extends CommandBase {
     if (!hasReachedStoppingDistance && isBeyondStoppingDistance()) {
       hasReachedStoppingDistance = true;
     }
+    SmartDashboard.putBoolean("LidarStop hasReachedStoppingDistance", hasReachedStoppingDistance);
     if (hasReachedStoppingDistance) {
       double error = Constants.Sensors.BACK_LIDAR.getDistance() - TARGET_DISTANCE;
-      double correction = lidarStopController.getCorrection(error);
+      double correction = -lidarStopController.getCorrection(error);
+      SmartDashboard.putNumber("LidarStop error", error);
+      SmartDashboard.putNumber("LidarStop correction", correction);
       drivetrain.move(correction, correction);
     } else {
       double speed = getSpeed.get();
@@ -57,11 +61,15 @@ public class LidarStop extends CommandBase {
     double speedInCmPerSecond = averageVel * Constants.ConversionFactors.CENTIMETERS_PER_SECOND_PER_ENCODER_RPM;
     double distanceFromTarget = Constants.Sensors.BACK_LIDAR.getDistance() - TARGET_DISTANCE;
     double timeToReachDestination = distanceFromTarget / speedInCmPerSecond;
+    SmartDashboard.putNumber("LidarStop back lidar dist", Constants.Sensors.BACK_LIDAR.getDistance());
+    SmartDashboard.putNumber("LidarStop speed in cm per sec", speedInCmPerSecond);
+    SmartDashboard.putNumber("LidarStop time to reach destination", timeToReachDestination);
     return timeToReachDestination < STOPPING_TIME;
   }
 
   @Override
   public boolean isFinished() {
-    return lidarStopController.isStable(2, 2000) || shouldFinish.get();
+    return false;
+    // return lidarStopController.isStable(2, 2000) || shouldFinish.get();
   }
 }

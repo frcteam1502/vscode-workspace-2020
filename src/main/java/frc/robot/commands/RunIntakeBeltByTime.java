@@ -7,54 +7,47 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.IntakeBelt;
 
-public class MoveBeltOneBall extends CommandBase {
-  private IntakeBelt subsystem;
-  private double leftPosition, rightPosition;
+public class RunIntakeBeltByTime extends CommandBase {
+  double seconds;
+  double startTimeMillis;
+  IntakeBelt intakeBelt;
 
   /**
-   * Creates a new MoveBeltOneBall.
+   * Creates a new RunIntakeByTime.
+   * 
+   * @param seconds Time in seconds
    */
-  public MoveBeltOneBall(IntakeBelt subsystem) {
-    addRequirements(subsystem);
-    this.subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
+  public RunIntakeBeltByTime(IntakeBelt intakeBelt, double seconds) {
+    this.intakeBelt = intakeBelt;
+    this.seconds = seconds;
+    addRequirements(intakeBelt);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    leftPosition = subsystem.getLeftPosition();
-    rightPosition = subsystem.getRightPosition();
-    subsystem.setLeftRumble(1);
+    startTimeMillis = System.currentTimeMillis();
+    intakeBelt.runBelt(-0.75);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!isFinished())
-      subsystem.runBelt(-.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.incrementBalls();
-    subsystem.runBelt(0);
-    subsystem.setLeftRumble(0);
+    intakeBelt.runBelt(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean rightIsDone = subsystem.getRightPosition()
-        - Constants.ConversionFactors.ENC_VALUES_PER_BALL >= rightPosition;
-    boolean leftIsDone = subsystem.getLeftPosition() + Constants.ConversionFactors.ENC_VALUES_PER_BALL <= leftPosition;
-
-    return rightIsDone && leftIsDone;
+    double ms = seconds * 1000;
+    return System.currentTimeMillis() - startTimeMillis > ms;
   }
 }

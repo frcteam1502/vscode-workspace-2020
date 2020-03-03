@@ -1,7 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class ColorKeystone {
   private final String identifier;
   private final double[] rgb;

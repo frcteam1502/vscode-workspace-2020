@@ -34,12 +34,16 @@ public abstract class DriveStraight extends CommandBase {
   public void execute() {
     double error = Constants.Sensors.GYRO.getAngle() - initialHeading;
     double offset = rotationController.getCorrection(error);
-    drivetrain.move(-SPEED - offset, -SPEED + offset);
+    drivetrain.move(getVelocity() - offset, getVelocity() + offset);
   }
 
   @Override
   public void end(boolean interrupted) {
     drivetrain.move(0, 0);
+  }
+
+  protected double getVelocity() {
+    return -SPEED;
   }
 
   public abstract boolean isFinished();

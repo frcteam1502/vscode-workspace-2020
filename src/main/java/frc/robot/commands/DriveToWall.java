@@ -13,7 +13,7 @@ import frc.robot.subsystems.Drivetrain;
 
 public class DriveToWall extends DriveStraight {
 
-  static final double STOPPING_DISTANCE_CM = 20;
+  static final double STOPPING_DISTANCE_CM = 30;
   Lidar lidar;
 
   public DriveToWall(Drivetrain drivetrain, Lidar lidar) {
@@ -25,6 +25,11 @@ public class DriveToWall extends DriveStraight {
   public void execute() {
     super.execute();
     SmartDashboard.putNumber("lidar distance", lidar.getDistance());
+  }
+
+  @Override
+  public void end(boolean isFinished) {
+    drivetrain.move(0, 0);
   }
 
   @Override

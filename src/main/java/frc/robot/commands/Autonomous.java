@@ -8,29 +8,32 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.Sensors;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.IntakeBelt;
 
 public class Autonomous extends SequentialCommandGroup {
   public enum StartPosition {
     LEFT, CENTER, RIGHT
   }
 
-  /**
-   * Creates a new Autonomous.
-   */
-  public Autonomous(Drivetrain drivetrain, StartPosition startPosition) {
+  public Autonomous(Drivetrain drivetrain, IntakeBelt intakeBelt, StartPosition startPosition) {
+    addCommands(new DriveByDistance(drivetrain, -4 * 12));
     if (startPosition == StartPosition.LEFT) {
-      addCommands(new DriveByDistance(drivetrain, 4 * 12));
+      addCommands(new DriveByDistance(drivetrain, -4 * 12));
       addCommands(new TurnByGyro(drivetrain, 90));
-      addCommands(new DriveByDistance(drivetrain, 11 * 12));
+      addCommands(new DriveByDistance(drivetrain, -11 * 12));
       addCommands(new TurnByGyro(drivetrain, -90));
     } else if (startPosition == StartPosition.RIGHT) {
-      addCommands(new DriveByDistance(drivetrain, 4 * 12));
+      addCommands(new DriveByDistance(drivetrain, -4 * 12));
       addCommands(new TurnByGyro(drivetrain, -90));
-      addCommands(new DriveByDistance(drivetrain, 6 * 12));
+      addCommands(new DriveByDistance(drivetrain, -6 * 12));
       addCommands(new TurnByGyro(drivetrain, 90));
     }
     addCommands(new DriveToWall(drivetrain, Sensors.BACK_LIDAR));
+    addCommands(new WaitCommand(0.5));
+    addCommands(new RunIntakeBeltByTime(intakeBelt, 1));
+
   }
 }

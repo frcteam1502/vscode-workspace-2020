@@ -16,7 +16,7 @@ public class RunIntake extends CommandBase {
 
   @Override
   public void initialize() {
-    Constants.Joysticks.XBOX.setLeftRumble(1);
+    subsystem.setRightRumble(1);
   }
 
   @Override
@@ -27,7 +27,7 @@ public class RunIntake extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     subsystem.run(0);
-    Constants.Joysticks.XBOX.setRightRumble(0);
+    subsystem.setRightRumble(0);
   }
 
   @Override

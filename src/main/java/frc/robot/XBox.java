@@ -67,11 +67,11 @@ public class XBox {
 
   }
 
-  public void setLeftRumble(int intensity) {
+  public void setLeftRumble(double intensity) {
     controller.setRumble(RumbleType.kLeftRumble, intensity);
   }
 
-  public void setRightRumble(int intensity) {
+  public void setRightRumble(double intensity) {
     controller.setRumble(RumbleType.kRightRumble, intensity);
   }
 }

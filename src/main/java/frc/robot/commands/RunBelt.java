@@ -13,6 +13,7 @@ public class RunBelt extends CommandBase {
 
   @Override
   public void initialize() {
+    subsystem.setLeftRumble(1);
   }
 
   @Override
@@ -23,6 +24,7 @@ public class RunBelt extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     subsystem.runBelt(0);
+    subsystem.setLeftRumble(0);
   }
 
   @Override
