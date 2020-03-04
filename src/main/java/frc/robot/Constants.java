@@ -57,7 +57,7 @@ public final class Constants {
   }
 
   public static final class ConversionFactors {
-    public static final double INCHES_PER_ENCODER_VALUE = 3.67125;
+    public static final double INCHES_PER_ENCODER_VALUE = 3.9; // approximate (hotfix for real robot)
     public static final double CENTIMETERS_PER_ENCODER_VALUE = 2.54 * INCHES_PER_ENCODER_VALUE;
     public static final double INCHES_PER_SECOND_PER_ENCODER_RPM = 0.0611;
     public static final double CENTIMETERS_PER_SECOND_PER_ENCODER_RPM = 2.54 * INCHES_PER_SECOND_PER_ENCODER_RPM;

@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.IntakeBelt;
@@ -19,6 +20,7 @@ public class MonitorBelt extends CommandBase {
 
   @Override
   public void execute() {
+    SmartDashboard.putNumber("Amount of Balls", subsystem.getBalls());
     if (subsystem.isBroken())
       CommandScheduler.getInstance().schedule(new MoveBeltOneBall(subsystem));
   }

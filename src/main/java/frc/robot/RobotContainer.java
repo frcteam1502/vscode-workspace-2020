@@ -79,11 +79,13 @@ public class RobotContainer {
     // .whenActive(new RetractBuddyLiftPins(buddy));
     // Joysticks.XBOX.RB.toggleWhenPressed(new RunIntake(intake, -1));
     // Joysticks.XBOX.LB.toggleWhenPressed(new RunIntake(intake, 1));
-    Joysticks.LEFT_JOYSTICK.TRIGGER.whenHeld(
-        new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() >= 0, () -> Joysticks.RIGHT_JOYSTICK.getY()));
+    Joysticks.LEFT_JOYSTICK.TRIGGER.whenHeld(new LidarStop(drivetrain,
+        () -> Constants.Joysticks.RIGHT_JOYSTICK.getY() > 0 ? LidarStop.Direction.FORWARDS
+            : LidarStop.Direction.BACKWARDS,
+        () -> Constants.Joysticks.RIGHT_JOYSTICK.getY(), () -> Constants.Joysticks.LEFT_JOYSTICK.getX()));
   }
 
   public Command getAutonomousCommand() {
-    return new Autonomous(drivetrain, belt, startPositionChooser.getSelected());
+    return new Autonomous(drivetrain, belt, Autonomous.StartPosition.LEFT);
   }
 }

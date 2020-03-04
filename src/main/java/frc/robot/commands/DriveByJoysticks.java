@@ -17,18 +17,23 @@ public class DriveByJoysticks extends CommandBase {
   public void initialize() {
   }
 
+  public static double[] limitPower(double leftPower, double rightPower) {
+    if ((leftPower > 1 || leftPower < -1) || (rightPower > 1 || rightPower < -1)) {
+      double max = Math.abs(Math.abs(leftPower) > Math.abs(rightPower) ? leftPower : rightPower);
+      leftPower = leftPower / max;
+      rightPower = rightPower / max;
+    }
+    return new double[] { leftPower, rightPower };
+  }
+
   @Override
   public void execute() {
     double moveSpeed = Constants.Joysticks.RIGHT_JOYSTICK.getY();
     double rotateSpeed = Constants.Joysticks.LEFT_JOYSTICK.getX();
     double leftPower = moveSpeed + rotateSpeed;
     double rightPower = moveSpeed - rotateSpeed;
-    if ((leftPower > 1 || leftPower < -1) || (rightPower > 1 || rightPower < -1)) {
-      double max = Math.abs(Math.abs(leftPower) > Math.abs(rightPower) ? leftPower : rightPower);
-      leftPower = leftPower / max;
-      rightPower = rightPower / max;
-    }
-    drivetrain.move(leftPower, rightPower);
+    double[] limitedPower = limitPower(leftPower, rightPower);
+    drivetrain.move(limitedPower[0], limitedPower[1]);
   }
 
   @Override

@@ -5,49 +5,69 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Lidar;
 import frc.robot.PIDController;
 import frc.robot.subsystems.Drivetrain;
 
 public class LidarStop extends CommandBase {
-  static final double TARGET_DISTANCE = 20; // cm
-  private static final double STOPPING_TIME = 0.5;
+  static final double TARGET_DISTANCE_FRONT = 60; // cm
+  static final double TARGET_DISTANCE_BACK = 20;
   private Drivetrain drivetrain;
   private PIDController lidarStopController = new PIDController(4e-3, 0, 0);
-  private boolean hasReachedStoppingDistance;
-  private Supplier<Boolean> shouldFinish;
-  private Supplier<Double> getSpeed;
+  Supplier<Double> getIntendedVelocity;
+  Supplier<Double> getTurn;
+  Supplier<Direction> getInitialDirection;
+  // 1 if forwards, -1 if backwards
+  int directionMultiplier;
+  Direction direction;
 
-  public LidarStop(Drivetrain drivetrain, Supplier<Boolean> shouldFinish, Supplier<Double> getSpeed) {
+  public enum Direction {
+    FORWARDS, BACKWARDS
+  }
+
+  public LidarStop(Drivetrain drivetrain, Supplier<Direction> getInitialDirection, Supplier<Double> getIntendedVelocity,
+      Supplier<Double> getTurn) {
     addRequirements(drivetrain);
     this.drivetrain = drivetrain;
-    this.shouldFinish = shouldFinish;
-    this.getSpeed = getSpeed;
+    this.getIntendedVelocity = getIntendedVelocity;
+    this.getInitialDirection = getInitialDirection;
+    this.getTurn = getTurn;
+  }
+
+  Lidar getLidar() {
+    return direction == Direction.FORWARDS ? Constants.Sensors.FRONT_LIDAR : Constants.Sensors.BACK_LIDAR;
+  }
+
+  double getTargetDistance() {
+    return direction == Direction.FORWARDS ? TARGET_DISTANCE_FRONT : TARGET_DISTANCE_BACK;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    hasReachedStoppingDistance = false;
     lidarStopController.reset();
+    direction = getInitialDirection.get();
+    directionMultiplier = direction == Direction.FORWARDS ? 1 : -1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!hasReachedStoppingDistance && isBeyondStoppingDistance()) {
-      hasReachedStoppingDistance = true;
-    }
-    SmartDashboard.putBoolean("LidarStop hasReachedStoppingDistance", hasReachedStoppingDistance);
-    if (hasReachedStoppingDistance) {
-      double error = Constants.Sensors.BACK_LIDAR.getDistance() - TARGET_DISTANCE;
-      double correction = -lidarStopController.getCorrection(error);
-      SmartDashboard.putNumber("LidarStop error", error);
-      SmartDashboard.putNumber("LidarStop correction", correction);
-      drivetrain.move(correction, correction);
-    } else {
-      double speed = getSpeed.get();
-      drivetrain.move(speed, speed);
-    }
+    double error = getLidar().getDistance() - getTargetDistance();
+    double correction = directionMultiplier * lidarStopController.getCorrection(error);
+    double intendedVelocity = getIntendedVelocity.get();
+    double power = direction == Direction.FORWARDS ? Math.min(correction, intendedVelocity)
+        : Math.max(correction, intendedVelocity);
+    SmartDashboard.putString("LidarStop direction", direction.toString());
+    SmartDashboard.putNumber("LidarStop error", error);
+    SmartDashboard.putNumber("LidarStop correction", correction);
+    SmartDashboard.putNumber("LidarStop intended velocity", intendedVelocity);
+    double leftPower = power + getTurn.get();
+    double rightPower = power - getTurn.get();
+    double[] limitedPower = DriveByJoysticks.limitPower(leftPower, rightPower);
+    leftPower = limitedPower[0];
+    rightPower = limitedPower[1];
+    drivetrain.move(leftPower, rightPower);
   }
 
   // Called once the command ends or is interrupted.
@@ -56,20 +76,8 @@ public class LidarStop extends CommandBase {
     drivetrain.move(0, 0);
   }
 
-  boolean isBeyondStoppingDistance() {
-    double averageVel = (drivetrain.getLeftEncoderVelocity() + drivetrain.getRightEncoderVelocity()) / 2;
-    double speedInCmPerSecond = averageVel * Constants.ConversionFactors.CENTIMETERS_PER_SECOND_PER_ENCODER_RPM;
-    double distanceFromTarget = Constants.Sensors.BACK_LIDAR.getDistance() - TARGET_DISTANCE;
-    double timeToReachDestination = distanceFromTarget / speedInCmPerSecond;
-    SmartDashboard.putNumber("LidarStop back lidar dist", Constants.Sensors.BACK_LIDAR.getDistance());
-    SmartDashboard.putNumber("LidarStop speed in cm per sec", speedInCmPerSecond);
-    SmartDashboard.putNumber("LidarStop time to reach destination", timeToReachDestination);
-    return timeToReachDestination < STOPPING_TIME;
-  }
-
   @Override
   public boolean isFinished() {
     return false;
-    // return lidarStopController.isStable(2, 2000) || shouldFinish.get();
   }
 }

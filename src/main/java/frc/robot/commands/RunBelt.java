@@ -25,6 +25,7 @@ public class RunBelt extends CommandBase {
   public void end(boolean interrupted) {
     subsystem.runBelt(0);
     subsystem.setLeftRumble(0);
+    subsystem.setBalls(0);
   }
 
   @Override

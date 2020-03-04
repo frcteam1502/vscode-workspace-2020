@@ -43,7 +43,7 @@ public class ReduceOneBall extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.incrementBalls();
+    subsystem.reductBalls();
     subsystem.runBelt(0);
     subsystem.setLeftRumble(0);
   }

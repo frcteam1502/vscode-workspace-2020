@@ -46,6 +46,10 @@ public class IntakeBelt extends SubsystemBase {
     // return true;
   }
 
+  public void setBalls(int balls) {
+    amountOfBalls = balls;
+  }
+
   public void setLeftRumble(double intensity) {
     controller.setLeftRumble(intensity);
   }
