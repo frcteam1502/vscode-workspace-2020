@@ -19,7 +19,6 @@ public class Autonomous extends SequentialCommandGroup {
   }
 
   public Autonomous(Drivetrain drivetrain, IntakeBelt intakeBelt, StartPosition startPosition) {
-    addCommands(new DriveByDistance(drivetrain, -4 * 12));
     if (startPosition == StartPosition.LEFT) {
       addCommands(new DriveByDistance(drivetrain, -4 * 12));
       addCommands(new TurnByGyro(drivetrain, 90));
