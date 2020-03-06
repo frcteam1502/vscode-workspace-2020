@@ -77,9 +77,9 @@ public class RobotContainer {
     Joysticks.XBOX.RB.cancelWhenPressed(intakeBackward);
     // Joysticks.XBOX.A.whenPressed(new MoveBeltOneBall(belt));
     Joysticks.XBOX.X.whenHeld(new RunBelt(belt));
-    Joysticks.XBOX.DP_UP.whenHeld(new SpinnerLiftUp(spinnerLift));
+    // Joysticks.XBOX.DP_UP.whenHeld(new SpinnerLiftUp(spinnerLift));
     Joysticks.XBOX.LB.whenPressed(new MoveSpinnerByEncoder(spinner));
-    Joysticks.XBOX.DP_DOWN.whenHeld(new SpinnerLiftDown(spinnerLift));
+    // Joysticks.XBOX.DP_DOWN.whenHeld(new SpinnerLiftDown(spinnerLift));
     Joysticks.XBOX.A.whenPressed(new ReduceOneBall(belt));
     // Joysticks.RIGHT_JOYSTICK.LOWER_SEVEN.and(Joysticks.LEFT_JOYSTICK.LOWER_SEVEN)
     // .whenActive(new RetractBuddyLiftPins(buddy));
