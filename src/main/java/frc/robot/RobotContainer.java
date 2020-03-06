@@ -8,6 +8,8 @@ import frc.robot.Constants.Motors;
 import frc.robot.Constants.Sensors;
 import frc.robot.commands.Autonomous;
 import frc.robot.commands.LidarStop;
+import frc.robot.commands.LiftDown;
+import frc.robot.commands.LiftUp;
 import frc.robot.commands.MoveSpinnerByEncoder;
 import frc.robot.commands.ReduceOneBall;
 import frc.robot.commands.RunBelt;
@@ -18,6 +20,7 @@ import frc.robot.subsystems.BuddyLift;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeBelt;
+import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Spinner;
 import frc.robot.subsystems.SpinnerLift;
 
@@ -41,9 +44,10 @@ public class RobotContainer {
   // public final IntakeBelt belt = new IntakeBelt(Sensors.INTAKE_INFRARED,
   // Motors.INTAKE_BELT_LEFT,
   // Motors.INTAKE_BELT_RIGHT);
-  // public final Lift climb = new Lift(Motors.CLIMB_RIGHT, Motors.CLIMB_LEFT,
-  // Sensors.LIFT_UPPER_LIMIT,
-  // Sensors.LIFT_LOWER_LIMIT);
+  public final Lift climb = new Lift(Motors.CLIMB_RIGHT,
+      Motors.CLIMB_LEFT/*
+                        * , Sensors.LIFT_UPPER_LIMIT, Sensors.LIFT_LOWER_LIMIT
+                        */);
   // public final LiftAdjust liftAdjust = new LiftAdjust(Motors.SLIDEY_BOI,
   // Sensors.LIFT_GYRO);
   public final BuddyLift buddy = new BuddyLift(Motors.BUDDY_LIFT);
@@ -62,8 +66,8 @@ public class RobotContainer {
     // }).andThen(
     // new LidarStop(drivetrain, () -> Joysticks.RIGHT_JOYSTICK.getY() <= 0, () ->
     // Joysticks.RIGHT_JOYSTICK.getY())));
-    // Joysticks.XBOX.DP_DOWN.whileHeld(new LiftDown(climb));
-    // Joysticks.XBOX.DP_UP.whileHeld(new LiftUp(climb));
+    Joysticks.XBOX.DP_DOWN.whileHeld(new LiftDown(climb));
+    Joysticks.XBOX.DP_UP.whileHeld(new LiftUp(climb));
     // Joysticks.XBOX.DP_RIGHT.whileHeld(new LiftManualAdjust(liftAdjust, 1));
     // Joysticks.XBOX.DP_LEFT.whileHeld(new LiftManualAdjust(liftAdjust, -1));
     // Joysticks.XBOX.LB.toggleWhenPressed(new RunBelt(belt));
