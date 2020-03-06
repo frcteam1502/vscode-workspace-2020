@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.Joysticks;
 import frc.robot.commands.DriveByJoysticks;
 
 public class Drivetrain extends SubsystemBase {
@@ -25,6 +26,12 @@ public class Drivetrain extends SubsystemBase {
     backLeft.set(leftPower);
     frontRight.set(-rightPower);
     backRight.set(-rightPower);
+
+    SmartDashboard.putNumber("LFTemp", (frontLeft.getMotorTemperature() * 9 / 5) + 32);
+    SmartDashboard.putNumber("LBTemp", (backLeft.getMotorTemperature() * 9 / 5) + 32);
+    SmartDashboard.putNumber("RFTemp", (frontRight.getMotorTemperature() * 9 / 5) + 32);
+    SmartDashboard.putNumber("RBTemp", (backRight.getMotorTemperature() * 9 / 5) + 32);
+    SmartDashboard.putBoolean("Pressed", Joysticks.XBOX.BACK.get());
   }
 
   public void resetEncoders() {

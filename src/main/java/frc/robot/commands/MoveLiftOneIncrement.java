@@ -7,20 +7,17 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.IntakeBelt;
+import frc.robot.subsystems.Lift;
 
-public class ReduceOneBall extends CommandBase {
-  private IntakeBelt subsystem;
-  private double leftPosition;
-  private double rightPosition;
+public class MoveLiftOneIncrement extends CommandBase {
+  private double target = 0;
+  private Lift subsystem;
 
   /**
-   * Creates a new ReduceOneBall.
+   * Creates a new MoveLiftOneIncrement.
    */
-  public ReduceOneBall(IntakeBelt subsystem) {
+  public MoveLiftOneIncrement(Lift subsystem) {
     addRequirements(subsystem);
     this.subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,34 +26,30 @@ public class ReduceOneBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putNumber("init", 1);
-    leftPosition = subsystem.getLeftPosition();
-    rightPosition = subsystem.getRightPosition();
-    subsystem.setLeftRumble(1);
+    subsystem.setEncoders(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!isFinished())
-      subsystem.runBelt(.1);
+    if (subsystem.getLeftEncoder() == target && subsystem.getRightEncoder() == -target) {
+      target += subsystem.getCycleDistance();
+      subsystem.setLift(.1);
+    } else if (subsystem.getLeftEncoder() == target && subsystem.getRightEncoder() != target)
+      subsystem.setLeft(0);
+    else if (subsystem.getLeftEncoder() != target && subsystem.getRightEncoder() == target)
+      subsystem.setRight(0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.reductBalls();
-    subsystem.runBelt(0);
-    subsystem.setLeftRumble(0);
+    subsystem.setLift(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean rightIsDone = subsystem.getRightPosition()
-        + Constants.ConversionFactors.ENC_VALUES_PER_BALL <= rightPosition;
-    boolean leftIsDone = subsystem.getLeftPosition() - Constants.ConversionFactors.ENC_VALUES_PER_BALL >= leftPosition;
-
-    return rightIsDone && leftIsDone;
+    return false;
   }
 }

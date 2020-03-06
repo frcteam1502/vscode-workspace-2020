@@ -9,6 +9,7 @@ import frc.robot.Constants.Sensors;
 import frc.robot.commands.Autonomous;
 import frc.robot.commands.LidarStop;
 import frc.robot.commands.MoveSpinnerByEncoder;
+import frc.robot.commands.ReduceOneBall;
 import frc.robot.commands.RunBelt;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.SpinnerLiftDown;
@@ -75,6 +76,7 @@ public class RobotContainer {
     Joysticks.XBOX.DP_UP.whenHeld(new SpinnerLiftUp(spinnerLift));
     Joysticks.XBOX.LB.whenPressed(new MoveSpinnerByEncoder(spinner));
     Joysticks.XBOX.DP_DOWN.whenHeld(new SpinnerLiftDown(spinnerLift));
+    Joysticks.XBOX.A.whenPressed(new ReduceOneBall(belt));
     // Joysticks.RIGHT_JOYSTICK.LOWER_SEVEN.and(Joysticks.LEFT_JOYSTICK.LOWER_SEVEN)
     // .whenActive(new RetractBuddyLiftPins(buddy));
     // Joysticks.XBOX.RB.toggleWhenPressed(new RunIntake(intake, -1));

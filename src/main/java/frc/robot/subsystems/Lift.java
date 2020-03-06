@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Lift extends SubsystemBase {
   private final CANSparkMax right, left;
   private final DigitalInput upper, lower;
+  private final double encoderCycleDistance = 10;
 
   public Lift(CANSparkMax right, CANSparkMax left, DigitalInput upper, DigitalInput lower) {
     this.right = right;
@@ -28,12 +29,37 @@ public class Lift extends SubsystemBase {
     left.set(speed);
   }
 
+  public void setRight(double speed) {
+    right.set(speed);
+  }
+
+  public void setLeft(double speed) {
+    left.set(speed);
+  }
+
+  public void setEncoders(double place) {
+    left.getEncoder().setPosition(place);
+    right.getEncoder().setPosition(place);
+  }
+
+  public double getLeftEncoder() {
+    return left.getEncoder().getPosition();
+  }
+
+  public double getRightEncoder() {
+    return right.getEncoder().getPosition();
+  }
+
   public boolean getLowerLimit() {
     return lower.get();
   }
 
   public boolean getUpperLimit() {
     return upper.get();
+  }
+
+  public double getCycleDistance() {
+    return encoderCycleDistance;
   }
 
   @Override
