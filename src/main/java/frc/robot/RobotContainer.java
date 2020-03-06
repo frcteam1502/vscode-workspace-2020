@@ -50,10 +50,10 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
-    startPositionChooser.setDefaultOption("Left", Autonomous.StartPosition.LEFT);
-    startPositionChooser.addOption("Center", Autonomous.StartPosition.CENTER);
-    startPositionChooser.addOption("Right", Autonomous.StartPosition.RIGHT);
-    SmartDashboard.putData("Autonomous program", startPositionChooser);
+    startPositionChooser.addOption("Left position", Autonomous.StartPosition.LEFT);
+    startPositionChooser.setDefaultOption("Center position", Autonomous.StartPosition.CENTER);
+    startPositionChooser.addOption("Right position", Autonomous.StartPosition.RIGHT);
+    SmartDashboard.putData(startPositionChooser);
   }
 
   private void configureButtonBindings() {
@@ -88,6 +88,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new Autonomous(drivetrain, belt, Autonomous.StartPosition.LEFT);
+    SmartDashboard.putString("Selected autonomous", startPositionChooser.getSelected().toString());
+    return new Autonomous(drivetrain, belt, startPositionChooser.getSelected());
   }
 }
