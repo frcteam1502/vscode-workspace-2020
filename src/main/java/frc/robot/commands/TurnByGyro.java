@@ -30,9 +30,9 @@ public class TurnByGyro extends CommandBase {
    * Creates a new TurnByGyro.
    */
   public TurnByGyro(Drivetrain drivetrain, double turnAngle) {
+    addRequirements(drivetrain);
     this.drivetrain = drivetrain;
     this.turnAngle = turnAngle;
-    addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.

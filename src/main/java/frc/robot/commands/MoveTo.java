@@ -8,6 +8,7 @@ public class MoveTo extends CommandBase {
   private final Spinner subsystem;
 
   public MoveTo(Spinner subsystem) {
+    addRequirements(subsystem);
     this.subsystem = subsystem;
   }
 

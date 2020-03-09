@@ -7,7 +7,6 @@ import frc.robot.Constants.Joysticks;
 import frc.robot.Constants.Motors;
 import frc.robot.Constants.Sensors;
 import frc.robot.commands.Autonomous;
-import frc.robot.commands.LidarStop;
 import frc.robot.commands.MoveSpinnerByEncoder;
 import frc.robot.commands.ReduceOneBall;
 import frc.robot.commands.RunBelt;

@@ -14,7 +14,7 @@ import frc.robot.subsystems.Drivetrain;
 public class DriveToWall extends DriveStraight {
 
   static final double STOPPING_DISTANCE_CM = 20;
-  Lidar lidar;
+  private final Lidar lidar;
 
   public DriveToWall(Drivetrain drivetrain, Lidar lidar) {
     super(drivetrain);

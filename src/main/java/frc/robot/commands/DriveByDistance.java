@@ -22,6 +22,7 @@ public class DriveByDistance extends DriveStraight {
   public DriveByDistance(Drivetrain drivetrain, double inchesToGo) {
     super(drivetrain);
     targetEncoderPosition = inchesToGo / ConversionFactors.INCHES_PER_ENCODER_VALUE;
+
   }
 
   public void execute() {

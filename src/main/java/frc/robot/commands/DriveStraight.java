@@ -13,14 +13,14 @@ import frc.robot.PIDController;
 import frc.robot.subsystems.Drivetrain;
 
 public abstract class DriveStraight extends CommandBase {
-  static final double SPEED = 0.2;
-  double initialHeading;
-  Drivetrain drivetrain;
-  PIDController rotationController = new PIDController(5e-3, 0, 0);
+  private static final double SPEED = 0.2;
+  private double initialHeading;
+  protected final Drivetrain drivetrain;
+  private final PIDController rotationController = new PIDController(5e-3, 0, 0);
 
   public DriveStraight(Drivetrain drivetrain) {
-    this.drivetrain = drivetrain;
     addRequirements(drivetrain);
+    this.drivetrain = drivetrain;
   }
 
   @Override

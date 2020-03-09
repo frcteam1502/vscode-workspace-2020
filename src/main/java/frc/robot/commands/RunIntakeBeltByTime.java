@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeBelt;
 
 public class RunIntakeBeltByTime extends CommandBase {
-  double seconds;
-  double startTimeMillis;
-  IntakeBelt intakeBelt;
+  private final double seconds;
+  private final IntakeBelt intakeBelt;
+  private double startTimeMillis;
 
   /**
    * Creates a new RunIntakeByTime.
@@ -21,9 +21,9 @@ public class RunIntakeBeltByTime extends CommandBase {
    * @param seconds Time in seconds
    */
   public RunIntakeBeltByTime(IntakeBelt intakeBelt, double seconds) {
+    addRequirements(intakeBelt);
     this.intakeBelt = intakeBelt;
     this.seconds = seconds;
-    addRequirements(intakeBelt);
   }
 
   // Called when the command is initially scheduled.
