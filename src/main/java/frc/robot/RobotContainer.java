@@ -51,6 +51,7 @@ public class RobotContainer {
     Joysticks.XBOX.RB.cancelWhenPressed(intakeBackward);
     Joysticks.XBOX.X.whenHeld(new RunBelt(belt));
     Joysticks.XBOX.A.whenPressed(new ReduceOneBall(belt));
+    Joysticks.LEFT_JOYSTICK.TRIGGER.whenPressed(() -> Joysticks.RIGHT_JOYSTICK.toggleDirection());
     // Joysticks.LEFT_JOYSTICK.TRIGGER.whenHeld(new LidarStop(drivetrain,
     // () -> Constants.Joysticks.RIGHT_JOYSTICK.getY() > 0 ?
     // LidarStop.Direction.FORWARDS
