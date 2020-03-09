@@ -30,7 +30,7 @@ public class RunIntakeBeltByTime extends CommandBase {
   @Override
   public void initialize() {
     startTimeMillis = System.currentTimeMillis();
-    intakeBelt.runBelt(-0.75);
+    intakeBelt.runBelt(-1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

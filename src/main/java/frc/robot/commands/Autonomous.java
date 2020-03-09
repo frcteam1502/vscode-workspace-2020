@@ -33,6 +33,6 @@ public class Autonomous extends SequentialCommandGroup {
     addCommands(new DriveToWall(drivetrain, Sensors.BACK_LIDAR));
     addCommands(new WaitCommand(0.5));
     addCommands(new RunIntakeBeltByTime(intakeBelt, 1));
-
+    // addCommands(new DriveByDistance(drivetrain, 3 * 12));
   }
 }

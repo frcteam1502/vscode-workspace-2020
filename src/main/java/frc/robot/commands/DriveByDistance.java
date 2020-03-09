@@ -14,7 +14,7 @@ import frc.robot.subsystems.Drivetrain;
 
 public class DriveByDistance extends DriveStraight {
 
-  static final double MIN_SPEED = 0.1;
+  static final double MIN_SPEED = 0.2;
   static final double MAX_SPEED = 0.7;
   static final double POWER_PER_METER_ACCELERATION = 0.4;
   double targetEncoderPosition;

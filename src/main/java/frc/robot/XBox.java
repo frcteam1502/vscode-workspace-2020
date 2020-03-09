@@ -22,7 +22,7 @@ public class XBox {
   public final Button A, B, X, Y;
   public final Button LB, RB;
   public final Button START, BACK;
-  public final Button L3; // TODO make sure this is right
+  public final Button L3;
 
   enum Direction {
     Up(0), Right(90), Down(180), Left(270);

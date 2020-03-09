@@ -15,9 +15,9 @@ import frc.robot.subsystems.Drivetrain;
 
 public class TurnByGyro extends CommandBase {
 
-  static final double SPEED = 0.1;
+  static final double SPEED = 0.2;
   static final double DEGREE_TOLERANCE = 1;
-  static final double ROTATION_PID_ACTIVATION_THRESHOLD = 10;
+  static final double ROTATION_PID_ACTIVATION_THRESHOLD = 20;
   Drivetrain drivetrain;
   double startAngle;
   double targetAngle;
