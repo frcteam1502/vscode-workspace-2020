@@ -16,24 +16,26 @@ import edu.wpi.first.wpilibj.SPI;
 public final class Constants {
 
   public static final class Motors {
-    public static final VictorSPX INTAKE = new VictorSPX(12);
-    public static final CANSparkMax DRIVE_FRONT_LEFT = new CANSparkMax(10, kBrushless);
     public static final CANSparkMax DRIVE_BACK_LEFT = new CANSparkMax(1, kBrushless);
-    public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(15, kBrushless);
-    public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(14, kBrushless);
+    public static final CANSparkMax CLIMB_LEFT = new CANSparkMax(2, kBrushless);
     public static final VictorSPX BUDDY_LIFT = new VictorSPX(3);
     public static final CANSparkMax INTAKE_BELT_LEFT = new CANSparkMax(5, kBrushless);
-    public static final CANSparkMax INTAKE_BELT_RIGHT = new CANSparkMax(11, kBrushless);
+    public static final CANSparkMax SLIDEY_BOI = new CANSparkMax(7, kBrushless);
     public static final CANSparkMax SPINNER_WHEEL = new CANSparkMax(8, kBrushless);
     public static final CANSparkMax SPINNER_LIFT = new CANSparkMax(9, kBrushed);
+    public static final CANSparkMax DRIVE_FRONT_LEFT = new CANSparkMax(10, kBrushless);
+    public static final CANSparkMax INTAKE_BELT_RIGHT = new CANSparkMax(11, kBrushless);
+    public static final VictorSPX INTAKE = new VictorSPX(12);
     public static final CANSparkMax CLIMB_RIGHT = new CANSparkMax(13, kBrushless);
-    public static final CANSparkMax CLIMB_LEFT = new CANSparkMax(2, kBrushless);
-    public static final CANSparkMax SLIDEY_BOI = new CANSparkMax(7, kBrushless);
-    public static final CANSparkMax temp = new CANSparkMax(5, kBrushless);
+    public static final CANSparkMax DRIVE_BACK_RIGHT = new CANSparkMax(14, kBrushless);
+    public static final CANSparkMax DRIVE_FRONT_RIGHT = new CANSparkMax(15, kBrushless);
 
   }
 
   public static class Sensors {
+    public static final DigitalInput AUTO_SELECT_RIGHT = new DigitalInput(4); // Defined as LOW when position is
+                                                                              // activated
+    public static final DigitalInput AUTO_SELECT_LEFT = new DigitalInput(5);
     public static final DigitalInput INFRARED = new DigitalInput(1);
     public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(kOnboard);
     public static final AHRS GYRO = new AHRS(SPI.Port.kMXP);

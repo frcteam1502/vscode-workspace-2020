@@ -36,14 +36,18 @@ public class LiftUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (subsystem.getLeftEncoder() >= target && subsystem.getRightEncoder() <= -target) {
-      target += subsystem.getCycleDistance();
-      subsystem.setRight(-.02);
-      subsystem.setLeft(.02);
-    } else if (subsystem.getLeftEncoder() >= target && subsystem.getRightEncoder() > -target)
-      subsystem.setLeft(0);
-    else if (subsystem.getLeftEncoder() < target && subsystem.getRightEncoder() <= -target)
-      subsystem.setRight(0);
+    // if (subsystem.getLeftEncoder() >= target && subsystem.getRightEncoder() <=
+    // -target) {
+    // target += subsystem.getCycleDistance();
+    // subsystem.setRight(-.15);
+    // subsystem.setLeft(.15);
+    // } else if (subsystem.getLeftEncoder() >= target &&
+    // subsystem.getRightEncoder() > -target)
+    // subsystem.setLeft(0);
+    // else if (subsystem.getLeftEncoder() < target && subsystem.getRightEncoder()
+    // <= -target)
+    // subsystem.setRight(0);
+    subsystem.setRight(-.15);
   }
 
   // Called once the command ends or is interrupted.

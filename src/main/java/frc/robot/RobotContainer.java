@@ -7,6 +7,8 @@ import frc.robot.Constants.Joysticks;
 import frc.robot.Constants.Motors;
 import frc.robot.Constants.Sensors;
 import frc.robot.commands.Autonomous;
+import frc.robot.commands.LiftDown;
+import frc.robot.commands.LiftUp;
 import frc.robot.commands.MoveSpinnerByEncoder;
 import frc.robot.commands.ReduceOneBall;
 import frc.robot.commands.RunBelt;
@@ -16,6 +18,7 @@ import frc.robot.commands.SpinnerLiftUp;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeBelt;
+import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Spinner;
 import frc.robot.subsystems.SpinnerLift;
 
@@ -32,6 +35,7 @@ public class RobotContainer {
   private final RunIntake intakeBackward = new RunIntake(intake, .4);
   private final SpinnerLift spinnerLift = new SpinnerLift(Motors.SPINNER_LIFT);
   private final Spinner spinner = new Spinner(Sensors.COLOR_SENSOR, Motors.SPINNER_WHEEL);
+  private final Lift lift = new Lift(Motors.CLIMB_RIGHT, Motors.CLIMB_LEFT);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -42,8 +46,10 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    Joysticks.XBOX.DP_UP.whenHeld(new SpinnerLiftUp(spinnerLift));
-    Joysticks.XBOX.DP_DOWN.whenHeld(new SpinnerLiftDown(spinnerLift));
+    Joysticks.XBOX.DP_UP.whileHeld(new LiftUp(lift));
+    Joysticks.XBOX.DP_DOWN.whileHeld(new LiftDown(lift));
+    // Joysticks.XBOX.DP_UP.whenHeld(new SpinnerLiftUp(spinnerLift));
+    // Joysticks.XBOX.DP_DOWN.whenHeld(new SpinnerLiftDown(spinnerLift));
     Joysticks.XBOX.Y.whenHeld(new MoveSpinnerByEncoder(spinner));
     Joysticks.XBOX.RB.toggleWhenPressed(intakeForward);
     Joysticks.XBOX.L3.toggleWhenPressed(intakeBackward);
@@ -61,6 +67,13 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new Autonomous(drivetrain, belt, Autonomous.StartPosition.LEFT);
+    // Run the position when its input is false
+    if (!Sensors.AUTO_SELECT_LEFT.get()) {
+      return new Autonomous(drivetrain, belt, Autonomous.StartPosition.LEFT);
+    } else if (!Sensors.AUTO_SELECT_RIGHT.get()) {
+      return new Autonomous(drivetrain, belt, Autonomous.StartPosition.RIGHT);
+    } else {
+      return new Autonomous(drivetrain, belt, Autonomous.StartPosition.CENTER);
+    }
   }
 }

@@ -17,7 +17,7 @@ public class SpinnerLiftUp extends CommandBase {
 
   @Override
   public void execute() {
-    subsystem.setLift(.5);
+    subsystem.setLift(.1);
   }
 
   @Override
