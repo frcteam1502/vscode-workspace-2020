@@ -1,5 +1,6 @@
 package frc.robot;
 
+@Deprecated
 public class ColorKeystone {
   private final String identifier;
   private final double[] rgb;

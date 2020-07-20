@@ -37,6 +37,8 @@ public class LiftDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // We needed to do this to stop any possible binding. Good thing the code only ever ran once
+    // nearly gave me a heart attack every time i thought about it
     SmartDashboard.putNumber("Left enc", subsystem.getLeftEncoder());
     SmartDashboard.putNumber("Right enc", subsystem.getRightEncoder());
     SmartDashboard.putNumber("Target", target);

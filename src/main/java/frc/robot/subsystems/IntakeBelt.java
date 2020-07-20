@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.XBox;
 import frc.robot.commands.MonitorBelt;
 
+/**
+ * Zoo Wee Momma. This was a good program.
+ */
 public class IntakeBelt extends SubsystemBase {
   private final DigitalInput infrared;
   private final CANSparkMax left, right;

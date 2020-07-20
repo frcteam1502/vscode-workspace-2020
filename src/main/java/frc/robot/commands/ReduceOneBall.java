@@ -12,6 +12,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeBelt;
 
+/**
+ * This code was never used, but it helped me sleep at night because i kept wondering
+ * what would happen if the infrared fired on nothing.
+ */
 public class ReduceOneBall extends CommandBase {
   private IntakeBelt subsystem;
   private double leftPosition;

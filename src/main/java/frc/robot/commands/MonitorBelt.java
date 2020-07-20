@@ -20,6 +20,9 @@ public class MonitorBelt extends CommandBase {
 
   @Override
   public void execute() {
+    /**
+     * Zoo Wee Momma. This was some questionable code.
+     */
     SmartDashboard.putNumber("Amount of Balls", subsystem.getBalls());
     if (subsystem.isBroken())
       CommandScheduler.getInstance().schedule(new MoveBeltOneBall(subsystem));
